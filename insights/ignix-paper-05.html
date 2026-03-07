@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What to Expect: ROI & First 30 Days — Ignix Insights</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg-dark:#0a0f14;--bg-card:#111920;--bg-card-hover:#162028;--accent:#00d4aa;--accent-dim:#00a88a;--accent-glow:rgba(0,212,170,0.15);--text-primary:#f0f4f8;--text-secondary:#8899a8;--text-dim:#4a5c6d;--border:#1e2a36;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--blue:#3b82f6;}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Outfit',sans-serif;background:var(--bg-dark);color:var(--text-primary);line-height:1.7;font-size:17px;}
+        body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(0,212,170,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.02) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+        nav{position:sticky;top:0;z-index:100;background:rgba(10,15,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px;}
+        .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+        .nav-logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-dim));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;color:var(--bg-dark);}
+        .nav-logo-text{font-size:18px;font-weight:600;color:var(--text-primary);}
+        .nav-logo-text span{color:var(--accent);}
+        .nav-links{display:flex;align-items:center;gap:32px;}
+        .nav-links a{color:var(--text-secondary);text-decoration:none;font-size:14px;transition:color 0.2s;}
+        .nav-links a:hover{color:var(--text-primary);}
+        .nav-cta{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;background:var(--accent);color:var(--bg-dark)!important;font-family:'JetBrains Mono',monospace;transition:background 0.2s,transform 0.2s;}
+        .nav-cta:hover{background:var(--accent-dim)!important;transform:translateY(-1px);}
+        .paper-header{position:relative;z-index:1;padding:80px 40px 60px;max-width:860px;margin:0 auto;border-bottom:1px solid var(--border);}
+        .series-nav{display:flex;align-items:center;gap:6px;margin-bottom:32px;font-family:'JetBrains Mono',monospace;font-size:11px;flex-wrap:wrap;}
+        .series-nav a{color:var(--text-dim);text-decoration:none;padding:4px 10px;border-radius:4px;border:1px solid var(--border);transition:all 0.2s;}
+        .series-nav a:hover{color:var(--accent);border-color:var(--accent);}
+        .series-nav a.current{color:var(--accent);border-color:rgba(0,212,170,0.4);background:var(--accent-glow);}
+        .series-nav .sep{color:var(--text-dim);opacity:0.4;}
+        .paper-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:3px;margin-bottom:20px;}
+        .paper-title{font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.1;letter-spacing:-1.5px;margin-bottom:24px;}
+        .paper-title .accent{color:var(--accent);}
+        .paper-meta{display:flex;align-items:center;gap:16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);}
+        .paper-meta-dot{width:4px;height:4px;border-radius:50%;background:var(--text-dim);}
+        .paper-content{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 40px;}
+        h2{font-size:28px;font-weight:700;letter-spacing:-0.5px;color:var(--text-primary);margin:56px 0 20px;padding-top:56px;border-top:1px solid var(--border);}
+        h2:first-of-type{margin-top:0;padding-top:0;border-top:none;}
+        h3{font-size:20px;font-weight:600;color:var(--text-primary);margin:32px 0 14px;}
+        p{color:var(--text-secondary);margin-bottom:20px;}
+        strong{color:var(--text-primary);font-weight:600;}
+        a{color:var(--accent);text-decoration:none;}
+        a:hover{text-decoration:underline;}
+        .lead{font-size:20px;color:var(--text-primary);line-height:1.65;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--border);}
+        .callout{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:20px 24px;margin:28px 0;}
+        .callout p{margin:0;color:var(--text-secondary);}
+        .callout strong{color:var(--accent);}
+        .callout.warning{border-left-color:var(--warning);}
+        .callout.warning strong{color:var(--warning);}
+        .timeline{display:flex;flex-direction:column;gap:0;margin:28px 0;position:relative;}
+        .timeline::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:1px;background:var(--border);}
+        .tl-item{display:flex;gap:24px;align-items:flex-start;padding:0 0 32px 0;position:relative;}
+        .tl-item:last-child{padding-bottom:0;}
+        .tl-dot{width:40px;height:40px;border-radius:50%;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;z-index:1;}
+        .tl-dot.active{background:var(--accent-glow);border-color:rgba(0,212,170,0.4);}
+        .tl-content{padding-top:8px;flex:1;}
+        .tl-content h4{font-size:17px;font-weight:600;margin-bottom:6px;color:var(--text-primary);}
+        .tl-content p{font-size:14px;color:var(--text-secondary);margin:0;line-height:1.6;}
+        .findings-list{display:flex;flex-direction:column;gap:12px;margin:20px 0;}
+        .finding{display:flex;align-items:flex-start;gap:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
+        .finding-icon{font-size:18px;flex-shrink:0;}
+        .finding-content h4{font-size:15px;font-weight:600;margin-bottom:4px;color:var(--text-primary);}
+        .finding-content p{font-size:13px;color:var(--text-secondary);margin:0;}
+        .roi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:28px 0;}
+        .roi-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:24px;}
+        .roi-card .roi-icon{font-size:28px;margin-bottom:12px;}
+        .roi-card h4{font-size:16px;font-weight:600;margin-bottom:8px;color:var(--text-primary);}
+        .roi-card p{font-size:13px;color:var(--text-secondary);margin:0;line-height:1.6;}
+        .email-preview{background:#060c10;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:28px 0;}
+        .email-header{padding:16px 20px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border);}
+        .email-meta{display:flex;flex-direction:column;gap:4px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);}
+        .email-meta .em-row{display:flex;gap:12px;}
+        .email-meta .em-label{color:var(--text-dim);min-width:50px;}
+        .email-meta .em-value{color:var(--text-secondary);}
+        .email-body{padding:24px;}
+        .email-body h3{font-size:17px;color:var(--text-primary);margin-bottom:20px;font-weight:600;}
+        .email-body .section-head{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--border);}
+        .email-body .section-head:first-of-type{margin-top:0;padding-top:0;border-top:none;}
+        .email-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(30,42,54,0.5);font-size:14px;}
+        .email-row:last-child{border-bottom:none;}
+        .email-row .er-label{color:var(--text-secondary);}
+        .email-row .er-value{color:var(--text-primary);font-weight:500;font-family:'JetBrains Mono',monospace;font-size:13px;}
+        .email-row .er-value.ok{color:var(--success);}
+        .email-row .er-value.warn{color:var(--warning);}
+        .alert-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(30,42,54,0.5);font-size:13px;}
+        .alert-item:last-child{border-bottom:none;}
+        .alert-badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;text-transform:uppercase;flex-shrink:0;}
+        .alert-badge.low{background:rgba(59,130,246,0.15);color:var(--blue);}
+        .alert-badge.med{background:rgba(245,158,11,0.15);color:var(--warning);}
+        .alert-text{color:var(--text-secondary);}
+        .hardware-note{background:var(--bg-card);border:1px solid rgba(0,212,170,0.2);border-radius:12px;padding:28px;margin:28px 0;background-image:radial-gradient(ellipse at 0% 50%,rgba(0,212,170,0.04) 0%,transparent 60%);}
+        .hardware-note h3{color:var(--text-primary);margin-top:0;margin-bottom:16px;}
+        .hardware-note p{margin-bottom:12px;}
+        .hardware-note p:last-child{margin-bottom:0;}
+        .paper-nav{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 40px 40px;display:flex;gap:16px;justify-content:flex-start;}
+        .paper-nav-card{flex:0 0 auto;max-width:320px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;text-decoration:none;transition:border-color 0.2s,background 0.2s;display:flex;flex-direction:column;gap:6px;}
+        .paper-nav-card:hover{border-color:rgba(0,212,170,0.3);background:var(--bg-card-hover);text-decoration:none;}
+        .nav-dir{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
+        .nav-title{font-size:14px;font-weight:500;color:var(--text-primary);}
+        .cta-section{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 40px 80px;}
+        .cta-box{background:var(--bg-card);border:1px solid rgba(0,212,170,0.25);border-radius:16px;padding:48px;text-align:center;background-image:radial-gradient(ellipse at 50% 0%,rgba(0,212,170,0.08) 0%,transparent 60%);}
+        .cta-box h2{font-size:32px;font-weight:700;margin-bottom:16px;padding-top:0;border-top:none;margin-top:0;letter-spacing:-0.5px;}
+        .cta-box p{font-size:16px;max-width:560px;margin:0 auto 32px;}
+        .cta-email{display:inline-flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--bg-dark);background:var(--accent);padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;transition:background 0.2s,transform 0.2s;}
+        .cta-email:hover{background:var(--accent-dim);transform:translateY(-2px);text-decoration:none;}
+        footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28px 40px;display:flex;align-items:center;justify-content:space-between;}
+        .footer-logo{display:flex;align-items:center;gap:8px;}
+        .footer-mark{width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent-dim));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:8px;color:var(--bg-dark);}
+        .footer-text{font-size:13px;color:var(--text-dim);}
+        .footer-links{display:flex;gap:24px;}
+        .footer-links a{font-size:13px;color:var(--text-dim);text-decoration:none;}
+        .footer-links a:hover{color:var(--text-secondary);}
+        @media(max-width:680px){nav{padding:0 20px;}.nav-links{display:none;}.paper-header,.paper-content,.cta-section,.paper-nav{padding-left:20px;padding-right:20px;}.paper-title{font-size:28px;}.roi-grid{grid-template-columns:1fr 1fr;}.paper-nav{flex-direction:column;}footer{flex-direction:column;gap:16px;text-align:center;}}
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="https://ignix.co.uk" class="nav-logo">
+        <div class="nav-logo-mark">IX</div>
+        <div class="nav-logo-text">ignix<span>.</span></div>
+    </a>
+    <div class="nav-links">
+        <a href="https://ignix.co.uk/#features">How It Works</a>
+        <a href="https://ignix.co.uk/#pricing">Pricing</a>
+        <a href="https://ignix.co.uk/insights">Insights</a>
+        <a href="mailto:hello@ignix.co.uk" class="nav-cta">hello@ignix.co.uk</a>
+    </div>
+</nav>
+
+<div class="paper-header">
+    <div class="series-nav">
+        <a href="ignix-paper-01.html">01</a><span class="sep">→</span>
+        <a href="ignix-paper-02.html">02</a><span class="sep">→</span>
+        <a href="ignix-paper-03.html">03</a><span class="sep">→</span>
+        <a href="ignix-paper-04.html">04</a><span class="sep">→</span>
+        <a href="ignix-paper-05.html" class="current">05</a>
+    </div>
+    <div class="paper-label">Ignix Insights · Paper 05 of 05</div>
+    <h1 class="paper-title">What to Expect:<br><span class="accent">Typical Results, ROI & Your First 30 Days</span></h1>
+    <div class="paper-meta">
+        <span>March 2026</span>
+        <div class="paper-meta-dot"></div>
+        <span>9 min read</span>
+        <div class="paper-meta-dot"></div>
+        <span>Business owners · IT managers · MSPs</span>
+    </div>
+</div>
+
+<div class="paper-content">
+
+    <p class="lead">The previous four papers covered the problem, the technology, the market, and the mechanics. This one is about the reality of using Ignix day-to-day: what you'll see in the first two weeks, what patterns tend to emerge, how ROI actually materialises, and what the ongoing experience looks like. No sales language — just what we've seen in practice.</p>
+
+    <h2>The First 14 Days: What Typically Happens</h2>
+
+    <p>The first two weeks are the behavioural baseline period. Ignix is building its model of your network — learning what "normal" looks like before it can reliably identify what isn't. During this period, you'll typically receive early insights but the AI will be more cautious about flagging anomalies until it has sufficient data to calibrate.</p>
+
+    <div class="timeline">
+        <div class="tl-item">
+            <div class="tl-dot active">D1</div>
+            <div class="tl-content">
+                <h4>Day 1 — Connection and first flows</h4>
+                <p>Your firewall is configured to export NetFlow to Ignix. First flow data arrives within minutes. You'll receive a confirmation that data is flowing and an initial count of flow records received.</p>
+            </div>
+        </div>
+        <div class="tl-item">
+            <div class="tl-dot active">D2</div>
+            <div class="tl-content">
+                <h4>Days 2–3 — First insights arrive</h4>
+                <p>Within 48 hours, Ignix can begin producing its first inventory: which external services your network communicates with, how many distinct internal devices are active, and what the rough traffic volume profile looks like. You'll often see services you didn't know were in use.</p>
+            </div>
+        </div>
+        <div class="tl-item">
+            <div class="tl-dot">D7</div>
+            <div class="tl-content">
+                <h4>End of Week 1 — Baseline taking shape</h4>
+                <p>After a full week of data, the AI has a working model of your normal weekday traffic. The first weekly summary report gives you a picture of your network's "normal" that most businesses have never seen before.</p>
+            </div>
+        </div>
+        <div class="tl-item">
+            <div class="tl-dot">D14</div>
+            <div class="tl-content">
+                <h4>Day 14 — Full baseline established</h4>
+                <p>Two full weeks includes a complete weekday/weekend cycle and enough variation to distinguish normal fluctuations from genuine anomalies. Anomaly detection becomes significantly more precise from this point. Real-time alerting is now calibrated to your specific environment.</p>
+            </div>
+        </div>
+    </div>
+
+    <h2>Common Patterns We're Seeing in Practice</h2>
+
+    <p>Across clients, certain categories of findings come up consistently. These aren't rare edge cases — they're typical for most business networks that haven't been monitored at this level before.</p>
+
+    <div class="findings-list">
+        <div class="finding">
+            <div class="finding-icon">🌥</div>
+            <div class="finding-content">
+                <h4>Shadow IT — almost universal</h4>
+                <p>Every client we've onboarded has had cloud services in use that the business wasn't formally aware of. File-sharing platforms, AI tools, personal cloud storage, project management apps. In most cases these are benign — staff finding tools to do their jobs. But some carry data protection implications, and all carry risk if they're not part of your security policy.</p>
+            </div>
+        </div>
+        <div class="finding">
+            <div class="finding-icon">📊</div>
+            <div class="finding-content">
+                <h4>Unusual traffic patterns around business applications</h4>
+                <p>Unusual volumes of data moving to or from legitimate services — Microsoft 365, accounting platforms, CRM systems — often at unexpected times. Usually benign (automated backups, batch processes), but occasionally pointing to something worth investigating.</p>
+            </div>
+        </div>
+        <div class="finding">
+            <div class="finding-icon">📱</div>
+            <div class="finding-content">
+                <h4>IoT devices with unexpected behaviour</h4>
+                <p>CCTV cameras, smart printers, network switches, and access control systems that are generating traffic their owners didn't expect — often connecting to manufacturer cloud services for telemetry or updates, occasionally something more concerning.</p>
+            </div>
+        </div>
+        <div class="finding">
+            <div class="finding-icon">🌐</div>
+            <div class="finding-content">
+                <h4>DNS anomalies</h4>
+                <p>Queries to newly registered domains, connections to domains that have changed ownership recently, or unusually high query volumes from specific devices. DNS is a common attack channel precisely because it's rarely monitored.</p>
+            </div>
+        </div>
+        <div class="finding">
+            <div class="finding-icon">🔑</div>
+            <div class="finding-content">
+                <h4>After-hours and unusual access patterns</h4>
+                <p>VPN connections or internal access outside normal working hours. Often legitimate — staff working late, automated processes. Sometimes worth a conversation. Occasionally something that needs immediate action.</p>
+            </div>
+        </div>
+    </div>
+
+    <h2>How ROI Actually Materialises</h2>
+
+    <div class="roi-grid">
+        <div class="roi-card">
+            <div class="roi-icon">⏱</div>
+            <h4>Time Saved</h4>
+            <p>The hours IT managers spend trying to understand "is this normal?" are replaced by a report that answers the question directly. Five minutes reading a weekly summary versus hours of log digging.</p>
+        </div>
+        <div class="roi-card">
+            <div class="roi-icon">🛡</div>
+            <h4>Risk Reduced</h4>
+            <p>The most direct ROI: detecting a slow data exfiltration, a compromised device, or a shadow IT data leak before it becomes an incident. One avoided breach pays for years of monitoring.</p>
+        </div>
+        <div class="roi-card">
+            <div class="roi-icon">📋</div>
+            <h4>Compliance Value</h4>
+            <p>Cyber Essentials, GDPR accountability, NIS2 — all require evidence of monitoring. Ignix reports double as compliance documentation, reducing audit overhead.</p>
+        </div>
+        <div class="roi-card">
+            <div class="roi-icon">💭</div>
+            <h4>Peace of Mind</h4>
+            <p>Harder to quantify, but consistently cited. Knowing that someone is watching — and that you'll hear about it within minutes if something looks wrong — changes how confidently you can operate.</p>
+        </div>
+    </div>
+
+    <p>The ROI calculation for most SMBs is straightforward. The average cost of a data breach for a small business in the UK is estimated at £8,000–£30,000 once you account for incident response, regulatory notification, customer communication, and operational disruption. Cyber insurance premiums are rising — and insurers are asking harder questions about what monitoring is in place. Ignix pays for itself if it catches one significant incident, or helps you avoid one premium increase.</p>
+
+    <h2>What the Day-to-Day Experience Looks Like</h2>
+
+    <p>Once the baseline period is complete, your ongoing experience with Ignix has two components: a regular summary report, and real-time alerts when something warrants immediate attention.</p>
+
+    <h3>The Weekly Summary Email</h3>
+
+    <div class="email-preview">
+        <div class="email-header">
+            <div class="email-meta">
+                <div class="em-row"><span class="em-label">From:</span><span class="em-value">Ignix Security Reports &lt;reports@ignix.co.uk&gt;</span></div>
+                <div class="em-row"><span class="em-label">To:</span><span class="em-value">it@yourbusiness.co.uk</span></div>
+                <div class="em-row"><span class="em-label">Subject:</span><span class="em-value">Weekly Security Summary — Your Business · 3–9 March 2026</span></div>
+            </div>
+        </div>
+        <div class="email-body">
+            <h3>Your Network This Week</h3>
+            <div class="section-head">Traffic Overview</div>
+            <div class="email-row"><span class="er-label">Flows analysed</span><span class="er-value">1,247,391</span></div>
+            <div class="email-row"><span class="er-label">External destinations contacted</span><span class="er-value">384</span></div>
+            <div class="email-row"><span class="er-label">Active internal devices</span><span class="er-value">47</span></div>
+            <div class="email-row"><span class="er-label">Threats detected</span><span class="er-value ok">0</span></div>
+            <div class="email-row"><span class="er-label">Items for your attention</span><span class="er-value warn">2</span></div>
+            <div class="section-head">Items for Your Attention</div>
+            <div class="alert-item">
+                <span class="alert-badge low">Low</span>
+                <span class="alert-text">3 devices connected to a file-sharing service not in your approved application list. Likely staff using a personal tool — worth reviewing your cloud storage policy.</span>
+            </div>
+            <div class="alert-item">
+                <span class="alert-badge med">Medium</span>
+                <span class="alert-text">Your network printer connected to an external IP address in South Korea on Wednesday evening. The manufacturer uses Korean cloud infrastructure for firmware updates — this is likely benign, but worth confirming the printer's firmware is up to date.</span>
+            </div>
+            <div class="section-head">Normal Activity Confirmed</div>
+            <div class="email-row"><span class="er-label">Microsoft 365 traffic</span><span class="er-value ok">Normal patterns</span></div>
+            <div class="email-row"><span class="er-label">VPN connections</span><span class="er-value ok">All from known locations</span></div>
+            <div class="email-row"><span class="er-label">Outbound data volume</span><span class="er-value ok">Within normal range</span></div>
+            <div class="email-row"><span class="er-label">After-hours activity</span><span class="er-value ok">None significant</span></div>
+        </div>
+    </div>
+
+    <p>That's the typical weekly experience for a business where everything is broadly normal — two low-to-medium items worth a quick look, and clear confirmation that the things you'd most worry about are behaving as expected. It takes five minutes to read. Most weeks, that's all it takes.</p>
+
+    <h3>When Something Needs Immediate Attention</h3>
+
+    <p>Real-time alerts fire within minutes of a suspicious pattern being detected — not the next morning. The alert includes a plain-English description of what was seen, why it's unusual, what it might indicate, and what to do about it. You don't need to log into a dashboard or interpret raw data. The AI has already done that work.</p>
+
+    <h2>Deployment Notes: Almost Always Zero Extra Hardware</h2>
+
+    <div class="hardware-note">
+        <h3>Works with what you have</h3>
+        <p>In the vast majority of cases, Ignix requires no new hardware at all. You simply configure your existing firewall to export its NetFlow data to the Ignix collection platform. That's a settings change — not a purchase, not an installation, not a site visit.</p>
+        <p>We support all major business firewall platforms: Fortinet FortiGate, SonicWall, Palo Alto Networks, WatchGuard, MikroTik, Cisco, and others. If your firewall supports NetFlow, IPFIX, or sFlow export — which the vast majority of business-grade firewalls do — you're ready to go.</p>
+        <p>However, a small number of very old or entry-level firewalls don't support NetFlow export at all. If that's the case, we'll tell you straight away during the free assessment. <strong>We won't leave you hanging</strong> — we'll advise on the most cost-effective path forward. A popular option we often recommend is the <strong>MikroTik RB5009</strong>, which is a capable, reliable business router at a few hundred pounds and supports IPFIX natively. In most cases a firewall upgrade makes sense for reasons beyond Ignix anyway, but we'll only recommend it if it's genuinely necessary.</p>
+    </div>
+
+    <h2>The Bottom Line</h2>
+
+    <p>Across the five papers in this series, we've covered a lot of ground. The problem: most businesses are running blind, with tools that only catch known threats and no visibility into what's actually happening on their network. The solution: AI-powered NetFlow analysis that watches continuously, explains clearly, and alerts immediately when something warrants attention.</p>
+
+    <p>What we haven't talked about is risk. Because Ignix is designed so that there isn't any — at least not in trying it. Every new customer starts with a completely free 14-day assessment. We connect to your existing firewall (or advise on a simple upgrade if needed), run the exact same analysis described across this series, and deliver your first personalised reports within 48 hours. No commitment. No disruption. No cost.</p>
+
+    <p>You'll see exactly what your network is really doing — and whether any of the patterns we've described across these papers are present in your business. Most of the time the answer is "broadly fine, with a few things worth knowing about." Sometimes it's more significant. Either way, you'll know.</p>
+
+    <div class="callout">
+        <p><strong>The question isn't whether your network is worth monitoring.</strong> Every business network is. The question is how long you're comfortable not knowing what's happening on it.</p>
+    </div>
+
+</div>
+
+<div class="paper-nav">
+    <a href="ignix-paper-04.html" class="paper-nav-card">
+        <div class="nav-dir">← Previous · Paper 04</div>
+        <div class="nav-title">NetFlow Analysis & Threat Detection: Technical Deep-Dive</div>
+    </a>
+</div>
+
+<div class="cta-section">
+    <div class="cta-box">
+        <h2>Find out what's already happening on your network</h2>
+        <p>Start with a completely free 14-day assessment. We connect to your existing firewall, deliver your first reports within 48 hours, and show you exactly what your network is doing. No commitment. No disruption. No cost.</p>
+        <a href="mailto:hello@ignix.co.uk" class="cta-email">hello@ignix.co.uk</a>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-logo">
+        <div class="footer-mark">IX</div>
+        <span class="footer-text">© 2026 Ignix Ltd. · Network security monitoring for business.</span>
+    </div>
+    <div class="footer-links">
+        <a href="https://ignix.co.uk">ignix.co.uk</a>
+        <a href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
+        <a href="https://x.com/ignix_co_uk">𝕏 @ignix_co_uk</a>
+    </div>
+</footer>
+
+</body>
+</html>

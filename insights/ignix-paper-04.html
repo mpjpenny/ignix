@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetFlow Analysis & Threat Detection — Ignix Insights</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg-dark:#0a0f14;--bg-card:#111920;--bg-card-hover:#162028;--accent:#00d4aa;--accent-dim:#00a88a;--accent-glow:rgba(0,212,170,0.15);--text-primary:#f0f4f8;--text-secondary:#8899a8;--text-dim:#4a5c6d;--border:#1e2a36;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--blue:#3b82f6;}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Outfit',sans-serif;background:var(--bg-dark);color:var(--text-primary);line-height:1.7;font-size:17px;}
+        body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(0,212,170,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.02) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+        nav{position:sticky;top:0;z-index:100;background:rgba(10,15,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px;}
+        .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+        .nav-logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-dim));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;color:var(--bg-dark);}
+        .nav-logo-text{font-size:18px;font-weight:600;color:var(--text-primary);}
+        .nav-logo-text span{color:var(--accent);}
+        .nav-links{display:flex;align-items:center;gap:32px;}
+        .nav-links a{color:var(--text-secondary);text-decoration:none;font-size:14px;transition:color 0.2s;}
+        .nav-links a:hover{color:var(--text-primary);}
+        .nav-cta{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;background:var(--accent);color:var(--bg-dark)!important;font-family:'JetBrains Mono',monospace;transition:background 0.2s,transform 0.2s;}
+        .nav-cta:hover{background:var(--accent-dim)!important;transform:translateY(-1px);}
+        .paper-header{position:relative;z-index:1;padding:80px 40px 60px;max-width:860px;margin:0 auto;border-bottom:1px solid var(--border);}
+        .series-nav{display:flex;align-items:center;gap:6px;margin-bottom:32px;font-family:'JetBrains Mono',monospace;font-size:11px;flex-wrap:wrap;}
+        .series-nav a{color:var(--text-dim);text-decoration:none;padding:4px 10px;border-radius:4px;border:1px solid var(--border);transition:all 0.2s;}
+        .series-nav a:hover{color:var(--accent);border-color:var(--accent);}
+        .series-nav a.current{color:var(--accent);border-color:rgba(0,212,170,0.4);background:var(--accent-glow);}
+        .series-nav .sep{color:var(--text-dim);opacity:0.4;}
+        .paper-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:3px;margin-bottom:20px;}
+        .paper-title{font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.1;letter-spacing:-1.5px;margin-bottom:24px;}
+        .paper-title .accent{color:var(--accent);}
+        .paper-meta{display:flex;align-items:center;gap:16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);}
+        .paper-meta-dot{width:4px;height:4px;border-radius:50%;background:var(--text-dim);}
+        .paper-content{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 40px;}
+        h2{font-size:28px;font-weight:700;letter-spacing:-0.5px;color:var(--text-primary);margin:56px 0 20px;padding-top:56px;border-top:1px solid var(--border);}
+        h2:first-of-type{margin-top:0;padding-top:0;border-top:none;}
+        h3{font-size:20px;font-weight:600;color:var(--text-primary);margin:32px 0 14px;}
+        p{color:var(--text-secondary);margin-bottom:20px;}
+        strong{color:var(--text-primary);font-weight:600;}
+        a{color:var(--accent);text-decoration:none;}
+        a:hover{text-decoration:underline;}
+        .lead{font-size:20px;color:var(--text-primary);line-height:1.65;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--border);}
+        .callout{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:20px 24px;margin:28px 0;}
+        .callout p{margin:0;color:var(--text-secondary);}
+        .callout strong{color:var(--accent);}
+        .callout.warning{border-left-color:var(--warning);}
+        .callout.warning strong{color:var(--warning);}
+        .callout.info{border-left-color:var(--blue);}
+        .callout.info strong{color:var(--blue);}
+        .terminal{background:#060c10;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:28px 0;font-family:'JetBrains Mono',monospace;}
+        .terminal-bar{padding:10px 16px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+        .t-dot{width:10px;height:10px;border-radius:50%;}
+        .t-dot.r{background:#ff5f57;}.t-dot.y{background:#febc2e;}.t-dot.g{background:#28c840;}
+        .t-label{margin-left:8px;font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
+        .terminal-body{padding:20px 24px;font-size:13px;line-height:1.9;}
+        .t-prompt{color:var(--accent);}.t-comment{color:var(--text-dim);}.t-warn{color:var(--warning);}.t-ok{color:var(--success);}.t-dim{color:var(--text-dim);}.t-blue{color:var(--blue);}
+        .flow-field-table{width:100%;border-collapse:collapse;margin:28px 0;font-size:13px;font-family:'JetBrains Mono',monospace;}
+        .flow-field-table td{padding:10px 16px;border-bottom:1px solid var(--border);vertical-align:top;}
+        .flow-field-table tr:last-child td{border-bottom:none;}
+        .flow-field-table td:first-child{color:var(--accent);width:40%;white-space:nowrap;}
+        .flow-field-table td:last-child{color:var(--text-secondary);font-family:'Outfit',sans-serif;font-size:14px;}
+        .flow-field-table tr:hover td{background:rgba(255,255,255,0.015);}
+        .scenario{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px;margin:24px 0;}
+        .scenario-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+        .scenario-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:2px;padding:4px 10px;border:1px solid var(--border);border-radius:4px;}
+        .scenario-title{font-size:18px;font-weight:600;color:var(--text-primary);}
+        .scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+        .scenario-col{padding:14px 16px;border-radius:8px;font-size:13px;}
+        .scenario-col.fw{background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);}
+        .scenario-col.ix{background:rgba(0,212,170,0.04);border:1px solid rgba(0,212,170,0.15);}
+        .scenario-col .sc-label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
+        .scenario-col.fw .sc-label{color:var(--danger);}
+        .scenario-col.ix .sc-label{color:var(--accent);}
+        .scenario-col p{font-size:13px;color:var(--text-secondary);margin:0;line-height:1.6;}
+        .scenario-output{background:#060c10;border:1px solid var(--border);border-radius:8px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;margin-top:4px;}
+        .arch-diagram{background:#060c10;border:1px solid var(--border);border-radius:10px;padding:28px;margin:28px 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-secondary);line-height:2;}
+        .arch-diagram .arch-accent{color:var(--accent);}
+        .arch-diagram .arch-dim{color:var(--text-dim);}
+        .tech-table{width:100%;border-collapse:collapse;margin:28px 0;font-size:14px;}
+        .tech-table th{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);font-weight:500;padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);}
+        .tech-table td{padding:13px 16px;color:var(--text-secondary);border-bottom:1px solid var(--border);vertical-align:top;}
+        .tech-table tr:last-child td{border-bottom:none;}
+        .tech-table td:first-child{color:var(--text-primary);font-weight:500;white-space:nowrap;}
+        .tech-table tr:hover td{background:rgba(255,255,255,0.015);}
+        .paper-nav{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 40px 40px;display:flex;gap:16px;justify-content:space-between;}
+        .paper-nav-card{flex:0 0 auto;max-width:320px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;text-decoration:none;transition:border-color 0.2s,background 0.2s;display:flex;flex-direction:column;gap:6px;}
+        .paper-nav-card:hover{border-color:rgba(0,212,170,0.3);background:var(--bg-card-hover);text-decoration:none;}
+        .paper-nav-card.next{text-align:right;}
+        .nav-dir{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
+        .nav-title{font-size:14px;font-weight:500;color:var(--text-primary);}
+        .cta-section{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 40px 80px;}
+        .cta-box{background:var(--bg-card);border:1px solid rgba(0,212,170,0.25);border-radius:16px;padding:48px;text-align:center;background-image:radial-gradient(ellipse at 50% 0%,rgba(0,212,170,0.06) 0%,transparent 60%);}
+        .cta-box h2{font-size:32px;font-weight:700;margin-bottom:16px;padding-top:0;border-top:none;margin-top:0;letter-spacing:-0.5px;}
+        .cta-box p{font-size:16px;max-width:520px;margin:0 auto 32px;}
+        .cta-email{display:inline-flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--bg-dark);background:var(--accent);padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;transition:background 0.2s,transform 0.2s;}
+        .cta-email:hover{background:var(--accent-dim);transform:translateY(-2px);text-decoration:none;}
+        footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28px 40px;display:flex;align-items:center;justify-content:space-between;}
+        .footer-logo{display:flex;align-items:center;gap:8px;}
+        .footer-mark{width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent-dim));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:8px;color:var(--bg-dark);}
+        .footer-text{font-size:13px;color:var(--text-dim);}
+        .footer-links{display:flex;gap:24px;}
+        .footer-links a{font-size:13px;color:var(--text-dim);text-decoration:none;}
+        .footer-links a:hover{color:var(--text-secondary);}
+        @media(max-width:680px){nav{padding:0 20px;}.nav-links{display:none;}.paper-header,.paper-content,.cta-section,.paper-nav{padding-left:20px;padding-right:20px;}.paper-title{font-size:28px;}.scenario-grid{grid-template-columns:1fr;}.paper-nav{flex-direction:column;}footer{flex-direction:column;gap:16px;text-align:center;}}
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="https://ignix.co.uk" class="nav-logo">
+        <div class="nav-logo-mark">IX</div>
+        <div class="nav-logo-text">ignix<span>.</span></div>
+    </a>
+    <div class="nav-links">
+        <a href="https://ignix.co.uk/#features">How It Works</a>
+        <a href="https://ignix.co.uk/#pricing">Pricing</a>
+        <a href="https://ignix.co.uk/insights">Insights</a>
+        <a href="mailto:hello@ignix.co.uk" class="nav-cta">hello@ignix.co.uk</a>
+    </div>
+</nav>
+
+<div class="paper-header">
+    <div class="series-nav">
+        <a href="ignix-paper-01.html">01</a><span class="sep">→</span>
+        <a href="ignix-paper-02.html">02</a><span class="sep">→</span>
+        <a href="ignix-paper-03.html">03</a><span class="sep">→</span>
+        <a href="ignix-paper-04.html" class="current">04</a><span class="sep">→</span>
+        <a href="ignix-paper-05.html">05</a>
+    </div>
+    <div class="paper-label">Ignix Insights · Paper 04 of 05</div>
+    <h1 class="paper-title">NetFlow Analysis &amp; Threat Detection:<br><span class="accent">A Technical Deep-Dive</span></h1>
+    <div class="paper-meta">
+        <span>March 2026</span>
+        <div class="paper-meta-dot"></div>
+        <span>12 min read</span>
+        <div class="paper-meta-dot"></div>
+        <span>IT professionals · MSP engineers · Technical decision makers</span>
+    </div>
+</div>
+
+<div class="paper-content">
+
+    <p class="lead">This paper goes under the bonnet. It's for the technical reader who wants to understand the mechanics: what NetFlow data actually contains, how AI-driven analysis works at a protocol level, what specific threat patterns are detectable, and how Ignix's architecture turns raw flow records into actionable intelligence.</p>
+
+    <h2>NetFlow Fundamentals</h2>
+
+    <p>NetFlow is a network protocol originally developed by Cisco in the mid-1990s for traffic accounting. It has since become the de facto standard for network traffic metadata collection across virtually all enterprise-grade networking equipment.</p>
+
+    <p>A NetFlow record represents a unidirectional sequence of packets sharing common attributes — what the protocol defines as a "flow." <strong>Critically, NetFlow captures metadata about connections, not payload content.</strong> It tells you that Device A communicated with Server B using Protocol C and transferred X bytes at Time Y. It does not tell you what was said.</p>
+
+    <h3>The Anatomy of a Flow Record</h3>
+
+    <p>A standard NetFlow v5 record contains the following fields:</p>
+
+    <table class="flow-field-table">
+        <tr><td>Source IP address</td><td>Who initiated the connection</td></tr>
+        <tr><td>Destination IP address</td><td>Where the connection went</td></tr>
+        <tr><td>Source port</td><td>Originating application/service</td></tr>
+        <tr><td>Destination port</td><td>Target application/service</td></tr>
+        <tr><td>IP protocol</td><td>TCP, UDP, ICMP, etc.</td></tr>
+        <tr><td>Packet count</td><td>Number of packets in the flow</td></tr>
+        <tr><td>Byte count</td><td>Total data transferred</td></tr>
+        <tr><td>Start / End timestamp</td><td>When the flow began and terminated</td></tr>
+        <tr><td>TCP flags</td><td>SYN, ACK, FIN, RST — connection state indicators</td></tr>
+        <tr><td>Input/Output interface</td><td>Physical port on the firewall</td></tr>
+    </table>
+
+    <p>NetFlow v9 and its IETF-standardised successor IPFIX extend this significantly with template-based records that can include application identification, VLAN tags, IPv6 addresses, MAC addresses, and vendor-specific extensions.</p>
+
+    <h3>Protocol Variants by Vendor</h3>
+
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
+            <span class="t-label">Flow Export Support by Firewall Vendor</span>
+        </div>
+        <div class="terminal-body">
+            <div><span class="t-blue">Cisco</span>          <span class="t-dim">→</span> NetFlow v5, v9, Flexible NetFlow</div>
+            <div><span class="t-blue">Fortinet</span>       <span class="t-dim">→</span> sFlow, NetFlow v9, IPFIX</div>
+            <div><span class="t-blue">Palo Alto</span>      <span class="t-dim">→</span> NetFlow v9, IPFIX</div>
+            <div><span class="t-blue">SonicWall</span>      <span class="t-dim">→</span> NetFlow v5, v9, IPFIX</div>
+            <div><span class="t-blue">WatchGuard</span>     <span class="t-dim">→</span> NetFlow v9</div>
+            <div><span class="t-blue">MikroTik</span>       <span class="t-dim">→</span> <span class="t-ok">IPFIX (native, excellent SMB support)</span></div>
+            <div><span class="t-blue">Juniper</span>        <span class="t-dim">→</span> J-Flow (functionally equivalent to NetFlow v9)</div>
+            <div><span class="t-blue">HP/Aruba</span>       <span class="t-dim">→</span> sFlow</div>
+            <br>
+            <div class="t-comment"># sFlow uses statistical sampling rather than complete flow tracking.</div>
+            <div class="t-comment"># For SMB traffic volumes, NetFlow/IPFIX provides richer security data.</div>
+        </div>
+    </div>
+
+    <h2>Collection Architecture</h2>
+
+    <div class="arch-diagram">
+        <div>┌──────────────┐   NetFlow/IPFIX (UDP 2055)   ┌───────────────────┐</div>
+        <div>│              │ ──────────────────────────→  │                   │</div>
+        <div>│  <span class="arch-dim">Client</span>        │   <span class="arch-dim">(encrypted tunnel</span>           │  <span class="arch-accent">Ignix Central</span>     │</div>
+        <div>│  <span class="arch-dim">Firewall</span>      │    <span class="arch-dim">or direct export)</span>          │  <span class="arch-accent">Analysis Platform</span>  │</div>
+        <div>│              │                              │                   │</div>
+        <div>└──────────────┘                              └────────┬──────────┘</div>
+        <div>                                                       │</div>
+        <div>                                              ┌────────▼──────────┐</div>
+        <div>                                              │                   │</div>
+        <div>                                              │  <span class="arch-accent">AI Analysis</span>       │</div>
+        <div>                                              │  <span class="arch-accent">Engine (Claude)</span>   │</div>
+        <div>                                              │                   │</div>
+        <div>                                              └────────┬──────────┘</div>
+        <div>                                                       │</div>
+        <div>                                              ┌────────▼──────────┐</div>
+        <div>                                              │  Plain-English     │</div>
+        <div>                                              │  Reports + Alerts  │</div>
+        <div>                                              └────────────────────┘</div>
+    </div>
+
+    <p>The client's firewall is configured to export NetFlow records to the Ignix collection endpoint. For most firewalls, this is a straightforward configuration entry pointing the NetFlow exporter at the collector IP and UDP port. The entire process takes 5 to 15 minutes for an experienced IT professional.</p>
+
+    <h3>Data Volumes</h3>
+    <p>A typical 50-person office generates roughly 500,000 to 2,000,000 flow records per day. Each flow record is approximately 48 bytes (NetFlow v5) to 200 bytes (IPFIX with extensions). <strong>Daily data volumes for a typical SMB sit in the range of 25MB to 400MB</strong> — trivial relative to modern storage and bandwidth. The processing overhead on the firewall itself is negligible.</p>
+
+    <h2>The Analysis Pipeline</h2>
+
+    <h3>Stage 1: Ingestion and Enrichment</h3>
+    <p>Flow records arrive in different formats and are normalised to a common schema, then enriched with contextual data:</p>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin:20px 0;">
+        <li style="display:flex;gap:12px;color:var(--text-secondary);font-size:15px;"><span style="color:var(--accent);font-weight:700;flex-shrink:0;">→</span><span><strong>GeoIP resolution</strong> — mapping destination IPs to geographic locations, identifying connections to unusual jurisdictions</span></li>
+        <li style="display:flex;gap:12px;color:var(--text-secondary);font-size:15px;"><span style="color:var(--accent);font-weight:700;flex-shrink:0;">→</span><span><strong>ASN enrichment</strong> — resolving Autonomous System Numbers to identify network operators (Microsoft Azure vs unknown hosting provider)</span></li>
+        <li style="display:flex;gap:12px;color:var(--text-secondary);font-size:15px;"><span style="color:var(--accent);font-weight:700;flex-shrink:0;">→</span><span><strong>DNS correlation</strong> — matching IP addresses to associated domain names using passive DNS data</span></li>
+        <li style="display:flex;gap:12px;color:var(--text-secondary);font-size:15px;"><span style="color:var(--accent);font-weight:700;flex-shrink:0;">→</span><span><strong>Threat intelligence overlay</strong> — cross-referencing against known C2 servers, malware distribution points, and phishing infrastructure</span></li>
+    </ul>
+
+    <h3>Stage 2: Behavioural Baseline Modelling</h3>
+    <p>During an initial learning period of 7 to 14 days, the analysis engine builds a behavioural model of the client's network. This model is <strong>per-client and continuously updated</strong> — it's not a generic threat model but a profile of what "normal" looks like for this specific organisation:</p>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin:20px 0;">
+        <li style="display:flex;gap:12px;color:var(--text-secondary);font-size:15px;"><span style="color:var(--accent);font-weight:700;flex-shrink:0;">→</span><span>Which external services the network regularly communicates with</span></li>
+        <li style="display:flex;gap:12px;color:var(--text-secondary);font-size:15px;"><span style="color:var(--accent);font-weight:700;flex-shrink:0;">→</span><span>Normal daily, hourly, and day-of-week patterns for data volume</span></li>
+        <li style="display:flex;gap:12px;color:var(--text-secondary);font-size:15px;"><span style="color:var(--accent);font-weight:700;flex-shrink:0;">→</span><span>Individual device traffic profiles (server vs workstation vs IoT)</span></li>
+        <li style="display:flex;gap:12px;color:var(--text-secondary);font-size:15px;"><span style="color:var(--accent);font-weight:700;flex-shrink:0;">→</span><span>Normal session characteristics for common destinations</span></li>
+    </ul>
+
+    <h3>Stage 3: Anomaly Detection</h3>
+    <p>Multiple detection methodologies run simultaneously against the established baseline:</p>
+
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
+            <span class="t-label">Detection Methodologies</span>
+        </div>
+        <div class="terminal-body">
+            <div class="t-ok">Statistical anomaly</div>
+            <div class="t-dim">  Volume deviations, temporal outliers, rate anomalies</div>
+            <div class="t-dim">  Example: device normally 100MB/day → spikes to 5GB</div>
+            <br>
+            <div class="t-ok">Behavioural anomaly</div>
+            <div class="t-dim">  Qualitative changes vs established profile</div>
+            <div class="t-dim">  Example: workstation using FTP for first time</div>
+            <br>
+            <div class="t-ok">Threat pattern heuristics</div>
+            <div class="t-dim">  C2 beaconing: regular intervals, consistent packet sizes</div>
+            <div class="t-dim">  DNS tunnelling: anomalous query volumes, long subdomains</div>
+            <div class="t-dim">  Lateral movement: internal scanning on management ports</div>
+            <div class="t-dim">  Data staging: slow accumulation then large transfer</div>
+            <div class="t-dim">  Cryptomining: persistent high-throughput to pool IPs</div>
+            <br>
+            <div class="t-ok">IOC matching</div>
+            <div class="t-dim">  Cross-reference against known threat infrastructure</div>
+            <div class="t-dim">  Newly identified C2 servers, active campaign IPs</div>
+        </div>
+    </div>
+
+    <h3>Stage 4: AI Contextualisation and Reporting</h3>
+    <p>Detected anomalies, enriched with contextual data, are passed to the Claude AI for interpretation and report generation. The AI performs severity assessment, narrative generation in plain English, trend analysis across time, and compliance mapping to relevant frameworks.</p>
+
+    <h2>Detection Capabilities in Practice</h2>
+
+    <div class="scenario">
+        <div class="scenario-header">
+            <div class="scenario-num">Scenario 01</div>
+            <div class="scenario-title">Compromised VPN Credentials and Reconnaissance</div>
+        </div>
+        <div class="scenario-grid">
+            <div class="scenario-col fw">
+                <div class="sc-label">What the firewall sees</div>
+                <p>A successful VPN authentication using valid credentials. The firewall permits the connection — a valid login is a valid login. No alert generated.</p>
+            </div>
+            <div class="scenario-col ix">
+                <div class="sc-label">What Ignix detects</div>
+                <p>A VPN session from a geographic location never previously associated with this network. Session occurs outside established working hours. The connected device immediately begins scanning multiple internal hosts on ports 445, 3389, and 22 — entirely inconsistent with the user's historical behaviour.</p>
+            </div>
+        </div>
+        <div class="scenario-output">
+            <span style="color:var(--warning);">⚠ Alert:</span> VPN session from unusual origin (geolocated: outside normal patterns).<br>
+            Post-connection activity shows internal port scanning across 47 hosts.<br>
+            Pattern consistent with post-compromise reconnaissance.<br>
+            <span style="color:var(--success);">Recommended:</span> Terminate VPN session, reset credentials, enable MFA.
+        </div>
+    </div>
+
+    <div class="callout info">
+        <p><strong>Cloud-only attacks — an honest limitation.</strong> If an attacker accesses Microsoft 365 credentials and operates entirely from outside your network, that activity generates no traffic through your firewall. Ignix won't see it. This is where Microsoft's own tools — Entra ID sign-in logs, Conditional Access, Identity Protection — are the right defence. Ignix detects the consequences that touch your network: unusual data sync volumes, anomalous device behaviour following credential theft, or an attacker who pivots from cloud access to VPN access. Both layers together cover the full picture.</p>
+    </div>
+
+    <div class="scenario">
+        <div class="scenario-header">
+            <div class="scenario-num">Scenario 02</div>
+            <div class="scenario-title">Pre-Ransomware Reconnaissance</div>
+        </div>
+        <div class="scenario-grid">
+            <div class="scenario-col fw">
+                <div class="sc-label">What the firewall sees</div>
+                <p>Internal SMB and RDP traffic — normally permitted by firewall rules. Nothing unusual flagged.</p>
+            </div>
+            <div class="scenario-col ix">
+                <div class="sc-label">What Ignix detects</div>
+                <p>A sudden spike in internal connection attempts from a single device to multiple IPs on ports 445, 3389, and 135. The device's historical profile shows it has never previously initiated connections to more than 3–4 internal hosts. Sequential IP probing with short connection durations is consistent with automated reconnaissance.</p>
+            </div>
+        </div>
+        <div class="scenario-output">
+            <span style="color:var(--warning);">⚠ Alert:</span> Internal scanning detected from 192.168.1.23.<br>
+            47 internal hosts probed in 12 minutes on management ports.<br>
+            Pattern consistent with pre-ransomware reconnaissance.<br>
+            <span style="color:var(--success);">Recommended:</span> Isolate device immediately, initiate malware investigation.
+        </div>
+    </div>
+
+    <div class="scenario">
+        <div class="scenario-header">
+            <div class="scenario-num">Scenario 03</div>
+            <div class="scenario-title">Shadow IT and Data Leakage</div>
+        </div>
+        <div class="scenario-grid">
+            <div class="scenario-col fw">
+                <div class="sc-label">What the firewall sees</div>
+                <p>HTTPS traffic to a legitimate cloud storage service. No alert — the service isn't on any blocklist.</p>
+            </div>
+            <div class="scenario-col ix">
+                <div class="sc-label">What Ignix detects</div>
+                <p>Multiple devices connecting to a cloud storage provider that has never previously appeared in traffic. Upload volumes are significant and growing week-over-week. Traffic occurs during business hours and is concentrated in a specific department.</p>
+            </div>
+        </div>
+        <div class="scenario-output">
+            <span style="color:var(--warning);">⚠ Finding:</span> Unsanctioned cloud storage usage detected — 6 devices, 3.2GB uploaded over 5 days.<br>
+            Service not in approved application inventory.<br>
+            <span style="color:var(--success);">Recommended:</span> Review with department — either sanction and ensure GDPR compliance, or block.
+        </div>
+    </div>
+
+    <div class="scenario">
+        <div class="scenario-header">
+            <div class="scenario-num">Scenario 04</div>
+            <div class="scenario-title">DNS-Based Data Exfiltration</div>
+        </div>
+        <div class="scenario-grid">
+            <div class="scenario-col fw">
+                <div class="sc-label">What the firewall sees</div>
+                <p>DNS traffic on port 53 to the configured resolver. Normal, expected traffic — no alert.</p>
+            </div>
+            <div class="scenario-col ix">
+                <div class="sc-label">What Ignix detects</div>
+                <p>A single device generating anomalous DNS query volume — far above its baseline. Queries target a single domain with extremely long, random-looking subdomain strings. The destination domain was registered recently and resolves to no legitimate business service.</p>
+            </div>
+        </div>
+        <div class="scenario-output">
+            <span style="color:var(--danger);">⚠ High severity:</span> DNS tunnelling pattern detected from 192.168.1.55.<br>
+            1,840 queries in 4 hours to attacker-domain.com with encoded subdomains.<br>
+            Domain registered 3 days ago. Pattern consistent with data exfiltration.<br>
+            <span style="color:var(--success);">Recommended:</span> Isolate device immediately, forensic investigation required.
+        </div>
+    </div>
+
+    <div class="scenario">
+        <div class="scenario-header">
+            <div class="scenario-num">Scenario 05</div>
+            <div class="scenario-title">IoT Device Compromise</div>
+        </div>
+        <div class="scenario-grid">
+            <div class="scenario-col fw">
+                <div class="sc-label">What the firewall sees</div>
+                <p>Outbound traffic from a device IP. Depending on configuration, may or may not be blocked — but no signature match, no alert.</p>
+            </div>
+            <div class="scenario-col ix">
+                <div class="sc-label">What Ignix detects</div>
+                <p>A CCTV camera that historically generates minimal, predictable traffic (periodic manufacturer cloud connections) suddenly begins making hundreds of outbound connections per hour to diverse IPs across multiple countries. The pattern — short-duration, distributed destinations — is characteristic of DDoS botnet participation.</p>
+            </div>
+        </div>
+        <div class="scenario-output">
+            <span style="color:var(--warning);">⚠ Alert:</span> IoT device (192.168.1.78 — likely CCTV) exhibiting botnet behaviour.<br>
+            340 connections/hour to 18 different countries — vs baseline of 2/hour.<br>
+            <span style="color:var(--success);">Recommended:</span> Isolate device, update firmware, review IoT network segmentation.
+        </div>
+    </div>
+
+    <h2>Privacy and Data Handling</h2>
+
+    <p>NetFlow's use of metadata rather than deep packet inspection is a deliberate architectural choice that directly addresses privacy concerns. <strong>Ignix detects that a device uploaded 500MB to a suspicious service without knowing what files were uploaded.</strong> It identifies regular connections to a suspicious server without reading the data exchanged.</p>
+
+    <p>For organisations subject to GDPR, this is a significant advantage. Network metadata analysis achieves security monitoring objectives without processing personal communications content — substantially reducing the data protection impact assessment requirements compared to deep packet inspection or email monitoring solutions.</p>
+
+    <h2>Technical Summary</h2>
+
+    <table class="tech-table">
+        <thead>
+            <tr><th>Component</th><th>Detail</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Data source</td><td>NetFlow v5/v9, IPFIX, sFlow from client firewalls</td></tr>
+            <tr><td>Collection</td><td>Centralised collector on hardened EU infrastructure</td></tr>
+            <tr><td>Transport</td><td>UDP (standard) or encrypted tunnel (optional)</td></tr>
+            <tr><td>Enrichment</td><td>GeoIP, ASN, passive DNS, threat intelligence feeds</td></tr>
+            <tr><td>Baseline</td><td>Per-client behavioural model, continuously updated (7–14 day learning period)</td></tr>
+            <tr><td>Detection</td><td>Statistical anomaly, behavioural anomaly, threat pattern heuristics, IOC matching</td></tr>
+            <tr><td>Analysis</td><td>Claude AI for contextualisation, severity assessment, and narrative generation</td></tr>
+            <tr><td>Output</td><td>Plain-English reports, real-time email alerts, compliance-mapped findings</td></tr>
+            <tr><td>Privacy</td><td>Metadata only — no payload inspection, no content capture</td></tr>
+            <tr><td>Deployment</td><td>Firewall configuration change only — no agents, no hardware</td></tr>
+            <tr><td>Multi-tenancy</td><td>Logical isolation per client, MSP-ready architecture</td></tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div class="paper-nav">
+    <a href="ignix-paper-03.html" class="paper-nav-card">
+        <div class="nav-dir">← Previous · Paper 03</div>
+        <div class="nav-title">The Competitive Landscape</div>
+    </a>
+    <a href="ignix-paper-05.html" class="paper-nav-card next">
+        <div class="nav-dir">Next → Paper 05</div>
+        <div class="nav-title">What to Expect: ROI & First 30 Days</div>
+    </a>
+</div>
+
+<div class="cta-section">
+    <div class="cta-box">
+        <h2>Take a closer look</h2>
+        <p>If you're an IT professional or MSP evaluating Ignix, we're happy to walk through the technical architecture in detail, run a proof-of-concept, or provide sample reports from anonymised client data.</p>
+        <a href="mailto:hello@ignix.co.uk" class="cta-email">hello@ignix.co.uk</a>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-logo">
+        <div class="footer-mark">IX</div>
+        <span class="footer-text">© 2026 Ignix Ltd. · Network security monitoring for business.</span>
+    </div>
+    <div class="footer-links">
+        <a href="https://ignix.co.uk">ignix.co.uk</a>
+        <a href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
+        <a href="https://x.com/ignix_co_uk">𝕏 @ignix_co_uk</a>
+    </div>
+</footer>
+
+</body>
+</html>

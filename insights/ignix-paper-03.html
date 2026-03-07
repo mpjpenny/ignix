@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Competitive Landscape — Ignix Insights</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg-dark:#0a0f14;--bg-card:#111920;--bg-card-hover:#162028;--accent:#00d4aa;--accent-dim:#00a88a;--accent-glow:rgba(0,212,170,0.15);--text-primary:#f0f4f8;--text-secondary:#8899a8;--text-dim:#4a5c6d;--border:#1e2a36;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--blue:#3b82f6;}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Outfit',sans-serif;background:var(--bg-dark);color:var(--text-primary);line-height:1.7;font-size:17px;}
+        body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(0,212,170,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.02) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+        nav{position:sticky;top:0;z-index:100;background:rgba(10,15,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px;}
+        .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+        .nav-logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-dim));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;color:var(--bg-dark);}
+        .nav-logo-text{font-size:18px;font-weight:600;color:var(--text-primary);}
+        .nav-logo-text span{color:var(--accent);}
+        .nav-links{display:flex;align-items:center;gap:32px;}
+        .nav-links a{color:var(--text-secondary);text-decoration:none;font-size:14px;transition:color 0.2s;}
+        .nav-links a:hover{color:var(--text-primary);}
+        .nav-cta{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;background:var(--accent);color:var(--bg-dark)!important;font-family:'JetBrains Mono',monospace;transition:background 0.2s,transform 0.2s;}
+        .nav-cta:hover{background:var(--accent-dim)!important;transform:translateY(-1px);}
+        .paper-header{position:relative;z-index:1;padding:80px 40px 60px;max-width:900px;margin:0 auto;border-bottom:1px solid var(--border);}
+        .series-nav{display:flex;align-items:center;gap:6px;margin-bottom:32px;font-family:'JetBrains Mono',monospace;font-size:11px;flex-wrap:wrap;}
+        .series-nav a{color:var(--text-dim);text-decoration:none;padding:4px 10px;border-radius:4px;border:1px solid var(--border);transition:all 0.2s;}
+        .series-nav a:hover{color:var(--accent);border-color:var(--accent);}
+        .series-nav a.current{color:var(--accent);border-color:rgba(0,212,170,0.4);background:var(--accent-glow);}
+        .series-nav .sep{color:var(--text-dim);opacity:0.4;}
+        .paper-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:3px;margin-bottom:20px;}
+        .paper-title{font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.1;letter-spacing:-1.5px;margin-bottom:24px;}
+        .paper-title .accent{color:var(--accent);}
+        .paper-meta{display:flex;align-items:center;gap:16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);}
+        .paper-meta-dot{width:4px;height:4px;border-radius:50%;background:var(--text-dim);}
+        .paper-content{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:60px 40px;}
+        h2{font-size:28px;font-weight:700;letter-spacing:-0.5px;color:var(--text-primary);margin:56px 0 20px;padding-top:56px;border-top:1px solid var(--border);}
+        h2:first-of-type{margin-top:0;padding-top:0;border-top:none;}
+        h3{font-size:20px;font-weight:600;color:var(--text-primary);margin:32px 0 14px;}
+        p{color:var(--text-secondary);margin-bottom:20px;}
+        strong{color:var(--text-primary);font-weight:600;}
+        a{color:var(--accent);text-decoration:none;}
+        a:hover{text-decoration:underline;}
+        .lead{font-size:20px;color:var(--text-primary);line-height:1.65;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--border);}
+        .callout{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:20px 24px;margin:28px 0;}
+        .callout p{margin:0;color:var(--text-secondary);}
+        .callout strong{color:var(--accent);}
+        .category-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px;margin:20px 0;}
+        .category-card .cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+        .category-card .cat-name{font-size:20px;font-weight:700;color:var(--text-primary);}
+        .category-card .cat-cost{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);padding:4px 10px;border:1px solid var(--border);border-radius:6px;}
+        .category-card .cat-desc{font-size:15px;color:var(--text-secondary);margin-bottom:16px;}
+        .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+        .pros,.cons{padding:14px 16px;border-radius:8px;font-size:13px;line-height:1.7;}
+        .pros{background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15);}
+        .cons{background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);}
+        .pros .pc-label{color:var(--success);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+        .cons .pc-label{color:var(--danger);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+        .pros ul,.cons ul{list-style:none;display:flex;flex-direction:column;gap:4px;color:var(--text-secondary);}
+        .pros ul li::before{content:'+ ';color:var(--success);}
+        .cons ul li::before{content:'− ';color:var(--danger);}
+        .big-table{width:100%;border-collapse:collapse;margin:28px 0;font-size:13px;}
+        .big-table th{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);font-weight:500;padding:12px 14px;text-align:center;border-bottom:1px solid var(--border);border-right:1px solid var(--border);}
+        .big-table th:first-child{text-align:left;}
+        .big-table th:last-child{color:var(--accent);border-right:none;}
+        .big-table td{padding:12px 14px;color:var(--text-secondary);border-bottom:1px solid var(--border);border-right:1px solid var(--border);text-align:center;vertical-align:middle;}
+        .big-table td:first-child{text-align:left;font-weight:500;color:var(--text-primary);}
+        .big-table td:last-child{border-right:none;background:rgba(0,212,170,0.04);}
+        .big-table tr:last-child td{border-bottom:none;}
+        .big-table .check{color:var(--success);font-size:16px;}
+        .big-table .cross{color:var(--text-dim);opacity:0.4;font-size:16px;}
+        .big-table .partial{color:var(--warning);font-size:16px;}
+        .big-table .accent-cell{color:var(--accent)!important;font-weight:600;}
+        .pricing-table{width:100%;border-collapse:collapse;margin:28px 0;font-size:14px;}
+        .pricing-table th{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);font-weight:500;padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);}
+        .pricing-table td{padding:14px 16px;color:var(--text-secondary);border-bottom:1px solid var(--border);}
+        .pricing-table tr:last-child td{border-bottom:none;}
+        .pricing-table tr:hover td{background:rgba(255,255,255,0.015);}
+        .pricing-table td:first-child{color:var(--text-primary);font-weight:500;}
+        .pricing-table .highlight td{background:rgba(0,212,170,0.04);color:var(--accent)!important;}
+        .pricing-table .highlight td:first-child{color:var(--accent);}
+        .layers{display:flex;flex-direction:column;gap:12px;margin:28px 0;}
+        .layer{display:flex;align-items:center;gap:16px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:18px 22px;}
+        .layer-num{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:rgba(0,212,170,0.2);flex-shrink:0;min-width:36px;}
+        .layer-content h4{font-size:16px;font-weight:600;margin-bottom:4px;color:var(--text-primary);}
+        .layer-content p{font-size:14px;color:var(--text-secondary);margin:0;}
+        .layer.ignix-layer{border-color:rgba(0,212,170,0.3);background:rgba(0,212,170,0.03);}
+        .layer.ignix-layer .layer-num{color:var(--accent);}
+        .paper-nav{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 40px 40px;display:flex;gap:16px;justify-content:space-between;}
+        .paper-nav-card{flex:0 0 auto;max-width:320px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;text-decoration:none;transition:border-color 0.2s,background 0.2s;display:flex;flex-direction:column;gap:6px;}
+        .paper-nav-card:hover{border-color:rgba(0,212,170,0.3);background:var(--bg-card-hover);text-decoration:none;}
+        .paper-nav-card.next{text-align:right;}
+        .nav-dir{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
+        .nav-title{font-size:14px;font-weight:500;color:var(--text-primary);}
+        .cta-section{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 40px 80px;}
+        .cta-box{background:var(--bg-card);border:1px solid rgba(0,212,170,0.25);border-radius:16px;padding:48px;text-align:center;background-image:radial-gradient(ellipse at 50% 0%,rgba(0,212,170,0.06) 0%,transparent 60%);}
+        .cta-box h2{font-size:32px;font-weight:700;margin-bottom:16px;padding-top:0;border-top:none;margin-top:0;letter-spacing:-0.5px;}
+        .cta-box p{font-size:16px;max-width:520px;margin:0 auto 32px;}
+        .cta-email{display:inline-flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--bg-dark);background:var(--accent);padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;transition:background 0.2s,transform 0.2s;}
+        .cta-email:hover{background:var(--accent-dim);transform:translateY(-2px);text-decoration:none;}
+        footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28px 40px;display:flex;align-items:center;justify-content:space-between;}
+        .footer-logo{display:flex;align-items:center;gap:8px;}
+        .footer-mark{width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent-dim));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:8px;color:var(--bg-dark);}
+        .footer-text{font-size:13px;color:var(--text-dim);}
+        .footer-links{display:flex;gap:24px;}
+        .footer-links a{font-size:13px;color:var(--text-dim);text-decoration:none;}
+        .footer-links a:hover{color:var(--text-secondary);}
+        @media(max-width:680px){nav{padding:0 20px;}.nav-links{display:none;}.paper-header,.paper-content,.cta-section,.paper-nav{padding-left:20px;padding-right:20px;}.paper-title{font-size:28px;}.pros-cons{grid-template-columns:1fr;}.paper-nav{flex-direction:column;}footer{flex-direction:column;gap:16px;text-align:center;}.big-table{font-size:11px;}.big-table td,.big-table th{padding:8px;}}
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="https://ignix.co.uk" class="nav-logo">
+        <div class="nav-logo-mark">IX</div>
+        <div class="nav-logo-text">ignix<span>.</span></div>
+    </a>
+    <div class="nav-links">
+        <a href="https://ignix.co.uk/#features">How It Works</a>
+        <a href="https://ignix.co.uk/#pricing">Pricing</a>
+        <a href="https://ignix.co.uk/insights">Insights</a>
+        <a href="mailto:hello@ignix.co.uk" class="nav-cta">hello@ignix.co.uk</a>
+    </div>
+</nav>
+
+<div class="paper-header">
+    <div class="series-nav">
+        <a href="ignix-paper-01.html">01</a><span class="sep">→</span>
+        <a href="ignix-paper-02.html">02</a><span class="sep">→</span>
+        <a href="ignix-paper-03.html" class="current">03</a><span class="sep">→</span>
+        <a href="ignix-paper-04.html">04</a><span class="sep">→</span>
+        <a href="ignix-paper-05.html">05</a>
+    </div>
+    <div class="paper-label">Ignix Insights · Paper 03 of 05</div>
+    <h1 class="paper-title">The Competitive Landscape:<br><span class="accent">Where Ignix Sits vs SIEM, MDR, XDR and NDR</span></h1>
+    <div class="paper-meta">
+        <span>March 2026</span>
+        <div class="paper-meta-dot"></div>
+        <span>10 min read</span>
+        <div class="paper-meta-dot"></div>
+        <span>MSPs · IT managers · Decision makers</span>
+    </div>
+</div>
+
+<div class="paper-content">
+
+    <p class="lead">If you've spent time researching cybersecurity solutions, you've hit the wall of acronyms: SIEM, MDR, XDR, NDR, EDR, SOAR. Each comes with its own vendors, pricing models, and assumptions about the resources you have. This paper cuts through it — explaining what each category actually does, who it's designed for, and where each falls short for SMBs.</p>
+
+    <h2>The Major Categories Explained</h2>
+
+    <div class="category-card">
+        <div class="cat-header">
+            <div class="cat-name">SIEM — Security Information and Event Management</div>
+            <div class="cat-cost">£40,000–£150,000+/yr</div>
+        </div>
+        <p class="cat-desc">The traditional backbone of enterprise security operations. Collects logs from across your entire IT environment and correlates them to identify suspicious activity, generate alerts, and support compliance reporting.</p>
+        <div class="pros-cons">
+            <div class="pros">
+                <div class="pc-label">What it does well</div>
+                <ul>
+                    <li>Comprehensive visibility across all log sources</li>
+                    <li>Powerful for compliance and audit trails</li>
+                    <li>Strong for forensic investigation post-incident</li>
+                </ul>
+            </div>
+            <div class="cons">
+                <div class="pc-label">The problem for SMBs</div>
+                <ul>
+                    <li>Complex to deploy, expensive to run</li>
+                    <li>Requires dedicated security analysts to operate</li>
+                    <li>Generates enormous false-positive noise</li>
+                    <li>Costs scale unpredictably with data volume</li>
+                </ul>
+            </div>
+        </div>
+        <p style="margin-top:16px;font-size:14px;">The blunt question: <strong>who is going to read the output?</strong> If the answer is "no one, really," you're paying for expensive log storage, not security.</p>
+    </div>
+
+    <div class="category-card">
+        <div class="cat-header">
+            <div class="cat-name">MDR — Managed Detection and Response</div>
+            <div class="cat-cost">£9,000–£30,000/yr (endpoints only)</div>
+        </div>
+        <p class="cat-desc">MDR emerged as the market's answer to the SIEM problem. Instead of giving you a tool, MDR providers give you the outcome: 24/7 monitoring, threat detection, investigation, and response, delivered as a managed service.</p>
+        <div class="pros-cons">
+            <div class="pros">
+                <div class="pc-label">What it does well</div>
+                <ul>
+                    <li>Removes the analyst staffing problem</li>
+                    <li>24/7 coverage without in-house headcount</li>
+                    <li>35% growth in the 10–50 seat segment in 2025</li>
+                </ul>
+            </div>
+            <div class="cons">
+                <div class="pc-label">The problem for SMBs</div>
+                <ul>
+                    <li>Focuses on endpoints — blind to network-level activity</li>
+                    <li>Misses shadow IT, data exfiltration via allowed channels</li>
+                    <li>Can't see IoT devices that don't run agents</li>
+                    <li>Black-box approach: limited transparency</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-card">
+        <div class="cat-header">
+            <div class="cat-name">XDR — Extended Detection and Response</div>
+            <div class="cat-cost">£30,000–£100,000+/yr</div>
+        </div>
+        <p class="cat-desc">XDR correlates telemetry across multiple security layers — endpoints, network, cloud, email, and identity — into a unified platform. The promise is broader visibility with less manual effort than a SIEM.</p>
+        <div class="pros-cons">
+            <div class="pros">
+                <div class="pc-label">What it does well</div>
+                <ul>
+                    <li>Breaks down silos between security tools</li>
+                    <li>A phishing email → credential theft → lateral movement appears as one correlated incident</li>
+                    <li>Strong investment from major vendors (CrowdStrike, Palo Alto, Microsoft)</li>
+                </ul>
+            </div>
+            <div class="cons">
+                <div class="pc-label">The problem for SMBs</div>
+                <ul>
+                    <li>Assumes you're already running a sophisticated security stack</li>
+                    <li>Still requires someone to log in and investigate alerts</li>
+                    <li>Enterprise pricing, enterprise complexity</li>
+                    <li>Platform, not a service — you still need the analyst</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-card">
+        <div class="cat-header">
+            <div class="cat-name">NDR — Network Detection and Response</div>
+            <div class="cat-cost">£20,000–£60,000+/yr</div>
+        </div>
+        <p class="cat-desc">The closest category to what Ignix does. NDR solutions monitor network traffic to detect threats that endpoint and perimeter tools miss — particularly effective at lateral movement, C2 communications, and data exfiltration.</p>
+        <div class="pros-cons">
+            <div class="pros">
+                <div class="pc-label">What it does well</div>
+                <ul>
+                    <li>Sees everything on the network including IoT devices</li>
+                    <li>Detects threats endpoints can't see</li>
+                    <li>No endpoint agents required</li>
+                    <li>AI-driven behavioural analysis (Darktrace, Vectra)</li>
+                </ul>
+            </div>
+            <div class="cons">
+                <div class="pc-label">The problem for SMBs</div>
+                <ul>
+                    <li>Enterprise-priced (Darktrace ~$30,000/yr for 200 hosts)</li>
+                    <li>Requires on-premises hardware or virtual appliances</li>
+                    <li>Dashboards designed for SOC analysts, not IT generalists</li>
+                    <li>Right capability, wrong packaging</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h2>The Gap in the Market</h2>
+
+    <p>When you map these solutions against what SMBs actually need, a clear gap emerges. Every existing category either provides the right capability at the wrong price point, or the right price point without the right capability.</p>
+
+    <table class="big-table">
+        <thead>
+            <tr>
+                <th>Requirement</th>
+                <th>SIEM</th>
+                <th>MDR</th>
+                <th>XDR</th>
+                <th>NDR</th>
+                <th>Ignix</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Network-level visibility</td>
+                <td class="partial">◑</td>
+                <td class="cross">✗</td>
+                <td class="partial">◑</td>
+                <td class="check">✓</td>
+                <td class="check accent-cell">✓</td>
+            </tr>
+            <tr>
+                <td>No dedicated analyst required</td>
+                <td class="cross">✗</td>
+                <td class="check">✓</td>
+                <td class="cross">✗</td>
+                <td class="cross">✗</td>
+                <td class="check accent-cell">✓</td>
+            </tr>
+            <tr>
+                <td>Plain-English reporting</td>
+                <td class="cross">✗</td>
+                <td class="partial">◑</td>
+                <td class="cross">✗</td>
+                <td class="cross">✗</td>
+                <td class="check accent-cell">✓</td>
+            </tr>
+            <tr>
+                <td>Real-time threat alerts</td>
+                <td class="partial">◑</td>
+                <td class="check">✓</td>
+                <td class="check">✓</td>
+                <td class="check">✓</td>
+                <td class="check accent-cell">✓</td>
+            </tr>
+            <tr>
+                <td>No endpoint agents needed</td>
+                <td class="check">✓</td>
+                <td class="cross">✗</td>
+                <td class="cross">✗</td>
+                <td class="check">✓</td>
+                <td class="check accent-cell">✓</td>
+            </tr>
+            <tr>
+                <td>Affordable for &lt;100 employees</td>
+                <td class="cross">✗</td>
+                <td class="partial">◑</td>
+                <td class="cross">✗</td>
+                <td class="cross">✗</td>
+                <td class="check accent-cell">✓</td>
+            </tr>
+            <tr>
+                <td>Shadow IT detection</td>
+                <td class="partial">◑</td>
+                <td class="cross">✗</td>
+                <td class="partial">◑</td>
+                <td class="check">✓</td>
+                <td class="check accent-cell">✓</td>
+            </tr>
+            <tr>
+                <td>No hardware required</td>
+                <td class="cross">✗</td>
+                <td class="check">✓</td>
+                <td class="partial">◑</td>
+                <td class="cross">✗</td>
+                <td class="check accent-cell">✓</td>
+            </tr>
+            <tr>
+                <td>Deployment in days, not weeks</td>
+                <td class="cross">✗</td>
+                <td class="cross">✗</td>
+                <td class="cross">✗</td>
+                <td class="cross">✗</td>
+                <td class="check accent-cell">✓</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Where Ignix Fits</h2>
+
+    <p>Ignix occupies the gap that table describes — the column on the right. It delivers network-level security visibility, powered by AI, in a format that SMBs can actually use. No hardware, no agents, no dashboards to master, no analyst to hire.</p>
+
+    <h3>What Ignix Is Not</h3>
+
+    <div class="callout">
+        <p><strong>Ignix is not a SIEM.</strong> It doesn't aggregate logs from every device in your infrastructure, doesn't require months of configuration, and doesn't generate thousands of alerts requiring manual triage.</p>
+    </div>
+    <div class="callout">
+        <p><strong>Ignix is not an MDR.</strong> It doesn't install agents on your endpoints and doesn't provide 24/7 human-led incident response. If you need someone to remotely contain an active breach on a compromised laptop, you need an MDR provider.</p>
+    </div>
+    <div class="callout">
+        <p><strong>Ignix is not a replacement for your firewall.</strong> Your firewall is still your first line of defence. Ignix analyses what your firewall sees but doesn't report on — the patterns in allowed traffic that reveal threats no blocklist will catch.</p>
+    </div>
+
+    <h2>The Pricing Reality</h2>
+
+    <p>For a typical 50-person business, here's how the landscape looks in practice:</p>
+
+    <table class="pricing-table">
+        <thead>
+            <tr><th>Solution</th><th>Annual Cost (approx.)</th><th>What You Get</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Enterprise SIEM</td><td>£40,000–£150,000+</td><td>Comprehensive log management — if you have staff to run it</td></tr>
+            <tr><td>MDR (endpoint)</td><td>£9,000–£30,000</td><td>24/7 endpoint monitoring and response</td></tr>
+            <tr><td>XDR Platform</td><td>£30,000–£100,000+</td><td>Cross-layer detection — if you have the stack to feed it</td></tr>
+            <tr><td>Enterprise NDR</td><td>£20,000–£60,000+</td><td>Network visibility — with enterprise complexity</td></tr>
+            <tr class="highlight"><td>Ignix</td><td>A fraction of the above</td><td>AI-powered network monitoring with plain-English reports and real-time alerts</td></tr>
+        </tbody>
+    </table>
+
+    <h2>The Complementary Model</h2>
+
+    <p>The smartest approach to SMB security isn't choosing one tool to rule them all. It's layering the right capabilities at the right price points:</p>
+
+    <div class="layers">
+        <div class="layer">
+            <div class="layer-num">01</div>
+            <div class="layer-content">
+                <h4>Perimeter Defence — Your Firewall</h4>
+                <p>You already have this. It blocks known threats and controls basic access policy.</p>
+            </div>
+        </div>
+        <div class="layer">
+            <div class="layer-num">02</div>
+            <div class="layer-content">
+                <h4>Endpoint Protection — EDR / MDR</h4>
+                <p>Monitoring your devices for malware, ransomware, and endpoint-level compromises.</p>
+            </div>
+        </div>
+        <div class="layer ignix-layer">
+            <div class="layer-num">03</div>
+            <div class="layer-content">
+                <h4>Network Visibility — Ignix</h4>
+                <p>Everything the other layers miss: shadow IT, data exfiltration, anomalous traffic patterns, compromised IoT devices, DNS threats, and insider risks. Real-time alerts. Daily plain-English reports.</p>
+            </div>
+        </div>
+        <div class="layer">
+            <div class="layer-num">04</div>
+            <div class="layer-content">
+                <h4>Human Oversight</h4>
+                <p>Someone reading the Ignix reports and acting on recommendations — five minutes over a morning coffee.</p>
+            </div>
+        </div>
+    </div>
+
+    <p>This layered model provides coverage that approaches what enterprise organisations achieve with SIEM and XDR — at a fraction of the cost and without any of the operational complexity.</p>
+
+</div>
+
+<div class="paper-nav">
+    <a href="ignix-paper-02.html" class="paper-nav-card">
+        <div class="nav-dir">← Previous · Paper 02</div>
+        <div class="nav-title">AI-Powered Network Monitoring</div>
+    </a>
+    <a href="ignix-paper-04.html" class="paper-nav-card next">
+        <div class="nav-dir">Next → Paper 04</div>
+        <div class="nav-title">NetFlow Analysis & Threat Detection: Technical Deep-Dive</div>
+    </a>
+</div>
+
+<div class="cta-section">
+    <div class="cta-box">
+        <h2>See how Ignix compares for your business</h2>
+        <p>Every network is different. Book a free assessment and we'll show you what Ignix sees on yours — and how it compares to what your current tools are telling you.</p>
+        <a href="mailto:hello@ignix.co.uk" class="cta-email">hello@ignix.co.uk</a>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-logo">
+        <div class="footer-mark">IX</div>
+        <span class="footer-text">© 2026 Ignix Ltd. · Network security monitoring for business.</span>
+    </div>
+    <div class="footer-links">
+        <a href="https://ignix.co.uk">ignix.co.uk</a>
+        <a href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
+        <a href="https://x.com/ignix_co_uk">𝕏 @ignix_co_uk</a>
+    </div>
+</footer>
+
+</body>
+</html>
