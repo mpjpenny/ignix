@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The SMB Cybersecurity Gap — Ignix Insights</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0f14; --bg-card: #111920; --bg-card-hover: #162028;
+            --accent: #00d4aa; --accent-dim: #00a88a; --accent-glow: rgba(0,212,170,0.15);
+            --text-primary: #f0f4f8; --text-secondary: #8899a8; --text-dim: #4a5c6d;
+            --border: #1e2a36; --border-light: #253340;
+            --success: #22c55e; --warning: #f59e0b; --danger: #ef4444; --blue: #3b82f6;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Outfit',sans-serif; background:var(--bg-dark); color:var(--text-primary); line-height:1.7; font-size:17px; }
+        body::before { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background-image:linear-gradient(rgba(0,212,170,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.02) 1px,transparent 1px); background-size:60px 60px; pointer-events:none; z-index:0; }
+        nav { position:sticky; top:0; z-index:100; background:rgba(10,15,20,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:64px; }
+        .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+        .nav-logo-mark { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-dim)); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:11px; color:var(--bg-dark); }
+        .nav-logo-text { font-size:18px; font-weight:600; color:var(--text-primary); }
+        .nav-logo-text span { color:var(--accent); }
+        .nav-links { display:flex; align-items:center; gap:32px; }
+        .nav-links a { color:var(--text-secondary); text-decoration:none; font-size:14px; transition:color 0.2s; }
+        .nav-links a:hover { color:var(--text-primary); }
+        .nav-cta { padding:8px 18px; border-radius:8px; font-size:13px; font-weight:500; background:var(--accent); color:var(--bg-dark)!important; font-family:'JetBrains Mono',monospace; transition:background 0.2s,transform 0.2s; }
+        .nav-cta:hover { background:var(--accent-dim)!important; transform:translateY(-1px); }
+        .paper-header { position:relative; z-index:1; padding:80px 40px 60px; max-width:860px; margin:0 auto; border-bottom:1px solid var(--border); }
+        .series-nav { display:flex; align-items:center; gap:6px; margin-bottom:32px; font-family:'JetBrains Mono',monospace; font-size:11px; flex-wrap:wrap; }
+        .series-nav a { color:var(--text-dim); text-decoration:none; padding:4px 10px; border-radius:4px; border:1px solid var(--border); transition:all 0.2s; }
+        .series-nav a:hover { color:var(--accent); border-color:var(--accent); }
+        .series-nav a.current { color:var(--accent); border-color:rgba(0,212,170,0.4); background:var(--accent-glow); }
+        .series-nav .sep { color:var(--text-dim); opacity:0.4; }
+        .paper-label { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent); text-transform:uppercase; letter-spacing:3px; margin-bottom:20px; }
+        .paper-title { font-size:clamp(32px,5vw,52px); font-weight:700; line-height:1.1; letter-spacing:-1.5px; margin-bottom:24px; }
+        .paper-title .accent { color:var(--accent); }
+        .paper-meta { display:flex; align-items:center; gap:16px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); }
+        .paper-meta-dot { width:4px; height:4px; border-radius:50%; background:var(--text-dim); }
+        .paper-content { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:60px 40px; }
+        h2 { font-size:28px; font-weight:700; letter-spacing:-0.5px; color:var(--text-primary); margin:56px 0 20px; padding-top:56px; border-top:1px solid var(--border); }
+        h2:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+        h3 { font-size:20px; font-weight:600; color:var(--text-primary); margin:32px 0 14px; }
+        p { color:var(--text-secondary); margin-bottom:20px; }
+        strong { color:var(--text-primary); font-weight:600; }
+        a { color:var(--accent); text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        .lead { font-size:20px; color:var(--text-primary); line-height:1.65; margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--border); }
+        .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin:32px 0; }
+        .stat-card { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:24px; }
+        .stat-value { font-family:'JetBrains Mono',monospace; font-size:36px; font-weight:700; color:var(--accent); line-height:1; margin-bottom:8px; }
+        .stat-label { font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+        .stat-context { font-size:13px; color:var(--text-secondary); margin-top:8px; line-height:1.5; }
+        .callout { background:var(--bg-card); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:0 10px 10px 0; padding:20px 24px; margin:28px 0; }
+        .callout p { margin:0; color:var(--text-secondary); }
+        .callout strong { color:var(--accent); }
+        .terminal { background:#060c10; border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:28px 0; font-family:'JetBrains Mono',monospace; }
+        .terminal-bar { padding:10px 16px; background:rgba(255,255,255,0.03); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+        .t-dot { width:10px; height:10px; border-radius:50%; }
+        .t-dot.r{background:#ff5f57;} .t-dot.y{background:#febc2e;} .t-dot.g{background:#28c840;}
+        .t-label { margin-left:8px; font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+        .terminal-body { padding:20px 24px; font-size:13px; line-height:1.9; }
+        .t-prompt{color:var(--accent);} .t-comment{color:var(--text-dim);} .t-warn{color:var(--warning);} .t-ok{color:var(--success);} .t-dim{color:var(--text-dim);}
+        .comparison-table { width:100%; border-collapse:collapse; margin:28px 0; font-size:14px; }
+        .comparison-table th { font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-dim); font-weight:500; padding:12px 16px; text-align:left; border-bottom:1px solid var(--border); }
+        .comparison-table td { padding:14px 16px; color:var(--text-secondary); border-bottom:1px solid var(--border); vertical-align:top; }
+        .comparison-table tr:last-child td { border-bottom:none; }
+        .comparison-table tr:hover td { background:rgba(255,255,255,0.015); }
+        .comparison-table td:first-child { color:var(--text-primary); font-weight:500; }
+        .feature-list { list-style:none; margin:20px 0; display:flex; flex-direction:column; gap:10px; }
+        .feature-list li { display:flex; align-items:flex-start; gap:12px; font-size:15px; color:var(--text-secondary); }
+        .feature-list li::before { content:'→'; color:var(--accent); font-weight:700; flex-shrink:0; margin-top:1px; }
+        .paper-nav { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:0 40px 40px; display:flex; gap:16px; justify-content:flex-end; }
+        .paper-nav-card { flex:0 0 auto; max-width:320px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:20px; text-decoration:none; transition:border-color 0.2s,background 0.2s; display:flex; flex-direction:column; gap:6px; text-align:right; }
+        .paper-nav-card:hover { border-color:rgba(0,212,170,0.3); background:var(--bg-card-hover); text-decoration:none; }
+        .nav-dir { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+        .nav-title { font-size:14px; font-weight:500; color:var(--text-primary); }
+        .cta-section { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:0 40px 80px; }
+        .cta-box { background:var(--bg-card); border:1px solid rgba(0,212,170,0.25); border-radius:16px; padding:48px; text-align:center; background-image:radial-gradient(ellipse at 50% 0%,rgba(0,212,170,0.06) 0%,transparent 60%); }
+        .cta-box h2 { font-size:32px; font-weight:700; margin-bottom:16px; padding-top:0; border-top:none; margin-top:0; letter-spacing:-0.5px; }
+        .cta-box p { font-size:16px; max-width:520px; margin:0 auto 32px; }
+        .cta-email { display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:16px; color:var(--bg-dark); background:var(--accent); padding:14px 28px; border-radius:10px; text-decoration:none; font-weight:700; transition:background 0.2s,transform 0.2s; }
+        .cta-email:hover { background:var(--accent-dim); transform:translateY(-2px); text-decoration:none; }
+        footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:28px 40px; display:flex; align-items:center; justify-content:space-between; }
+        .footer-logo { display:flex; align-items:center; gap:8px; }
+        .footer-mark { width:24px; height:24px; border-radius:6px; background:linear-gradient(135deg,var(--accent),var(--accent-dim)); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:8px; color:var(--bg-dark); }
+        .footer-text { font-size:13px; color:var(--text-dim); }
+        .footer-links { display:flex; gap:24px; }
+        .footer-links a { font-size:13px; color:var(--text-dim); text-decoration:none; }
+        .footer-links a:hover { color:var(--text-secondary); }
+        @media(max-width:680px){nav{padding:0 20px;}.nav-links{display:none;}.paper-header,.paper-content,.cta-section,.paper-nav{padding-left:20px;padding-right:20px;}.paper-title{font-size:28px;}.stat-grid{grid-template-columns:1fr 1fr;}.paper-nav{flex-direction:column;}footer{flex-direction:column;gap:16px;text-align:center;}}
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="https://ignix.co.uk" class="nav-logo">
+        <div class="nav-logo-mark">IX</div>
+        <div class="nav-logo-text">ignix<span>.</span></div>
+    </a>
+    <div class="nav-links">
+        <a href="https://ignix.co.uk/#features">How It Works</a>
+        <a href="https://ignix.co.uk/#pricing">Pricing</a>
+        <a href="https://ignix.co.uk/insights">Insights</a>
+        <a href="mailto:hello@ignix.co.uk" class="nav-cta">hello@ignix.co.uk</a>
+    </div>
+</nav>
+
+<div class="paper-header">
+    <div class="series-nav">
+        <a href="ignix-paper-01.html" class="current">01</a>
+        <span class="sep">→</span>
+        <a href="ignix-paper-02.html">02</a>
+        <span class="sep">→</span>
+        <a href="ignix-paper-03.html">03</a>
+        <span class="sep">→</span>
+        <a href="ignix-paper-04.html">04</a>
+        <span class="sep">→</span>
+        <a href="ignix-paper-05.html">05</a>
+    </div>
+    <div class="paper-label">Ignix Insights · Paper 01 of 05</div>
+    <h1 class="paper-title">The SMB Cybersecurity Gap:<br><span class="accent">Why Firewalls Alone Aren't Enough</span></h1>
+    <div class="paper-meta">
+        <span>March 2026</span>
+        <div class="paper-meta-dot"></div>
+        <span>8 min read</span>
+        <div class="paper-meta-dot"></div>
+        <span>Business owners · IT managers · MSPs</span>
+    </div>
+</div>
+
+<div class="paper-content">
+
+    <p class="lead">Most small businesses have a firewall. Most have antivirus. Many have done a cyber risk assessment in the past year. Yet nearly one in four were breached anyway. The problem isn't a lack of investment — it's a visibility gap that most SMBs don't know exists.</p>
+
+    <h2>The Numbers Don't Lie</h2>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-value">1 in 4</div>
+            <div class="stat-label">SMBs breached</div>
+            <div class="stat-context">in the past 12 months, despite most having security tools in place</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">92%</div>
+            <div class="stat-label">Have protection</div>
+            <div class="stat-context">of SMBs have some form of cybersecurity protection deployed</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">39%</div>
+            <div class="stat-label">Human error</div>
+            <div class="stat-context">of incidents caused by people, not technology failure</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">74%</div>
+            <div class="stat-label">Risk assessed</div>
+            <div class="stat-context">of UK SMBs ran a formal cyber risk assessment last year</div>
+        </div>
+    </div>
+
+    <p>There's a striking contradiction here. The vast majority of small businesses now take cybersecurity seriously — investing in tools, running audits, training staff. But nearly a quarter of them were breached anyway. The 2026 SMB Cybersecurity Report from Proton, surveying 3,000 business leaders across six markets, confirmed what many IT professionals already suspect: spending more doesn't automatically mean being safer.</p>
+
+    <p>The core problem isn't a lack of investment. <strong>It's a visibility gap.</strong> Most SMBs have a firewall, antivirus, and maybe an email filter. These tools block known threats at the perimeter. But they can't tell you what's happening inside your network — what's leaving, where it's going, and whether it should be.</p>
+
+    <h2>The Firewall Paradox</h2>
+
+    <p>Firewalls are essential. No one disputes that. They inspect incoming traffic, block known malicious IPs, and enforce basic access policies. But here's the uncomfortable truth: <strong>the majority of modern breaches don't involve traffic that a firewall would block.</strong></p>
+
+    <p>Consider the most common attack vectors hitting SMBs today. Phishing emails that pass through legitimate mail services. Compromised credentials used to log in through the front door. Employees uploading sensitive data to personal cloud storage. An insider slowly exfiltrating files over weeks. AI-generated communications that bypass traditional filters. None of these trigger a firewall alert — they all use allowed traffic, through allowed ports, to allowed destinations.</p>
+
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
+            <span class="t-label">Traditional Firewall — Daily Summary</span>
+        </div>
+        <div class="terminal-body">
+            <div><span class="t-prompt">$</span> firewall-log --summary --today</div>
+            <div class="t-dim">────────────────────────────────────────</div>
+            <div><span class="t-ok">✓</span> Blocked: 2,847 known malicious connections</div>
+            <div><span class="t-ok">✓</span> Status: ALL THREATS BLOCKED</div>
+            <br>
+            <div class="t-comment"># Meanwhile, what Ignix found in the same period:</div>
+            <br>
+            <div><span class="t-prompt">$</span> ignix analyse --same-period</div>
+            <div class="t-dim">────────────────────────────────────────</div>
+            <div><span class="t-warn">⚠</span> 3 devices connecting to unrecognised cloud storage</div>
+            <div><span class="t-warn">⚠</span> Unusual outbound data volume from accounts@ workstation</div>
+            <div><span class="t-warn">⚠</span> DNS queries to recently registered domain (48hrs old)</div>
+            <div><span class="t-warn">⚠</span> After-hours connection from unfamiliar IP range</div>
+            <br>
+            <div class="t-comment"># Your firewall saw none of this. It wasn't designed to.</div>
+        </div>
+    </div>
+
+    <p>This isn't a criticism of firewalls — it's a recognition of their scope. A firewall is a gatekeeper. It checks credentials at the door. But it doesn't follow people around inside the building, watching what they pick up, where they go, and what they carry out.</p>
+
+    <h2>The Threat Landscape Has Changed</h2>
+
+    <p>The UK is now ranked among the top five most cyber-attacked nations globally. The National Cyber Security Centre reported that nationally significant incidents nearly doubled between 2024 and 2025, rising from 89 to over 200 in a single year.</p>
+
+    <p>For SMBs specifically, the threat profile has shifted dramatically. Attackers have realised that smaller organisations often lack dedicated security teams — only <strong>18% of SMBs have a dedicated cybersecurity team or officer</strong>. Meanwhile, 74% of SMB owners still self-manage their cybersecurity or rely on someone who isn't formally trained in the discipline.</p>
+
+    <h3>The AI Factor</h3>
+
+    <p>Artificial intelligence has become a double-edged sword. <strong>83% of SMBs acknowledge that AI tools have increased the threat level</strong> facing their organisations. AI-powered phishing is harder to spot, social engineering is more convincing, and automated attacks can probe thousands of targets simultaneously.</p>
+
+    <p>Meanwhile, nearly 70% of businesses now use AI platforms in some capacity — but many can't clearly explain where their data goes, how it's stored, or who has access to it. The gap between AI dependency and AI governance is one of the fastest-growing risk areas for SMBs.</p>
+
+    <h3>The Human Element</h3>
+
+    <p>Technology failures account for a minority of breaches. Human error — password sharing, clicking phishing links, misconfigured systems, credential reuse — remains the primary attack vector. Even in companies that run security awareness training, credentials still circulate via email, messaging apps, and shared documents. No firewall can protect against a staff member entering their corporate password into a convincing fake login page. But network traffic analysis can spot the resulting anomalous connection patterns that follow.</p>
+
+    <h2>The Visibility Gap</h2>
+
+    <p>The fundamental issue is this: most SMBs have tools that say "threat blocked" or "no threats detected." But they have no tool that says <strong>"here's what actually happened on your network today, in plain language, and here's what looked unusual."</strong></p>
+
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>What Your Firewall Tells You</th>
+                <th>What You Actually Need to Know</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Blocked 3,200 malicious connection attempts</td>
+                <td>Are any devices connecting to destinations they shouldn't be?</td>
+            </tr>
+            <tr>
+                <td>No intrusions detected</td>
+                <td>Is anyone slowly exfiltrating data through allowed channels?</td>
+            </tr>
+            <tr>
+                <td>VPN connections active and stable</td>
+                <td>Who logged in from an unusual location at an unusual time?</td>
+            </tr>
+            <tr>
+                <td>Bandwidth usage within normal limits</td>
+                <td>Which applications are using bandwidth, and are they sanctioned?</td>
+            </tr>
+            <tr>
+                <td>Antivirus definitions up to date</td>
+                <td>Is any traffic pattern consistent with command-and-control beaconing?</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Traditional enterprise solutions for this kind of visibility exist — SIEM platforms, NDR tools, XDR suites. But they come with enterprise price tags, enterprise complexity, and require dedicated security analysts. The market data tells the story clearly: the overall SIEM market slowed to just 4% growth in 2025, while managed detection and response services grew 35% in the smallest business bands. SMBs don't need another dashboard. They need someone watching, understanding, and explaining.</p>
+
+    <h2>What Good Looks Like</h2>
+
+    <p>Closing the cybersecurity gap for SMBs requires a fundamentally different approach — one that acknowledges three realities:</p>
+
+    <div class="callout">
+        <p><strong>Reality 1: SMBs won't hire security analysts.</strong> With talent in short supply and costs for a single analyst exceeding £60,000 per year before tools and training, dedicating headcount to security monitoring is unrealistic for most small businesses. The solution must provide the outcome of having an analyst without actually employing one.</p>
+    </div>
+
+    <div class="callout">
+        <p><strong>Reality 2: Complexity is the enemy.</strong> Every additional tool adds cognitive load, configuration burden, and maintenance overhead. Any new security layer must be as frictionless to deploy and operate as the tools SMBs already use.</p>
+    </div>
+
+    <div class="callout">
+        <p><strong>Reality 3: SMBs need answers, not data.</strong> A SIEM might process 50,000 events per hour. But if no one is reading the output, it's expensive storage. What business owners and IT managers actually want is a clear, jargon-free explanation of what happened, whether it matters, and what to do about it.</p>
+    </div>
+
+    <p>The new model for SMB security isn't more tools — it's <strong>intelligent analysis of data you're already generating</strong>. Every firewall already produces NetFlow data: a record of every connection, every source, every destination, every byte. The raw material for comprehensive security visibility is sitting right there.</p>
+
+    <h2>From Data to Insight</h2>
+
+    <p>NetFlow data is the metadata of network traffic. It doesn't capture the content of communications — it captures the patterns. Who connected to what, when, for how long, and how much data moved. This metadata is extraordinarily powerful for security analysis because anomalies in patterns are often the earliest indicators of compromise.</p>
+
+    <p>A compromised device calling home to a command-and-control server creates a distinctive pattern — regular, small outbound connections to an unusual destination. Data exfiltration creates another — large outbound transfers to unfamiliar services during off-hours. Shadow IT creates yet another — traffic flowing to unsanctioned applications. When this data is analysed by AI that understands what "normal" looks like for a given business, the visibility gap closes dramatically.</p>
+
+    <h2>The Compliance Dimension</h2>
+
+    <p>Beyond immediate security benefits, network visibility is increasingly becoming a compliance requirement. Cyber Essentials certification, GDPR accountability principles, and the NIS2 directive all require organisations to demonstrate that they have appropriate measures to <strong>detect and respond</strong> to security incidents — not just prevent them.</p>
+
+    <p>For SMBs in regulated sectors — legal, financial, healthcare — the ability to produce clear, readable reports showing what happened on their network is moving from "nice to have" to "required." AI-generated security reports that explain network activity in plain English can serve double duty: operational security awareness and compliance documentation.</p>
+
+    <ul class="feature-list">
+        <li>No extra hardware required in most cases — works with your existing firewall</li>
+        <li>No agents installed on endpoints — zero footprint on your network</li>
+        <li>Plain-English reports — no security expertise needed to read them</li>
+        <li>Real-time alerts — know within minutes, not the next morning</li>
+        <li>Compliance-ready documentation for Cyber Essentials, GDPR, NIS2</li>
+    </ul>
+
+</div>
+
+<div class="paper-nav">
+    <a href="ignix-paper-02.html" class="paper-nav-card">
+        <div class="nav-dir">Next → Paper 02</div>
+        <div class="nav-title">AI-Powered Network Monitoring: How AI Changes the Game for SMBs</div>
+    </a>
+</div>
+
+<div class="cta-section">
+    <div class="cta-box">
+        <h2>Ready to see what your firewall can't?</h2>
+        <p>Ignix analyses your network traffic with AI and delivers plain-English security reports. No extra hardware, no complexity, no analyst required. Start with a completely free 14-day assessment.</p>
+        <a href="mailto:hello@ignix.co.uk" class="cta-email">hello@ignix.co.uk</a>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-logo">
+        <div class="footer-mark">IX</div>
+        <span class="footer-text">© 2026 Ignix Ltd. · Network security monitoring for business.</span>
+    </div>
+    <div class="footer-links">
+        <a href="https://ignix.co.uk">ignix.co.uk</a>
+        <a href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
+        <a href="https://x.com/ignix_co_uk">𝕏 @ignix_co_uk</a>
+    </div>
+</footer>
+
+</body>
+</html>
