@@ -150,6 +150,7 @@
         }
         .terminal-body .cmd { color: var(--accent); }
         .terminal-body .ok { color: var(--success); }
+        .terminal-body .warn { color: var(--warning); }
         .terminal-body .label { color: var(--text-dim); }
         .terminal-body .val { color: var(--text-primary); }
         .terminal-body .sep { color: var(--text-dim); opacity: 0.4; }
@@ -505,6 +506,7 @@
         }
         .alert-severity.low { background: rgba(59, 130, 246, 0.15); color: var(--blue); }
         .alert-severity.medium { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .alert-severity.high { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
         .mockup-alert-text { font-size: 12px; color: var(--text-secondary); }
         .mockup-alert-time { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); }
 
@@ -580,16 +582,27 @@
             background: var(--accent); color: var(--bg-dark); border-color: var(--accent);
         }
         .pricing-card.featured .pricing-btn:hover { background: var(--accent-dim); }
+        .pricing-note {
+            text-align: center; margin-top: 24px;
+            font-size: 13px; color: var(--text-dim);
+        }
+        .pricing-note a { color: var(--accent); text-decoration: none; }
+        .pricing-note a:hover { text-decoration: underline; }
 
         /* ─── VERTICALS ─── */
-        .verticals {
-            display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
-            padding: 40px 0; opacity: 0.5;
+        .verticals-section { padding: 60px 0; }
+        .verticals-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .vertical-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 24px;
+            transition: all 0.3s;
         }
-        .vertical {
-            font-family: 'JetBrains Mono', monospace; font-size: 12px;
-            color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px;
+        .vertical-card:hover { border-color: var(--border-light); transform: translateY(-2px); }
+        .vertical-icon { font-size: 24px; margin-bottom: 12px; }
+        .vertical-name {
+            font-size: 15px; font-weight: 600; margin-bottom: 8px;
         }
+        .vertical-reason { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 
         /* ─── CTA ─── */
         .cta-section {
@@ -620,6 +633,7 @@
             .nav-links { display: none; }
             .outside-block { grid-template-columns: 1fr; }
             .outside-diagram { position: static; }
+            .verticals-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         /* ─── ANIMATIONS ─── */
@@ -662,10 +676,10 @@
                 <div>
                     <div class="hero-badge animate-in"><div class="hero-badge-dot"></div> AI-Powered Security Monitoring</div>
                     <h1 class="animate-in d1">Bringing your firewall <span class="accent">alive</span></h1>
-                    <p class="hero-sub animate-in d2">Ask it what you want to know. Our AI monitors your network from the outside, learns what's normal, and lets you ask questions about your security in plain English.</p>
+                    <p class="hero-sub animate-in d2">Your firewall sees everything — but who's reading it? Ignix watches your network traffic 24/7, alerts you to real threats within minutes, and answers your security questions in plain English.</p>
                     <div class="hero-actions animate-in d3">
                         <a href="mailto:hello@ignix.co.uk" class="btn-primary">Book a Free Assessment →</a>
-                        <a href="#features" class="btn-secondary">See Ask Ignix in Action</a>
+                        <a href="#features" class="btn-secondary">See How It Works</a>
                     </div>
                 </div>
                 <div class="animate-in d4">
@@ -674,19 +688,19 @@
                             <div class="terminal-dot red"></div>
                             <div class="terminal-dot yellow"></div>
                             <div class="terminal-dot green"></div>
-                            <span class="terminal-title">ignix — daily scan</span>
+                            <span class="terminal-title">ignix — threat alert</span>
                         </div>
                         <div class="terminal-body">
-                            <div><span class="cmd">$ ignix scan --daily</span></div>
-                            <div><span class="label">Analysing 847,293 flows...</span></div>
-                            <div><span class="label">Checking threat intelligence...</span></div>
-                            <div><span class="label">Scanning for anomalies...</span></div>
+                            <div><span class="label">14:23 — </span><span class="warn">⚠ ALERT: Xon Productions</span></div>
+                            <div><span class="label">Detected: possible port scan</span></div>
+                            <div><span class="label">Source: 185.220.101.47 (external)</span></div>
+                            <div><span class="label">Hitting 34 distinct internal ports</span></div>
                             <div class="sep">─────────────────────────────</div>
-                            <div><span class="label">STATUS:</span> <span class="ok">CLEAN</span></div>
-                            <div><span class="ok">✓</span> <span class="val">No malicious inbound detected</span></div>
-                            <div><span class="ok">✓</span> <span class="val">No data exfiltration patterns</span></div>
-                            <div><span class="ok">✓</span> <span class="val">All traffic to known services</span></div>
-                            <div><span class="ok">✓</span> <span class="val">No C2 beaconing detected</span></div>
+                            <div><span class="label">AI Assessment: </span><span class="warn">Review Recommended</span></div>
+                            <div><span class="val">External IP probing your network.</span></div>
+                            <div><span class="val">No breach detected. Block advised.</span></div>
+                            <div class="sep">─────────────────────────────</div>
+                            <div><span class="label">Detected </span><span class="ok">23 min</span><span class="label"> after first probe.</span></div>
                         </div>
                     </div>
                     <div class="hero-ask-teaser">
@@ -698,11 +712,11 @@
                         <div class="hero-ask-exchange">
                             <div class="hero-ask-q">
                                 <div class="hero-ask-avatar human">U</div>
-                                <div class="hero-ask-bubble user">Any suspicious outbound connections this week?</div>
+                                <div class="hero-ask-bubble user">Should I be worried about that alert this morning?</div>
                             </div>
                             <div class="hero-ask-a">
                                 <div class="hero-ask-avatar ai">IX</div>
-                                <div class="hero-ask-bubble ai">I analysed 4.2 million flows over the past 7 days. All outbound traffic matched known services — Microsoft 365, your banking provider, and standard web browsing. No data exfiltration patterns or connections to suspicious destinations detected.</div>
+                                <div class="hero-ask-bubble ai">The port scan came from a known Tor exit node. It probed your network but didn't get in — your firewall blocked all the attempts. This is opportunistic scanning, not a targeted attack. I'd recommend blocking that IP range as a precaution.</div>
                             </div>
                         </div>
                         <div class="hero-ask-input">
@@ -727,7 +741,7 @@
                 <div class="blindspot-card">
                     <div class="blindspot-direction">↓ Inbound</div>
                     <h3>Zero-Day Threats</h3>
-                    <p>New malware and phishing payloads your firewall hasn't seen before. We spot suspicious patterns before signatures exist.</p>
+                    <p>New malware and attack patterns your firewall hasn't seen before. We spot suspicious behaviour before signatures exist.</p>
                 </div>
                 <div class="blindspot-card">
                     <div class="blindspot-direction">↑ Outbound</div>
@@ -746,8 +760,8 @@
                 </div>
                 <div class="blindspot-card">
                     <div class="blindspot-direction">↓ Inbound</div>
-                    <h3>Compromised Sites</h3>
-                    <p>Legitimate websites get hacked. Staff visit them daily. We flag traffic to newly-suspicious destinations.</p>
+                    <h3>Port Scanning & Probing</h3>
+                    <p>Attackers probe networks before striking. We detect reconnaissance activity and alert you while it's still just probing.</p>
                 </div>
                 <div class="blindspot-card">
                     <div class="blindspot-direction">⬡ Compliance</div>
@@ -768,8 +782,8 @@
                     <div class="section-label">A fundamentally different approach</div>
                     <h2 class="section-title">We work entirely outside your firewall</h2>
                     <p class="outside-desc">Most security tools sit inside your network — agents on machines, software on servers, appliances in your rack. That means disruption, maintenance, and another thing to manage.</p>
-                    <p class="outside-desc">Ignix is different. Your firewall sends us a copy of its traffic metadata. We analyse it on our own secured infrastructure using AI — completely outside your network. Nothing is installed on your computers. Nothing changes about how your network runs. Your systems carry on exactly as they are — we just make sure nothing is hiding in the traffic.</p>
-                    <p class="outside-desc" style="color: var(--text-primary); font-weight: 500;">That changes everything about how you work with security monitoring.</p>
+                    <p class="outside-desc">Ignix is different. Your firewall sends us a copy of its traffic metadata. We analyse it on our own secured infrastructure using AI — completely outside your network. Nothing is installed on your computers. Nothing changes about how your network runs.</p>
+                    <p class="outside-desc" style="color: var(--text-primary); font-weight: 500;">Your systems carry on exactly as they are — we just make sure nothing is hiding in the traffic.</p>
                     <div class="outside-points">
                         <div class="outside-point">
                             <div class="outside-point-icon">⊘</div>
@@ -788,15 +802,15 @@
                         <div class="outside-point">
                             <div class="outside-point-icon">⟁</div>
                             <div>
-                                <div class="outside-point-title">Your firewall does the heavy lifting</div>
-                                <div class="outside-point-desc">We work with whatever firewall you already have — MikroTik, SonicWall, Fortinet, Zyxel. No rip-and-replace required.</div>
+                                <div class="outside-point-title">Works with most business firewalls</div>
+                                <div class="outside-point-desc">We support MikroTik, SonicWall, Fortinet, Zyxel and others. If your firewall doesn't support traffic export natively, we can advise on a straightforward upgrade — typically a one-off cost.</div>
                             </div>
                         </div>
                         <div class="outside-point">
                             <div class="outside-point-icon">◈</div>
                             <div>
-                                <div class="outside-point-title">AI analysis on secured infrastructure</div>
-                                <div class="outside-point-desc">Your traffic metadata is analysed on our own hardened, isolated servers — not on a shared cloud platform, and never on your machines.</div>
+                                <div class="outside-point-title">AI analysis on secured EU infrastructure</div>
+                                <div class="outside-point-desc">Your traffic metadata is analysed on our own hardened servers in a secure EU data centre — not on a shared cloud platform, and never on your machines.</div>
                             </div>
                         </div>
                     </div>
@@ -819,10 +833,10 @@
                         <div class="diagram-label-accent">Ignix Infrastructure</div>
                         <div class="diagram-items">
                             <div class="diagram-item accent">⚡ AI Analysis Engine</div>
-                            <div class="diagram-item accent">🛡 Threat Intelligence</div>
+                            <div class="diagram-item accent">🚨 Real-Time Threat Alerter</div>
                             <div class="diagram-item accent">📊 Client Portal</div>
                         </div>
-                        <div class="diagram-note accent">Secured & isolated</div>
+                        <div class="diagram-note accent">Secured EU data centre</div>
                     </div>
                 </div>
             </div>
@@ -840,65 +854,17 @@
 
             <div class="features-grid">
 
-                <!-- Feature 1: Ask Ignix -->
+                <!-- Feature 1: Real-Time Alerting -->
                 <div class="feature-row">
                     <div class="feature-content">
-                        <div class="feature-tag"><span class="num">01</span> Ask Ignix</div>
-                        <h3>Ask questions about your network in plain English</h3>
-                        <p>No log files. No dashboards full of numbers. Just ask a question and get a clear, AI-powered answer drawn from your actual network traffic data.</p>
+                        <div class="feature-tag"><span class="num">01</span> Real-Time Threat Alerts</div>
+                        <h3>Know within minutes, not the next morning</h3>
+                        <p>The daily report tells you what happened yesterday. But some threats can't wait. Our alerter watches your network continuously and emails you the moment something genuinely suspicious is detected — with a plain-English explanation of what it means.</p>
                         <ul class="feature-bullets">
-                            <li>Natural language queries against your live flow data</li>
-                            <li>AI-powered analysis using your actual traffic patterns</li>
-                            <li>Instant answers about threats, devices, and behaviour</li>
-                            <li>No technical expertise required</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <div class="mockup-ask">
-                            <div class="mockup-browser-bar">
-                                <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
-                                <div class="mockup-url-bar"><span class="lock">🔒</span> portal.ignix.co.uk/ask</div>
-                            </div>
-                            <div class="mockup-ask-body">
-                                <div class="mockup-ask-title"><span class="spark">⚡</span> Ask Ignix</div>
-                                <div class="mockup-chat">
-                                    <div class="chat-msg user">
-                                        <div class="chat-avatar human">U</div>
-                                        <div class="chat-bubble">Were there any unusual connections last night?</div>
-                                    </div>
-                                    <div class="chat-msg ai">
-                                        <div class="chat-avatar ai">IX</div>
-                                        <div class="chat-bubble">I analysed 142,847 flows from last night. All traffic matched known patterns. There was one new external IP contacted — 185.220.101.34 — but it resolved to a legitimate Microsoft Azure endpoint used by your Teams application. No concerns.</div>
-                                    </div>
-                                    <div class="chat-msg user">
-                                        <div class="chat-avatar human">U</div>
-                                        <div class="chat-bubble">What about outbound data volumes — anything unusual?</div>
-                                    </div>
-                                    <div class="chat-msg ai">
-                                        <div class="chat-avatar ai">IX</div>
-                                        <div class="chat-bubble">Outbound volume was 2.3 GB, consistent with your 30-day average of 2.1 GB. No large transfers to unknown destinations. OneDrive and Teams accounted for 78% of outbound traffic.</div>
-                                    </div>
-                                </div>
-                                <div class="mockup-input-bar">
-                                    <div class="mockup-input">Ask a question about your network...</div>
-                                    <div class="mockup-send-btn">Ask →</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Feature 2: Interactive Dashboard -->
-                <div class="feature-row reverse">
-                    <div class="feature-content">
-                        <div class="feature-tag"><span class="num">02</span> Interactive Dashboard</div>
-                        <h3>Real-time visibility into your network</h3>
-                        <p>Traffic patterns, alert history, severity levels — all visualised in a clean, interactive dashboard that updates as your network data flows in.</p>
-                        <ul class="feature-bullets">
-                            <li>Traffic volume charts with hourly breakdown</li>
-                            <li>Alert feed with severity classification</li>
-                            <li>Device and service discovery</li>
-                            <li>Trend analysis over days, weeks, and months</li>
+                            <li>Detects port scanning, C2 beaconing, and data exfiltration patterns</li>
+                            <li>AI assesses every alert — only contacts you for real concerns</li>
+                            <li>Plain English explanation with recommended action</li>
+                            <li>Smart suppression prevents alert fatigue</li>
                         </ul>
                     </div>
                     <div>
@@ -922,12 +888,12 @@
                                         <div class="mockup-stat-value blue">847,293</div>
                                     </div>
                                     <div class="mockup-stat">
-                                        <div class="mockup-stat-label">Threats Detected</div>
+                                        <div class="mockup-stat-label">Threats</div>
                                         <div class="mockup-stat-value green">0</div>
                                     </div>
                                     <div class="mockup-stat">
-                                        <div class="mockup-stat-label">Alerts</div>
-                                        <div class="mockup-stat-value amber">3</div>
+                                        <div class="mockup-stat-label">Alerts Today</div>
+                                        <div class="mockup-stat-value amber">2</div>
                                     </div>
                                 </div>
                                 <div class="mockup-chart">
@@ -962,25 +928,66 @@
                                 <div class="mockup-alerts">
                                     <div class="mockup-alert-row">
                                         <div class="mockup-alert-left">
+                                            <span class="alert-severity medium">Med</span>
+                                            <span class="mockup-alert-text">Port scan detected from 185.220.101.47 — 34 ports probed</span>
+                                        </div>
+                                        <span class="mockup-alert-time">14:23</span>
+                                    </div>
+                                    <div class="mockup-alert-row">
+                                        <div class="mockup-alert-left">
                                             <span class="alert-severity low">Low</span>
                                             <span class="mockup-alert-text">New external IP contacted: 52.178.43.21 (Azure CDN)</span>
                                         </div>
-                                        <span class="mockup-alert-time">14:32</span>
-                                    </div>
-                                    <div class="mockup-alert-row">
-                                        <div class="mockup-alert-left">
-                                            <span class="alert-severity medium">Med</span>
-                                            <span class="mockup-alert-text">Unusual outbound volume from 192.168.1.47 (2.1 GB)</span>
-                                        </div>
-                                        <span class="mockup-alert-time">11:08</span>
-                                    </div>
-                                    <div class="mockup-alert-row">
-                                        <div class="mockup-alert-left">
-                                            <span class="alert-severity low">Low</span>
-                                            <span class="mockup-alert-text">DNS query to newly registered domain: trk-analytics.io</span>
-                                        </div>
                                         <span class="mockup-alert-time">09:15</span>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 2: Ask Ignix -->
+                <div class="feature-row reverse">
+                    <div class="feature-content">
+                        <div class="feature-tag"><span class="num">02</span> Ask Ignix</div>
+                        <h3>Ask questions about your network in plain English</h3>
+                        <p>No log files. No dashboards full of numbers. Just ask a question and get a clear, AI-powered answer drawn from your actual network traffic data.</p>
+                        <ul class="feature-bullets">
+                            <li>Natural language queries against your live traffic data</li>
+                            <li>AI-powered analysis using your actual traffic patterns</li>
+                            <li>Instant answers about threats, devices, and behaviour</li>
+                            <li>No technical expertise required</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="mockup-ask">
+                            <div class="mockup-browser-bar">
+                                <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+                                <div class="mockup-url-bar"><span class="lock">🔒</span> portal.ignix.co.uk/ask</div>
+                            </div>
+                            <div class="mockup-ask-body">
+                                <div class="mockup-ask-title"><span class="spark">⚡</span> Ask Ignix</div>
+                                <div class="mockup-chat">
+                                    <div class="chat-msg user">
+                                        <div class="chat-avatar human">U</div>
+                                        <div class="chat-bubble">Should I be worried about that alert this morning?</div>
+                                    </div>
+                                    <div class="chat-msg ai">
+                                        <div class="chat-avatar ai">IX</div>
+                                        <div class="chat-bubble">The port scan came from a known Tor exit node. It probed your network but didn't get in — your firewall blocked all attempts. This is opportunistic scanning, not a targeted attack. I'd recommend blocking that IP range as a precaution.</div>
+                                    </div>
+                                    <div class="chat-msg user">
+                                        <div class="chat-avatar human">U</div>
+                                        <div class="chat-bubble">Any unusual outbound data this week?</div>
+                                    </div>
+                                    <div class="chat-msg ai">
+                                        <div class="chat-avatar ai">IX</div>
+                                        <div class="chat-bubble">Outbound volume was 2.3 GB, consistent with your 30-day average. No large transfers to unknown destinations. OneDrive and Teams accounted for 78% of outbound traffic. Nothing to concern you.</div>
+                                    </div>
+                                </div>
+                                <div class="mockup-input-bar">
+                                    <div class="mockup-input">Ask a question about your network...</div>
+                                    <div class="mockup-send-btn">Ask →</div>
                                 </div>
                             </div>
                         </div>
@@ -992,12 +999,12 @@
                     <div class="feature-content">
                         <div class="feature-tag"><span class="num">03</span> Client Portal</div>
                         <h3>Your security hub, always on</h3>
-                        <p>Every client gets their own secure portal at portal.ignix.co.uk. Log in to see live monitoring status, download security reports, and verify that your network is being watched — 24/7.</p>
+                        <p>Every client gets their own secure portal at portal.ignix.co.uk. Log in to see live monitoring status, download your daily security reports, and verify your network is being watched around the clock.</p>
                         <ul class="feature-bullets">
                             <li>Live monitoring status with real-time data freshness</li>
                             <li>Downloadable daily security reports in plain English</li>
-                            <li>Per-client data segregation — you only see your network</li>
-                            <li>SSL-encrypted, separate secured infrastructure</li>
+                            <li>Per-client data segregation — you only ever see your network</li>
+                            <li>SSL-encrypted access from any device</li>
                         </ul>
                     </div>
                     <div>
@@ -1012,7 +1019,7 @@
                                         <div class="mark">IX</div>
                                         <span>ignix</span>
                                     </div>
-                                    <div class="mockup-client-name">Eon Productions</div>
+                                    <div class="mockup-client-name">Xon Productions</div>
                                 </div>
                                 <div class="mockup-status-card">
                                     <div class="mockup-status-row">
@@ -1032,11 +1039,11 @@
                                 </div>
                                 <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 10px;">Recent Reports</div>
                                 <div class="mockup-report-row">
-                                    <span class="mockup-report-name"><span class="icon">📄</span> security-report-2026-03-01</span>
+                                    <span class="mockup-report-name"><span class="icon">📄</span> security-report-2026-03-07</span>
                                     <span class="mockup-dl-btn">Download</span>
                                 </div>
                                 <div class="mockup-report-row">
-                                    <span class="mockup-report-name"><span class="icon">📄</span> security-report-2026-02-28</span>
+                                    <span class="mockup-report-name"><span class="icon">📄</span> security-report-2026-03-06</span>
                                     <span class="mockup-dl-btn">Download</span>
                                 </div>
                             </div>
@@ -1054,28 +1061,28 @@
     <section id="how-it-works">
         <div class="container">
             <div class="section-label">How It Works</div>
-            <h2 class="section-title">Security monitoring that speaks plain English</h2>
-            <p class="section-sub">From assessment to daily protection in under a week. No disruption, no complexity.</p>
+            <h2 class="section-title">Up and running in under a week</h2>
+            <p class="section-sub">From first conversation to live monitoring — no disruption, no complexity, nothing installed on your network.</p>
             <div class="steps">
                 <div class="step">
                     <div class="step-num">01</div>
                     <h3>We Assess</h3>
-                    <p>Free security assessment of your current setup. We'll show you what we can see — and what you might be missing.</p>
+                    <p>Free security assessment of your current setup. We'll show you what we can already see — and what you might be missing.</p>
                 </div>
                 <div class="step">
                     <div class="step-num">02</div>
                     <h3>We Connect</h3>
-                    <p>Your existing firewall sends traffic metadata to our infrastructure via a secure tunnel. Nothing installed on your network — we work entirely from the outside.</p>
+                    <p>Your existing firewall sends traffic metadata to our infrastructure. A 30-minute configuration change — nothing installed on your network.</p>
                 </div>
                 <div class="step">
                     <div class="step-num">03</div>
                     <h3>AI Watches</h3>
-                    <p>Our AI learns your normal traffic patterns and cross-references against threat intelligence feeds 24/7.</p>
+                    <p>Our AI analyses your traffic continuously, learning your normal patterns and detecting anything that doesn't fit — day and night.</p>
                 </div>
                 <div class="step">
                     <div class="step-num">04</div>
-                    <h3>You See Everything</h3>
-                    <p>Log into your portal for live status, daily reports, and the ability to ask questions about your network in plain English.</p>
+                    <h3>You Stay Informed</h3>
+                    <p>Real-time alerts for active threats. Daily reports. A portal you can log into anytime. Security that speaks plain English.</p>
                 </div>
             </div>
         </div>
@@ -1088,62 +1095,89 @@
         <div class="container">
             <div class="section-label">Pricing</div>
             <h2 class="section-title">Simple, transparent pricing</h2>
-            <p class="section-sub">No per-seat licensing. No hidden fees. Just clear monthly monitoring.</p>
+            <p class="section-sub">No per-seat licensing. No hidden fees. Priced by network size, not headcount.</p>
             <div class="pricing-grid">
                 <div class="pricing-card">
-                    <div class="pricing-tier">Starter</div>
-                    <div class="pricing-amount">£79<span>/month</span></div>
-                    <div class="pricing-desc">For small offices up to 10 devices</div>
+                    <div class="pricing-tier">Essential</div>
+                    <div class="pricing-amount">£150<span>/month</span></div>
+                    <div class="pricing-desc">Small networks up to 50 devices</div>
                     <ul class="pricing-features">
                         <li>24/7 traffic monitoring</li>
                         <li>AI-powered threat detection</li>
-                        <li>Weekly security summary</li>
-                        <li>Email alerts for issues</li>
+                        <li>Daily security reports</li>
+                        <li>Real-time threat alerts</li>
+                        <li>Ask Ignix AI queries</li>
                         <li>Client portal access</li>
                     </ul>
                     <a href="mailto:hello@ignix.co.uk" class="pricing-btn">Get Started</a>
                 </div>
                 <div class="pricing-card featured">
-                    <div class="pricing-tier">Essential</div>
-                    <div class="pricing-amount">£149<span>/month</span></div>
-                    <div class="pricing-desc">Growing businesses up to 25 devices</div>
+                    <div class="pricing-tier">Professional</div>
+                    <div class="pricing-amount">£300<span>/month</span></div>
+                    <div class="pricing-desc">Mid-sized networks up to 200 devices</div>
                     <ul class="pricing-features">
-                        <li>Everything in Starter</li>
-                        <li>Daily security reports</li>
-                        <li>Ask Ignix AI queries</li>
-                        <li>Interactive dashboard</li>
-                        <li>Incident investigation</li>
+                        <li>Everything in Essential</li>
+                        <li>Priority alerting (30-min detection)</li>
+                        <li>Monthly review call</li>
+                        <li>Compliance reporting</li>
+                        <li>Incident investigation support</li>
+                        <li>Named account contact</li>
                     </ul>
                     <a href="mailto:hello@ignix.co.uk" class="pricing-btn">Get Started</a>
                 </div>
                 <div class="pricing-card">
-                    <div class="pricing-tier">Professional</div>
-                    <div class="pricing-amount">£249<span>/month</span></div>
-                    <div class="pricing-desc">Complete security visibility</div>
+                    <div class="pricing-tier">Enterprise</div>
+                    <div class="pricing-amount">£600<span>/month</span></div>
+                    <div class="pricing-desc">Large or complex networks, multiple sites</div>
                     <ul class="pricing-features">
-                        <li>Everything in Essential</li>
-                        <li>Monthly review call</li>
-                        <li>4-hour response time</li>
-                        <li>Compliance reporting</li>
-                        <li>Up to 50 devices</li>
+                        <li>Everything in Professional</li>
+                        <li>Multi-site monitoring</li>
+                        <li>Custom detection rules</li>
+                        <li>Weekly review calls</li>
+                        <li>SLA with response times</li>
+                        <li>Cyber insurance reporting pack</li>
                     </ul>
                     <a href="mailto:hello@ignix.co.uk" class="pricing-btn">Get Started</a>
+                </div>
+            </div>
+            <p class="pricing-note">MSP and reseller pricing available. <a href="mailto:hello@ignix.co.uk">Contact us</a> to discuss volume rates.</p>
+        </div>
+    </section>
+
+    <div class="container"><div class="section-divider"></div></div>
+
+    <!-- VERTICALS -->
+    <section class="verticals-section">
+        <div class="container">
+            <div class="section-label">Who We Work With</div>
+            <h2 class="section-title">Built for businesses that can't afford a breach</h2>
+            <p class="section-sub">Ignix is designed for organisations that hold sensitive data, operate under regulatory scrutiny, or simply can't afford the downtime a security incident would cause.</p>
+            <div class="verticals-grid">
+                <div class="vertical-card">
+                    <div class="vertical-icon">⚖️</div>
+                    <div class="vertical-name">Legal &amp; Solicitors</div>
+                    <div class="vertical-reason">SRA requirements demand evidence of active monitoring. Ignix provides the audit trail and daily reports to demonstrate due diligence.</div>
+                </div>
+                <div class="vertical-card">
+                    <div class="vertical-icon">🎬</div>
+                    <div class="vertical-name">Film &amp; Media</div>
+                    <div class="vertical-reason">Pre-release content is enormously valuable. We monitor for unusual large outbound transfers and alert immediately if something looks like a leak.</div>
+                </div>
+                <div class="vertical-card">
+                    <div class="vertical-icon">💼</div>
+                    <div class="vertical-name">Accountants &amp; Finance</div>
+                    <div class="vertical-reason">Financial data is a top target. Ignix watches for credential misuse, unusual access patterns, and data leaving the network unexpectedly.</div>
+                </div>
+                <div class="vertical-card">
+                    <div class="vertical-icon">🏨</div>
+                    <div class="vertical-name">Hospitality</div>
+                    <div class="vertical-reason">POS systems, guest Wi-Fi, and card data on the same network. We provide segmentation visibility and flag anomalies before they become incidents.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- VERTICALS -->
-    <div class="container">
-        <div class="section-divider"></div>
-        <div class="verticals">
-            <span class="vertical">Solicitors</span>
-            <span class="vertical">Accountants</span>
-            <span class="vertical">Film & Media</span>
-            <span class="vertical">Hospitality</span>
-        </div>
-        <div class="section-divider"></div>
-    </div>
+    <div class="container"><div class="section-divider"></div></div>
 
     <!-- CTA -->
     <section class="cta-section">
