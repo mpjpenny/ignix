@@ -648,7 +648,17 @@
         .animate-in.d2 { animation-delay: 0.2s; }
         .animate-in.d3 { animation-delay: 0.3s; }
         .animate-in.d4 { animation-delay: 0.4s; }
-    </style>
+    
+        .morning-section { padding: 80px 0; background: #0a0f1a; }
+        .morning-grid { max-width: 680px; margin: 0 auto; }
+        .morning-step { display: flex; gap: 24px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .morning-step:last-child { border-bottom: none; }
+        .morning-num { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #3b82f6; font-weight: 700; flex-shrink: 0; width: 40px; padding-top: 2px; }
+        .morning-text { font-size: 15px; color: #94a3b8; line-height: 1.7; }
+        .morning-text strong { color: #e2e8f0; }
+        .morning-conclusion .morning-num { color: #4ade80; }
+        .morning-conclusion .morning-text { color: #4ade80; font-weight: 500; }
+        </style>
 </head>
 <body>
     <div class="bg-grid"></div>
@@ -776,7 +786,41 @@
     <div class="container"><div class="section-divider"></div></div>
 
     <!-- OUTSIDE THE FIREWALL -->
-    <section class="outside-section">
+    
+        <section class="morning-section">
+        <div class="container">
+            <div class="section-label" style="text-align:center;">In Practice</div>
+            <h2 style="text-align:center;margin-bottom:48px;">A typical morning with Ignix</h2>
+            <div class="morning-grid">
+                <div class="morning-step">
+                    <div class="morning-num">7am</div>
+                    <div class="morning-text"><strong>Your daily report arrives.</strong> Most days it's a single line — clean. No action needed.</div>
+                </div>
+                <div class="morning-step">
+                    <div class="morning-num">→</div>
+                    <div class="morning-text"><strong>On the days it isn't,</strong> you log into the portal. The Suspect IPs panel shows you exactly what caught the AI's attention — an unknown external IP that received 40MB of data yesterday afternoon, or an unfamiliar destination appearing for the first time.</div>
+                </div>
+                <div class="morning-step">
+                    <div class="morning-num">→</div>
+                    <div class="morning-text"><strong>One click investigates it.</strong> Ignix tells you which internal device was involved, when it happened, and how much data moved.</div>
+                </div>
+                <div class="morning-step">
+                    <div class="morning-num">→</div>
+                    <div class="morning-text"><strong>One more click looks up the IP.</strong> Is it a legitimate cloud service? A hosting provider in Frankfurt? A known VPN exit node? You have the answer in seconds.</div>
+                </div>
+                <div class="morning-step">
+                    <div class="morning-num">→</div>
+                    <div class="morning-text"><strong>If it's explained</strong> — a remote worker's VPN, a software update server you hadn't seen before — you dismiss it with a note. It won't appear again.<br><br><strong>If it isn't explained,</strong> you know exactly what to investigate and when it happened.</div>
+                </div>
+                <div class="morning-step morning-conclusion">
+                    <div class="morning-num">✓</div>
+                    <div class="morning-text">The whole process takes minutes, not hours. And you didn't need to read a single log file.</div>
+                </div>
+            </div>
+        </div>
+        </section>
+
+<section class="outside-section">
         <div class="container">
             <div class="outside-block">
                 <div class="outside-content">
