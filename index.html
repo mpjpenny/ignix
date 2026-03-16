@@ -817,6 +817,95 @@
                     <div class="morning-text">The whole process takes minutes, not hours. And you didn't need to read a single log file.</div>
                 </div>
             </div>
+
+                <!-- Embedded portal demo panel -->
+                <div class="portal-embed">
+                    <div class="portal-embed-header">
+                        <div class="portal-embed-logo">
+                            <div class="portal-embed-mark">IX</div>
+                            <span class="portal-embed-name">ignix</span>
+                            <span class="portal-embed-client">Thornton &amp; Associates</span>
+                        </div>
+                        <span class="portal-embed-badge">Live Demo</span>
+                    </div>
+                    <div class="portal-embed-body">
+                        <div class="pe-panel-title">
+                            <span>Suspect IPs</span>
+                            <span class="pe-amber">2 to review</span>
+                        </div>
+                        <div class="pe-row">
+                            <div class="pe-dot pe-dot-high"></div>
+                            <div class="pe-ip">91.108.56.142</div>
+                            <div class="pe-reason"><span class="pe-cat">High Volume</span>284MB to unknown destination over 40 minutes &mdash; not a known service provider</div>
+                            <div class="pe-actions">
+                                <span class="pe-scan">2026-03-15 14:22</span>
+                                <button class="pe-btn pe-btn-purple" onclick="togglePePanel('pe-ignixip1')">ignixip</button>
+                                <button class="pe-btn pe-btn-blue" onclick="togglePePanel('pe-inv1')">Investigate</button>
+                                <button class="pe-btn pe-btn-dim">Dismiss</button>
+                            </div>
+                        </div>
+                        <div class="pe-result pe-result-purple" id="pe-ignixip1" style="display:block;">
+                            <div class="pe-result-header">
+                                <span style="color:#a78bfa;font-weight:600;">ignixip &mdash; 91.108.56.142</span>
+                                <a href="https://ignixip.com/?ip=91.108.56.142" target="_blank" style="color:#64748b;font-size:11px;text-decoration:none;">Open in ignixip.com &rarr;</a>
+                            </div>
+                            <div class="pe-result-grid">
+                                <div>
+                                    <div class="pe-rrow"><span class="pe-rkey">Country</span><span class="pe-rval">NL &mdash; Netherlands</span></div>
+                                    <div class="pe-rrow"><span class="pe-rkey">City</span><span class="pe-rval">Amsterdam</span></div>
+                                    <div class="pe-rrow"><span class="pe-rkey">Timezone</span><span class="pe-rval">Europe/Amsterdam</span></div>
+                                </div>
+                                <div>
+                                    <div class="pe-rrow"><span class="pe-rkey">ASN</span><span class="pe-rval" style="color:#a78bfa;">AS62041</span></div>
+                                    <div class="pe-rrow"><span class="pe-rkey">Organisation</span><span class="pe-rval">Serverius</span></div>
+                                    <div class="pe-rrow"><span class="pe-rkey">Type</span><span class="pe-rval pe-amber">Hosting / DC</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pe-result pe-result-blue" id="pe-inv1" style="display:none;">
+                            <div style="color:#60a5fa;font-weight:600;margin-bottom:8px;">Investigation result</div>
+                            <div style="color:#94a3b8;">Device: <strong style="color:#e2e8f0;">192.168.1.87</strong> &mdash; Accounts workstation (Sarah Mitchell) &mdash; 284MB &middot; 14:22&ndash;15:01</div>
+                        </div>
+                        <div class="pe-row">
+                            <div class="pe-dot pe-dot-med"></div>
+                            <div class="pe-ip">185.220.101.34</div>
+                            <div class="pe-reason"><span class="pe-cat">Suspicious</span>Multiple short-duration connections from workstation &mdash; unknown destination, possible beaconing</div>
+                            <div class="pe-actions">
+                                <span class="pe-scan">2026-03-16 07:03</span>
+                                <button class="pe-btn pe-btn-purple" onclick="togglePePanel('pe-ignixip2')">ignixip</button>
+                                <button class="pe-btn pe-btn-blue">Investigate</button>
+                                <button class="pe-btn pe-btn-dim">Dismiss</button>
+                            </div>
+                        </div>
+                        <div class="pe-result pe-result-purple" id="pe-ignixip2" style="display:none;">
+                            <div class="pe-result-header">
+                                <span style="color:#a78bfa;font-weight:600;">ignixip &mdash; 185.220.101.34</span>
+                                <a href="https://ignixip.com/?ip=185.220.101.34" target="_blank" style="color:#64748b;font-size:11px;text-decoration:none;">Open in ignixip.com &rarr;</a>
+                            </div>
+                            <div class="pe-result-grid">
+                                <div>
+                                    <div class="pe-rrow"><span class="pe-rkey">Country</span><span class="pe-rval">DE &mdash; Germany</span></div>
+                                    <div class="pe-rrow"><span class="pe-rkey">City</span><span class="pe-rval">Frankfurt</span></div>
+                                    <div class="pe-rrow"><span class="pe-rkey">Timezone</span><span class="pe-rval">Europe/Berlin</span></div>
+                                </div>
+                                <div>
+                                    <div class="pe-rrow"><span class="pe-rkey">ASN</span><span class="pe-rval" style="color:#a78bfa;">AS60729</span></div>
+                                    <div class="pe-rrow"><span class="pe-rkey">Organisation</span><span class="pe-rval">Quintex Alliance</span></div>
+                                    <div class="pe-rrow"><span class="pe-rkey">Type</span><span class="pe-rval" style="color:#f87171;">Proxy / VPN</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pe-row" style="opacity:0.35;">
+                            <div class="pe-dot pe-dot-med"></div>
+                            <div class="pe-ip" style="text-decoration:line-through;">77.99.208.14</div>
+                            <div class="pe-reason"><span class="pe-cat">Remote Access</span>VPN connection from unknown external IP &mdash; 38MB over 2 hours<div style="color:#4ade80;font-size:11px;margin-top:3px;">&#10003; James Thornton home broadband &middot; Dismissed</div></div>
+                            <div class="pe-actions"><button class="pe-btn" style="color:#4ade80;border-color:#334155;">Restore</button></div>
+                        </div>
+                    </div>
+                    <div style="text-align:center;padding:14px;border-top:1px solid #1e293b;">
+                        <a href="/demo.html" style="font-size:12px;color:#3b82f6;text-decoration:none;font-family:'JetBrains Mono',monospace;">Explore full demo &rarr;</a>
+                    </div>
+                </div>
         <div style="text-align:center;margin-top:40px;">
             <a href="/demo.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:white;text-decoration:none;font-size:14px;font-weight:600;font-family:Inter,sans-serif;">See the portal in action →</a>
         </div>
