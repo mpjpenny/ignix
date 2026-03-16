@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ignix Portal — Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: #0f172a; min-height: 100vh; color: #e2e8f0; }
+        header { background: linear-gradient(180deg, #1e293b, #0f172a); border-bottom: 1px solid #1e293b; padding: 0 24px; position: sticky; top: 0; z-index: 50; }
+        .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo-mark { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white; font-family: 'JetBrains Mono', monospace; box-shadow: 0 0 20px rgba(59,130,246,0.3); }
+        .logo-text { font-size: 18px; font-weight: 700; color: #f1f5f9; letter-spacing: -0.5px; }
+        .header-right { display: flex; align-items: center; gap: 16px; font-size: 13px; color: #64748b; }
+        .demo-badge { padding: 3px 10px; border-radius: 20px; background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); font-size: 11px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.5px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+        h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; margin-bottom: 4px; letter-spacing: -0.5px; }
+        .subtitle { font-size: 13px; color: #64748b; font-family: 'JetBrains Mono', monospace; margin-bottom: 24px; }
+
+        /* Status card */
+        .status-card { background: linear-gradient(135deg, #1e293b, #1a2332); border: 1px solid #334155; border-radius: 12px; padding: 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
+        .status-indicator { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; background: rgba(34,197,94,0.15); }
+        .status-info h3 { font-size: 16px; font-weight: 600; color: #f1f5f9; margin-bottom: 4px; }
+        .status-info p { font-size: 14px; color: #94a3b8; }
+        .status-label { margin-left: auto; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; background: rgba(34,197,94,0.15); color: #4ade80; }
+
+        /* Last scan */
+        .panel { background: linear-gradient(135deg, #1e293b, #1a2332); border: 1px solid #334155; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+        .panel-title { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; margin-bottom: 12px; }
+
+        /* Metrics */
+        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+        .metric-card { background: linear-gradient(135deg, #1e293b, #1a2332); border: 1px solid #334155; border-radius: 12px; padding: 20px; }
+        .metric-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
+        .metric-value { font-size: 28px; font-weight: 700; color: #f1f5f9; font-family: 'JetBrains Mono', monospace; line-height: 1; }
+        .metric-sub { font-size: 12px; color: #64748b; font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
+
+        /* Suspect IPs */
+        .suspect-panel { background: linear-gradient(135deg, #1e293b, #1a2332); border: 1px solid #334155; border-radius: 12px; margin-bottom: 24px; overflow: hidden; }
+        .suspect-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #1e293b; }
+        .suspect-title { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; }
+        .suspect-badge { font-size: 12px; color: #fbbf24; font-family: 'JetBrains Mono', monospace; }
+        .suspect-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 20px; border-bottom: 1px solid #1e293b; }
+        .suspect-row:last-child { border-bottom: none; }
+        .suspect-sev { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+        .sev-high { background: #f87171; box-shadow: 0 0 6px rgba(248,113,113,0.5); }
+        .sev-medium { background: #fbbf24; box-shadow: 0 0 6px rgba(251,191,36,0.4); }
+        .suspect-ip { font-size: 13px; font-family: 'JetBrains Mono', monospace; color: #e2e8f0; flex-shrink: 0; width: 140px; }
+        .suspect-reason { font-size: 12px; color: #94a3b8; line-height: 1.5; flex: 1; }
+        .cat-badge { font-size: 10px; padding: 1px 6px; border-radius: 10px; background: #334155; color: #94a3b8; margin-right: 6px; font-family: 'JetBrains Mono', monospace; }
+        .suspect-meta { font-size: 11px; color: #475569; font-family: 'JetBrains Mono', monospace; white-space: nowrap; flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
+        .btn { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-family: 'JetBrains Mono', monospace; border: 1px solid #334155; background: transparent; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+        .btn-ignixip { color: #a78bfa; }
+        .btn-ignixip:hover { border-color: #a78bfa; }
+        .btn-investigate { color: #60a5fa; }
+        .btn-investigate:hover { border-color: #60a5fa; }
+        .btn-dismiss { color: #475569; }
+        .btn-dismiss:hover { border-color: #f87171; color: #f87171; }
+
+        /* ignixip inline result */
+        .ignixip-result { margin: 0 20px 12px 32px; padding: 12px 16px; background: #0f172a; border-radius: 8px; border: 1px solid #334155; font-size: 12px; font-family: 'JetBrains Mono', monospace; display: none; }
+        .ignixip-result.visible { display: block; }
+        .ignixip-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .ignixip-title { color: #a78bfa; font-size: 12px; font-weight: 600; }
+        .ignixip-link { font-size: 11px; color: #64748b; text-decoration: none; }
+        .ignixip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; }
+        .ignixip-row { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; border-bottom: 1px solid #1e293b; }
+        .ignixip-row:last-child { border-bottom: none; }
+        .ignixip-key { color: #475569; font-size: 11px; }
+        .ignixip-val { color: #e2e8f0; text-align: right; font-size: 11px; }
+
+        /* investigate result */
+        .investigate-result { margin: 0 20px 12px 32px; padding: 12px 16px; background: #0f172a; border-radius: 8px; border: 1px solid #334155; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: #94a3b8; white-space: pre-wrap; display: none; }
+        .investigate-result.visible { display: block; }
+
+        /* Demo notice */
+        .demo-notice { background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.2); border-radius: 8px; padding: 12px 16px; margin-bottom: 24px; font-size: 13px; color: #92a3a8; display: flex; align-items: center; gap: 10px; }
+        .demo-notice strong { color: #fbbf24; }
+
+        .back-link { display: inline-flex; align-items: center; gap: 6px; color: #64748b; text-decoration: none; font-size: 13px; margin-bottom: 20px; transition: color 0.2s; }
+        .back-link:hover { color: #e2e8f0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo">
+            <div class="logo-mark">IX</div>
+            <span class="logo-text">ignix</span>
+        </div>
+        <div class="header-right">
+            <span>Thornton &amp; Associates</span>
+            <span class="demo-badge">Demo</span>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <a href="https://ignix.co.uk" class="back-link">← ignix.co.uk</a>
+
+    <div class="demo-notice">
+        <strong>Demo mode</strong> — This is a demonstration portal using fictional data. <a href="mailto:hello@ignix.co.uk" style="color:#fbbf24;">Contact us</a> to arrange a live assessment of your own network.
+    </div>
+
+    <h1>Thornton &amp; Associates</h1>
+    <div class="subtitle">Network Security Monitoring · Data as at Monday 16 March 2026, 15:30</div>
+
+    <!-- Status -->
+    <div class="status-card">
+        <div class="status-indicator">🛡</div>
+        <div class="status-info">
+            <h3>Your network is being monitored</h3>
+            <p>Receiving data · last update 2 minutes ago</p>
+        </div>
+        <span class="status-label">Healthy</span>
+    </div>
+
+    <!-- Last scan -->
+    <div class="panel" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+            <div class="panel-title" style="margin-bottom:6px;">Last Security Scan</div>
+            <div style="font-size:15px;font-weight:600;color:#fbbf24;">🔶 Review recommended</div>
+            <div style="font-size:12px;color:#64748b;font-family:'JetBrains Mono',monospace;margin-top:4px;">16 Mar 2026, 07:03</div>
+        </div>
+        <div>
+            <a href="#" style="padding:8px 16px;border-radius:8px;font-size:13px;background:#334155;color:#94a3b8;text-decoration:none;">Download Latest Report</a>
+        </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-label">Flows Today</div>
+            <div class="metric-value">1,847,293</div>
+            <div class="metric-sub">connections analysed</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Data Today</div>
+            <div class="metric-value">12.4 GB</div>
+            <div class="metric-sub">total traffic</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Active Devices</div>
+            <div class="metric-value">47</div>
+            <div class="metric-sub">on your network</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Destinations</div>
+            <div class="metric-value">10</div>
+            <div class="metric-sub">top external targets</div>
+        </div>
+    </div>
+
+    <!-- Suspect IPs -->
+    <div class="suspect-panel">
+        <div class="suspect-header">
+            <span class="suspect-title">Suspect IPs</span>
+            <span class="suspect-badge">3 to review</span>
+        </div>
+
+        <!-- Row 1 - high severity, ignixip open -->
+        <div class="suspect-row" id="row1">
+            <div class="suspect-sev sev-high"></div>
+            <div class="suspect-ip">91.108.56.142</div>
+            <div class="suspect-reason">
+                <span class="cat-badge">High Volume</span>
+                284MB transfer over 40 minutes to unknown destination — not in any known service provider range
+            </div>
+            <div class="suspect-meta">
+                <span>2026-03-15 14:22</span>
+                <button class="btn btn-ignixip" onclick="toggleIgnixip('result1')">ignixip</button>
+                <button class="btn btn-investigate" onclick="toggleInvestigate('inv1')">Investigate</button>
+                <button class="btn btn-dismiss">Dismiss</button>
+            </div>
+        </div>
+        <div class="ignixip-result visible" id="result1">
+            <div class="ignixip-header">
+                <span class="ignixip-title">⬡ ignixip — 91.108.56.142</span>
+                <a class="ignixip-link" href="https://ignixip.com/?ip=91.108.56.142" target="_blank">Open in ignixip.com ↗</a>
+            </div>
+            <div class="ignixip-grid">
+                <div>
+                    <div class="ignixip-row"><span class="ignixip-key">Country</span><span class="ignixip-val">🇳🇱 NL</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">Region</span><span class="ignixip-val">North Holland</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">City</span><span class="ignixip-val">Amsterdam</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">Timezone</span><span class="ignixip-val">Europe/Amsterdam</span></div>
+                </div>
+                <div>
+                    <div class="ignixip-row"><span class="ignixip-key">ASN</span><span class="ignixip-val" style="color:#a78bfa;">AS62041</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">Organisation</span><span class="ignixip-val">Serverius</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">Hostname</span><span class="ignixip-val">—</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">Type</span><span class="ignixip-val" style="color:#fbbf24;">Hosting / DC</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="investigate-result visible" id="inv1">INVESTIGATION: 91.108.56.142 on 2026-03-15
+
+INTERNAL DEVICES CONNECTING TO THIS IP:
+Top 5 Src IP Addr ordered by bytes:
+Date first seen          Duration  Proto  Src IP Addr    Bytes
+2026-03-15 14:22:11      00:38:44  TCP    192.168.1.87   284.2 M
+
+Summary: total flows: 143, total bytes: 284.2 MB
+Device 192.168.1.87 — Accounts workstation (Sarah Mitchell)</div>
+
+        <!-- Row 2 -->
+        <div class="suspect-row">
+            <div class="suspect-sev sev-medium"></div>
+            <div class="suspect-ip">185.220.101.34</div>
+            <div class="suspect-reason">
+                <span class="cat-badge">Suspicious</span>
+                Multiple short-duration connections from 192.168.1.12 — unknown destination, potential beaconing pattern
+            </div>
+            <div class="suspect-meta">
+                <span>2026-03-16 07:03</span>
+                <button class="btn btn-ignixip" onclick="toggleIgnixip('result2')">ignixip</button>
+                <button class="btn btn-investigate">Investigate</button>
+                <button class="btn btn-dismiss">Dismiss</button>
+            </div>
+        </div>
+        <div class="ignixip-result" id="result2">
+            <div class="ignixip-header">
+                <span class="ignixip-title">⬡ ignixip — 185.220.101.34</span>
+                <a class="ignixip-link" href="https://ignixip.com/?ip=185.220.101.34" target="_blank">Open in ignixip.com ↗</a>
+            </div>
+            <div class="ignixip-grid">
+                <div>
+                    <div class="ignixip-row"><span class="ignixip-key">Country</span><span class="ignixip-val">🇩🇪 DE</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">Region</span><span class="ignixip-val">Hesse</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">City</span><span class="ignixip-val">Frankfurt</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">Timezone</span><span class="ignixip-val">Europe/Berlin</span></div>
+                </div>
+                <div>
+                    <div class="ignixip-row"><span class="ignixip-key">ASN</span><span class="ignixip-val" style="color:#a78bfa;">AS60729</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">Organisation</span><span class="ignixip-val">Quintex Alliance</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">Hostname</span><span class="ignixip-val">tor-exit.example</span></div>
+                    <div class="ignixip-row"><span class="ignixip-key">Type</span><span class="ignixip-val" style="color:#f87171;">Proxy / VPN</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3 - dismissed -->
+        <div class="suspect-row" style="opacity:0.4;">
+            <div class="suspect-sev sev-medium"></div>
+            <div class="suspect-ip" style="text-decoration:line-through;">77.99.208.14</div>
+            <div class="suspect-reason">
+                <span class="cat-badge">Remote Access</span>
+                VPN connection from unknown external IP — 38MB over 2 hours
+                <div style="font-size:11px;color:#4ade80;margin-top:4px;">✓ James Thornton home broadband · Dismissed 16 Mar 09:14</div>
+            </div>
+            <div class="suspect-meta">
+                <span>2026-03-16 07:03</span>
+                <button class="btn" style="color:#4ade80;border-color:#334155;">Restore</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ask Ignix -->
+    <div class="panel">
+        <div class="panel-title">Ask Ignix</div>
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+            <input type="text" id="ask-input" value="Which device sent data to 91.108.56.142?" style="flex:1;padding:12px 14px;border-radius:8px;border:1px solid #334155;background:#0f172a;color:#e2e8f0;font-size:14px;font-family:'Inter',sans-serif;outline:none;" readonly>
+            <button style="padding:12px 20px;border-radius:8px;border:none;background:linear-gradient(135deg,#3b82f6,#2563eb);color:white;font-size:14px;font-weight:600;cursor:pointer;">Ask</button>
+        </div>
+        <div style="padding:16px;background:#0f172a;border-radius:8px;border:1px solid #334155;font-size:14px;line-height:1.7;color:#cbd5e1;">The device connecting to 91.108.56.142 is 192.168.1.87 — the accounts workstation used by Sarah Mitchell. It transferred 284MB over a 39-minute window yesterday afternoon (14:22–15:01). The destination is a Serverius hosting provider in Amsterdam with no reverse DNS — not in your list of known services. I'd recommend asking Sarah if she was using any file transfer or cloud storage application at that time.</div>
+    </div>
+
+</div>
+
+<script>
+function toggleIgnixip(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.toggle('visible');
+}
+function toggleInvestigate(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.toggle('visible');
+}
+</script>
+
+</body>
+</html>
