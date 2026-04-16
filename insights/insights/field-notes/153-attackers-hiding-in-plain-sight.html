@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>153 Attacks Hiding in Plain Sight — Ignix Insights</title>
+    <meta name="description" content="How one client's firewall event logs revealed 153 unique attackers in a single month — and what it means for your network security monitoring.">
+    <meta name="keywords" content="network security monitoring, VPN security, threat intelligence, firewall logs, IPSec attacks, SMB cybersecurity, London">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0f14; --bg-card: #111920; --bg-card-hover: #162028;
+            --accent: #00d4aa; --accent-dim: #00a88a; --accent-glow: rgba(0,212,170,0.15);
+            --text-primary: #f0f4f8; --text-secondary: #8899a8; --text-dim: #4a5c6d;
+            --border: #1e2a36; --border-light: #253340;
+            --success: #22c55e; --warning: #f59e0b; --danger: #ef4444; --blue: #3b82f6;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Outfit',sans-serif; background:var(--bg-dark); color:var(--text-primary); line-height:1.7; font-size:17px; }
+        body::before { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background-image:linear-gradient(rgba(0,212,170,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.02) 1px,transparent 1px); background-size:60px 60px; pointer-events:none; z-index:0; }
+        nav { position:sticky; top:0; z-index:100; background:rgba(10,15,20,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:64px; }
+        .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+        .nav-logo-mark { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-dim)); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:11px; color:var(--bg-dark); }
+        .nav-logo-text { font-size:18px; font-weight:600; color:var(--text-primary); }
+        .nav-logo-text span { color:var(--accent); }
+        .nav-links { display:flex; align-items:center; gap:32px; }
+        .nav-links a { color:var(--text-secondary); text-decoration:none; font-size:14px; transition:color 0.2s; }
+        .nav-links a:hover { color:var(--text-primary); }
+        .paper-header { position:relative; z-index:1; padding:80px 40px 60px; max-width:860px; margin:0 auto; border-bottom:1px solid var(--border); }
+        .paper-label { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent); text-transform:uppercase; letter-spacing:3px; margin-bottom:20px; }
+        .paper-title { font-size:clamp(32px,5vw,52px); font-weight:700; line-height:1.1; letter-spacing:-1.5px; margin-bottom:24px; }
+        .paper-title .accent { color:var(--accent); }
+        .paper-meta { display:flex; align-items:center; gap:16px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); }
+        .paper-meta-dot { width:4px; height:4px; border-radius:50%; background:var(--text-dim); }
+        .paper-content { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:60px 40px; }
+        h2 { font-size:28px; font-weight:700; letter-spacing:-0.5px; color:var(--text-primary); margin:56px 0 20px; padding-top:56px; border-top:1px solid var(--border); }
+        h2:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+        h3 { font-size:20px; font-weight:600; color:var(--text-primary); margin:32px 0 14px; }
+        p { color:var(--text-secondary); margin-bottom:20px; }
+        strong { color:var(--text-primary); font-weight:600; }
+        a { color:var(--accent); text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        .lead { font-size:20px; color:var(--text-primary); line-height:1.65; margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--border); }
+        .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin:32px 0; }
+        .stat-card { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:24px; }
+        .stat-value { font-family:'JetBrains Mono',monospace; font-size:36px; font-weight:700; color:var(--accent); line-height:1; margin-bottom:8px; }
+        .stat-label { font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+        .stat-context { font-size:13px; color:var(--text-secondary); margin-top:8px; line-height:1.5; }
+        .callout { background:var(--bg-card); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:0 10px 10px 0; padding:20px 24px; margin:28px 0; }
+        .callout p { margin:0; color:var(--text-secondary); }
+        .callout strong { color:var(--accent); }
+        .terminal { background:#060c10; border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:28px 0; font-family:'JetBrains Mono',monospace; }
+        .terminal-bar { padding:10px 16px; background:rgba(255,255,255,0.03); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+        .t-dot { width:10px; height:10px; border-radius:50%; }
+        .t-dot.r{background:#ff5f57;} .t-dot.y{background:#febc2e;} .t-dot.g{background:#28c840;}
+        .t-label { margin-left:8px; font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+        .terminal-body { padding:20px 24px; font-size:13px; line-height:1.9; }
+        .t-prompt{color:var(--accent);} .t-comment{color:var(--text-dim);} .t-warn{color:var(--warning);} .t-ok{color:var(--success);} .t-dim{color:var(--text-dim);} .t-danger{color:var(--danger);} .t-blue{color:var(--blue);}
+        .comparison-table { width:100%; border-collapse:collapse; margin:28px 0; font-size:14px; }
+        .comparison-table th { font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-dim); font-weight:500; padding:12px 16px; text-align:left; border-bottom:1px solid var(--border); }
+        .comparison-table td { padding:14px 16px; color:var(--text-secondary); border-bottom:1px solid var(--border); vertical-align:top; }
+        .comparison-table tr:last-child td { border-bottom:none; }
+        .comparison-table tr:hover td { background:rgba(255,255,255,0.015); }
+        .comparison-table td:first-child { color:var(--text-primary); font-weight:500; font-family:'JetBrains Mono',monospace; }
+        .feature-list { list-style:none; margin:20px 0; display:flex; flex-direction:column; gap:10px; }
+        .feature-list li { display:flex; align-items:flex-start; gap:12px; font-size:15px; color:var(--text-secondary); }
+        .feature-list li::before { content:'→'; color:var(--accent); font-weight:700; flex-shrink:0; margin-top:1px; }
+        .cta-section { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:0 40px 80px; }
+        .cta-box { background:var(--bg-card); border:1px solid rgba(0,212,170,0.25); border-radius:16px; padding:48px; text-align:center; background-image:radial-gradient(ellipse at 50% 0%,rgba(0,212,170,0.06) 0%,transparent 60%); }
+        .cta-box h2 { font-size:32px; font-weight:700; margin-bottom:16px; padding-top:0; border-top:none; margin-top:0; letter-spacing:-0.5px; }
+        .cta-box p { font-size:16px; max-width:520px; margin:0 auto 32px; }
+        .cta-email { display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:16px; color:var(--bg-dark); background:var(--accent); padding:14px 28px; border-radius:10px; text-decoration:none; font-weight:700; transition:background 0.2s,transform 0.2s; }
+        .cta-email:hover { background:var(--accent-dim); transform:translateY(-2px); text-decoration:none; }
+        footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:28px 40px; display:flex; align-items:center; justify-content:space-between; }
+        .footer-logo { display:flex; align-items:center; gap:8px; }
+        .footer-mark { width:24px; height:24px; border-radius:6px; background:linear-gradient(135deg,var(--accent),var(--accent-dim)); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:8px; color:var(--bg-dark); }
+        .footer-text { font-size:13px; color:var(--text-dim); }
+        .footer-links { display:flex; gap:24px; }
+        .footer-links a { font-size:13px; color:var(--text-dim); text-decoration:none; }
+        .footer-links a:hover { color:var(--text-secondary); }
+        @media(max-width:680px){nav{padding:0 20px;}.nav-links{display:none;}.paper-header,.paper-content,.cta-section{padding-left:20px;padding-right:20px;}.paper-title{font-size:28px;}.stat-grid{grid-template-columns:1fr 1fr;}footer{flex-direction:column;gap:16px;text-align:center;}}
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="https://ignix.co.uk" class="nav-logo">
+        <div class="nav-logo-mark">IX</div>
+        <div class="nav-logo-text">ignix<span>.</span></div>
+    </a>
+    <div class="nav-links">
+        <a href="https://ignix.co.uk/#features">How It Works</a>
+        <a href="https://ignix.co.uk/#pricing">Pricing</a>
+        <a href="https://ignix.co.uk/insights">Insights</a>
+        <a href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
+    </div>
+</nav>
+
+<header class="paper-header">
+    <div class="paper-label">Ignix Insights · Field Notes</div>
+    <h1 class="paper-title">153 Attackers Hiding in Plain <span class="accent">Sight</span></h1>
+    <div class="paper-meta">
+        <span>April 2026</span>
+        <span class="paper-meta-dot"></span>
+        <span>7 min read</span>
+        <span class="paper-meta-dot"></span>
+        <span>Business owners · IT managers</span>
+    </div>
+</header>
+
+<article class="paper-content">
+
+    <p class="lead">
+        In a single month, 153 unique IP addresses tried to break into one client's VPN. The attempts came from coordinated scanning campaigns, compromised cloud servers, and known threat-hunting tools. Every single one was recorded in the client's firewall logs. Nobody was reading them.
+    </p>
+
+    <h2>The Silent Siege</h2>
+
+    <p>
+        If you run a business with remote workers, you almost certainly have a VPN. And if you have a VPN, you have attackers trying to break into it — every day, from every continent, around the clock. This isn't paranoia. It's arithmetic.
+    </p>
+
+    <p>
+        We recently started ingesting Windows Event Log data from a client's RRAS server — the Windows service that handles their staff VPN connections. One specific event ID caught our attention: <strong>4653, "An IPsec main mode negotiation failed."</strong> Each of these events represents a failed attempt to establish a VPN tunnel with the server.
+    </p>
+
+    <p>
+        We pulled 30 days of data. What we found was sobering.
+    </p>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-value">153</div>
+            <div class="stat-label">Unique Attackers</div>
+            <div class="stat-context">Different IP addresses attempting to negotiate IPsec tunnels in 30 days</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">40+</div>
+            <div class="stat-label">Coordinated</div>
+            <div class="stat-context">IPs from one subnet (66.132.x.x) — a clear automated campaign</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">Round the Clock</div>
+            <div class="stat-context">Attacks arrived at all hours, every day of the week</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">0</div>
+            <div class="stat-label">Were Noticed</div>
+            <div class="stat-context">Before we started looking, these events were invisible</div>
+        </div>
+    </div>
+
+    <h2>Reading the Patterns</h2>
+
+    <p>
+        The raw data is just a list of IPs, timestamps, and failure reasons. On its own, it's noise. But when you look at it properly, patterns emerge quickly.
+    </p>
+
+    <h3>Pattern 1: The Coordinated Campaign</h3>
+
+    <p>
+        Forty-plus IPs from the <strong>66.132.x.x</strong> range — spread across subnets .153, .172, .186, .195, and .224 — all failed to authenticate in exactly the same way. Same failure types. Same timing distribution across the day. This isn't forty separate attackers. It's one attacker using forty IPs, probably to avoid rate limits.
+    </p>
+
+    <h3>Pattern 2: The Automated Scanners</h3>
+
+    <p>
+        Twelve IPs from the <strong>198.235.24.x</strong> range all produced the same "policy match error." Seven more from <strong>185.247.137.x</strong> produced "error processing KE payload." These are signatures of automated scanning tools — the attacker isn't even custom-tuning the attempts. They're firing scripts at every VPN endpoint they can find.
+    </p>
+
+    <h3>Pattern 3: The Researchers</h3>
+
+    <p>
+        A handful of IPs came from known ranges used by <strong>Censys</strong> and <strong>Shodan</strong> — legitimate internet-scanning organisations that index exposed services. These aren't attackers per se, but they're cataloguing your infrastructure for anyone who wants to query it. That data is public.
+    </p>
+
+    <h3>Pattern 4: The Compromised Infrastructure</h3>
+
+    <p>
+        Over a dozen IPs from Microsoft Azure ranges (20.x.x.x) tried to negotiate tunnels. These aren't Microsoft attacking you — they're compromised cloud VMs, rented or hijacked by attackers to launder their traffic. When you see Azure IPs in your failed VPN logs, someone is using Microsoft's cloud to probe your infrastructure.
+    </p>
+
+    <h2>What the Firewall Saw vs What We Saw</h2>
+
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
+            <div class="t-label">Firewall Summary — Last 30 Days</div>
+        </div>
+        <div class="terminal-body">
+            <span class="t-prompt">$</span> rras-status --summary --month<br>
+            <span class="t-dim">────────────────────────────────────────</span><br>
+            <span class="t-ok">✓</span> VPN service running<br>
+            <span class="t-ok">✓</span> Authorised connections successful<br>
+            <span class="t-dim"># No one looked at failed attempts</span><br>
+            <br>
+            <span class="t-prompt">$</span> ignix analyse --vpn-events --same-period<br>
+            <span class="t-dim">────────────────────────────────────────</span><br>
+            <span class="t-warn">⚠</span> <span class="t-danger">153</span> unique attackers identified<br>
+            <span class="t-warn">⚠</span> <span class="t-danger">40+</span> coordinated IPs from single subnet<br>
+            <span class="t-warn">⚠</span> <span class="t-danger">12</span> automated scanning tool signatures<br>
+            <span class="t-warn">⚠</span> <span class="t-danger">13</span> compromised Azure VMs as source<br>
+            <span class="t-blue">→</span> All 153 IPs added to threat intelligence feed<br>
+            <span class="t-blue">→</span> Submitted to public community database<br>
+        </div>
+    </div>
+
+    <p>
+        The firewall was doing its job. Every one of these 153 attacks failed — they didn't know the preshared key, they used the wrong policy, they couldn't process the key exchange. The perimeter held. But nobody ever saw the sustained, organised interest being taken in this company's infrastructure.
+    </p>
+
+    <h2>Why This Matters for SMBs</h2>
+
+    <p>
+        If you run a small or medium business with a VPN, here's what this story should tell you:
+    </p>
+
+    <p>
+        <strong>Your VPN is being probed constantly.</strong> The 153 figure isn't exceptional. It's typical. Any internet-facing VPN endpoint — IPsec, OpenVPN, WireGuard, SonicWall SSL VPN, Fortinet SSL VPN — gets this level of automated attention.
+    </p>
+
+    <p>
+        <strong>Failed attempts are the early warning signal.</strong> When an attack eventually succeeds, the failures that preceded it were already in your logs. Reviewing them regularly means you spot trends before you spot compromises.
+    </p>
+
+    <p>
+        <strong>Compromised VPN credentials are the most common initial access vector.</strong> Phishing gets the headlines, but stolen or guessed VPN credentials are how attackers actually get in. And they don't stop at one attempt — they come back with more, from different IPs, over weeks.
+    </p>
+
+    <div class="callout">
+        <p>
+            <strong>Worth asking today:</strong> When did you last look at your VPN authentication logs? Do you know how many failed connection attempts hit your perimeter last week? Are there old VPN accounts from former staff still active?
+        </p>
+    </div>
+
+    <h2>From Data to Defence</h2>
+
+    <p>
+        Spotting the attacks is only the first step. What we did next is where the value compounds.
+    </p>
+
+    <p>
+        We built an automated pipeline that extracts failed IPsec negotiation IPs from the client's Windows event log daily, filters out known legitimate users, and feeds the result into <a href="https://ignixip.com">ignixip.com</a> — our free public threat intelligence database. Now, when anyone anywhere in the world looks up one of those attacker IPs on ignixip.com, they see it flagged as a known scanner with the context of where it was last seen attacking.
+    </p>
+
+    <p>
+        Each client we onboard becomes a source of unique threat intelligence. The more networks Ignix watches, the more valuable the resulting data becomes for everyone. A coordinated attack on one SMB becomes a warning for all of them.
+    </p>
+
+    <h2>What You Can Do</h2>
+
+    <p>
+        Whether or not you work with us, here are three concrete actions worth taking this week:
+    </p>
+
+    <ul class="feature-list">
+        <li><strong>Review your VPN logs.</strong> On Windows RRAS, look at Event ID 4653. On Linux, check your strongswan or openvpn logs. On appliances (SonicWall, Fortinet), check the VPN / authentication log section. Look for patterns — repeated failures from the same subnet, new source countries, spikes in volume.</li>
+        <li><strong>Audit your VPN accounts.</strong> When did former staff last log in? Are there test accounts still active? Service accounts that should have been deprecated? Each unnecessary account is a door that doesn't need to exist.</li>
+        <li><strong>Enable account lockout and geographic filtering.</strong> Most VPN concentrators can lock out source IPs after failed attempts and restrict by country. If all your staff are in the UK, there's no reason to accept IPsec negotiations from Russia, China, or Iran.</li>
+    </ul>
+
+    <h2>The Bigger Picture</h2>
+
+    <p>
+        Firewall logs are not a compliance checkbox. They're a source of real, current, specific threat intelligence about your business. The attackers in those logs are interested in you specifically — they've chosen your IP address for a reason, whether that's your industry, your size, your exposed services, or just the luck of the scan.
+    </p>
+
+    <p>
+        Most SMBs will never read their firewall logs. The data is too voluminous, too technical, and too unrewarding for busy people to sift through. That's exactly the gap we built Ignix to close. AI reads the logs for you. It tells you what mattered, in plain English, every morning at seven.
+    </p>
+
+    <p>
+        Your firewall is already watching. Let us read what it sees.
+    </p>
+
+</article>
+
+<section class="cta-section">
+    <div class="cta-box">
+        <h2>Find out what your logs are telling you</h2>
+        <p>Every new client starts with a completely free 14-day assessment. We connect to your existing firewall, analyse your actual traffic, and show you what's already there — without you having to find time to read it.</p>
+        <a href="mailto:hello@ignix.co.uk" class="cta-email">hello@ignix.co.uk</a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-logo">
+        <div class="footer-mark">IX</div>
+        <div class="footer-text">© 2026 Ignix Ltd. · Network security monitoring for business.</div>
+    </div>
+    <div class="footer-links">
+        <a href="https://ignix.co.uk">ignix.co.uk</a>
+        <a href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
+        <a href="https://x.com/ignix_co_uk">𝕏 @ignix_co_uk</a>
+    </div>
+</footer>
+
+</body>
+</html>
