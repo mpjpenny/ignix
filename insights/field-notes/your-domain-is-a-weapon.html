@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Domain Is a Weapon — And You Handed It Over — Ignix Insights</title>
+    <meta name="description" content="Half the London businesses we assessed have no DMARC protection. That means anyone can send emails as them. Here's why it matters and how to fix it in 15 minutes.">
+    <meta name="keywords" content="DMARC email security, email spoofing protection, business email compromise, domain security, SPF DKIM DMARC, London business cybersecurity">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0f14; --bg-card: #111920; --bg-card-hover: #162028;
+            --accent: #00d4aa; --accent-dim: #00a88a; --accent-glow: rgba(0,212,170,0.15);
+            --text-primary: #f0f4f8; --text-secondary: #8899a8; --text-dim: #4a5c6d;
+            --border: #1e2a36; --border-light: #253340;
+            --success: #22c55e; --warning: #f59e0b; --danger: #ef4444; --blue: #3b82f6;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Outfit',sans-serif; background:var(--bg-dark); color:var(--text-primary); line-height:1.7; font-size:17px; }
+        body::before { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background-image:linear-gradient(rgba(0,212,170,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.02) 1px,transparent 1px); background-size:60px 60px; pointer-events:none; z-index:0; }
+        nav { position:sticky; top:0; z-index:100; background:rgba(10,15,20,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:64px; }
+        .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+        .nav-logo-mark { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-dim)); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:11px; color:var(--bg-dark); }
+        .nav-logo-text { font-size:18px; font-weight:600; color:var(--text-primary); }
+        .nav-logo-text span { color:var(--accent); }
+        .nav-links { display:flex; align-items:center; gap:32px; }
+        .nav-links a { color:var(--text-secondary); text-decoration:none; font-size:14px; transition:color 0.2s; }
+        .nav-links a:hover { color:var(--text-primary); }
+        .paper-header { position:relative; z-index:1; padding:80px 40px 60px; max-width:860px; margin:0 auto; border-bottom:1px solid var(--border); }
+        .paper-label { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent); text-transform:uppercase; letter-spacing:3px; margin-bottom:20px; }
+        .paper-title { font-size:clamp(32px,5vw,52px); font-weight:700; line-height:1.1; letter-spacing:-1.5px; margin-bottom:24px; }
+        .paper-title .accent { color:var(--accent); }
+        .paper-meta { display:flex; align-items:center; gap:16px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); }
+        .paper-meta-dot { width:4px; height:4px; border-radius:50%; background:var(--text-dim); }
+        .paper-content { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:60px 40px; }
+        h2 { font-size:28px; font-weight:700; letter-spacing:-0.5px; color:var(--text-primary); margin:56px 0 20px; padding-top:56px; border-top:1px solid var(--border); }
+        h2:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+        h3 { font-size:20px; font-weight:600; color:var(--text-primary); margin:32px 0 14px; }
+        p { color:var(--text-secondary); margin-bottom:20px; }
+        strong { color:var(--text-primary); font-weight:600; }
+        a { color:var(--accent); text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        .lead { font-size:20px; color:var(--text-primary); line-height:1.65; margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--border); }
+        .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin:32px 0; }
+        .stat-card { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:24px; }
+        .stat-value { font-family:'JetBrains Mono',monospace; font-size:36px; font-weight:700; color:var(--accent); line-height:1; margin-bottom:8px; }
+        .stat-label { font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+        .stat-context { font-size:13px; color:var(--text-secondary); margin-top:8px; line-height:1.5; }
+        .callout { background:var(--bg-card); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:0 10px 10px 0; padding:20px 24px; margin:28px 0; }
+        .callout p { margin:0; color:var(--text-secondary); }
+        .callout strong { color:var(--accent); }
+        .callout-danger { border-left-color: var(--danger); }
+        .callout-danger strong { color: var(--danger); }
+        .terminal { background:#060c10; border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:28px 0; font-family:'JetBrains Mono',monospace; }
+        .terminal-bar { padding:10px 16px; background:rgba(255,255,255,0.03); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+        .t-dot { width:10px; height:10px; border-radius:50%; }
+        .t-dot.r{background:#ff5f57;} .t-dot.y{background:#febc2e;} .t-dot.g{background:#28c840;}
+        .t-label { margin-left:8px; font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+        .terminal-body { padding:20px 24px; font-size:13px; line-height:1.9; }
+        .t-prompt{color:var(--accent);} .t-comment{color:var(--text-dim);} .t-warn{color:var(--warning);} .t-ok{color:var(--success);} .t-dim{color:var(--text-dim);} .t-danger{color:var(--danger);} .t-blue{color:var(--blue);}
+        .feature-list { list-style:none; margin:20px 0; display:flex; flex-direction:column; gap:10px; }
+        .feature-list li { display:flex; align-items:flex-start; gap:12px; font-size:15px; color:var(--text-secondary); }
+        .feature-list li::before { content:'→'; color:var(--accent); font-weight:700; flex-shrink:0; margin-top:1px; }
+        .cta-section { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:0 40px 80px; }
+        .cta-box { background:var(--bg-card); border:1px solid rgba(0,212,170,0.25); border-radius:16px; padding:48px; text-align:center; background-image:radial-gradient(ellipse at 50% 0%,rgba(0,212,170,0.06) 0%,transparent 60%); }
+        .cta-box h2 { font-size:32px; font-weight:700; margin-bottom:16px; padding-top:0; border-top:none; margin-top:0; letter-spacing:-0.5px; }
+        .cta-box p { font-size:16px; max-width:520px; margin:0 auto 32px; }
+        .cta-email { display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:16px; color:var(--bg-dark); background:var(--accent); padding:14px 28px; border-radius:10px; text-decoration:none; font-weight:700; transition:background 0.2s,transform 0.2s; }
+        .cta-email:hover { background:var(--accent-dim); transform:translateY(-2px); text-decoration:none; }
+        footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:28px 40px; display:flex; align-items:center; justify-content:space-between; }
+        .footer-logo { display:flex; align-items:center; gap:8px; }
+        .footer-mark { width:24px; height:24px; border-radius:6px; background:linear-gradient(135deg,var(--accent),var(--accent-dim)); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:8px; color:var(--bg-dark); }
+        .footer-text { font-size:13px; color:var(--text-dim); }
+        .footer-links { display:flex; gap:24px; }
+        .footer-links a { font-size:13px; color:var(--text-dim); text-decoration:none; }
+        .footer-links a:hover { color:var(--text-secondary); }
+        @media(max-width:680px){nav{padding:0 20px;}.nav-links{display:none;}.paper-header,.paper-content,.cta-section{padding-left:20px;padding-right:20px;}.paper-title{font-size:28px;}.stat-grid{grid-template-columns:1fr 1fr;}footer{flex-direction:column;gap:16px;text-align:center;}}
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="https://ignix.co.uk" class="nav-logo">
+        <div class="nav-logo-mark">IX</div>
+        <div class="nav-logo-text">ignix<span>.</span></div>
+    </a>
+    <div class="nav-links">
+        <a href="https://ignix.co.uk/#features">How It Works</a>
+        <a href="https://ignix.co.uk/#pricing">Pricing</a>
+        <a href="https://ignix.co.uk/insights">Insights</a>
+        <a href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
+    </div>
+</nav>
+
+<header class="paper-header">
+    <div class="paper-label">Ignix Insights · Field Notes</div>
+    <h1 class="paper-title">Your Domain Is a Weapon. And You <span class="accent">Handed It Over.</span></h1>
+    <div class="paper-meta">
+        <span>April 2026</span>
+        <span class="paper-meta-dot"></span>
+        <span>6 min read</span>
+        <span class="paper-meta-dot"></span>
+        <span>Business owners · IT managers</span>
+    </div>
+</header>
+
+<article class="paper-content">
+
+    <p class="lead">
+        We recently assessed the public security posture of 100 London businesses — solicitors, accountants, architects, dental practices, financial advisors. Half of them have no protection against email spoofing. Right now, anyone in the world can send an email that appears to come from their domain. Their clients would have no way to tell the difference.
+    </p>
+
+    <h2>The Three Letters That Matter</h2>
+
+    <p>
+        Email authentication comes down to three DNS records: <strong>SPF</strong>, <strong>DKIM</strong>, and <strong>DMARC</strong>. Together, they tell receiving email servers "only these servers are authorised to send email from our domain, and here's the cryptographic signature to prove it." Without them, your domain is an open door.
+    </p>
+
+    <p>
+        <strong>SPF</strong> (Sender Policy Framework) lists which servers can send email on your behalf. It's the most basic layer — a simple text record in your DNS that says "emails from our domain should only come from these IP addresses."
+    </p>
+
+    <p>
+        <strong>DKIM</strong> (DomainKeys Identified Mail) adds a digital signature to every email you send. The receiving server checks the signature against a public key in your DNS. If it matches, the email is genuine. If it doesn't, someone forged it.
+    </p>
+
+    <p>
+        <strong>DMARC</strong> (Domain-based Message Authentication, Reporting and Conformance) ties SPF and DKIM together and tells receiving servers what to do when an email fails authentication. Without DMARC, a server might accept a forged email anyway. With DMARC set to "reject," the forged email never arrives.
+    </p>
+
+    <div class="callout callout-danger">
+        <p><strong>The uncomfortable truth:</strong> Without DMARC, your SPF and DKIM records are advisory. Receiving servers can ignore them. DMARC is the enforcement mechanism — and it's the one most businesses are missing.</p>
+    </div>
+
+    <h2>What We Found</h2>
+
+    <p>
+        We scanned 100 businesses across five sectors in central London. The results were consistent and concerning.
+    </p>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-value">47%</div>
+            <div class="stat-label">No DMARC</div>
+            <div class="stat-context">Nearly half had no DMARC record at all — their domains can be freely spoofed</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">31%</div>
+            <div class="stat-label">No DKIM</div>
+            <div class="stat-context">Almost a third had no email signing — no way to prove emails are genuine</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">8%</div>
+            <div class="stat-label">No SPF</div>
+            <div class="stat-context">Some businesses had no email authentication whatsoever</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">15 min</div>
+            <div class="stat-label">To Fix</div>
+            <div class="stat-context">Adding all three records takes less than fifteen minutes</div>
+        </div>
+    </div>
+
+    <p>
+        The pattern was remarkably consistent across sectors. Solicitors firms handling confidential client communications. Accountancy practices processing financial data. Dental surgeries managing patient records. All with the same gap: anyone could send an email that appeared to come from their domain, and their clients would have no technical reason to doubt it.
+    </p>
+
+    <h2>Why This Matters More Than You Think</h2>
+
+    <h3>Business Email Compromise Is a £Billions Problem</h3>
+
+    <p>
+        Business Email Compromise (BEC) is now the single most financially damaging category of cybercrime. It doesn't require malware, doesn't require hacking, doesn't require any technical sophistication at all. An attacker sends an email that appears to come from someone the victim trusts — their solicitor, their accountant, their boss — and asks them to transfer money, share documents, or click a link.
+    </p>
+
+    <p>
+        In conveyancing fraud alone, buyers are routinely tricked into sending house deposits to the wrong bank account by emails that appear to come from their solicitor's domain. If the solicitor has no DMARC, there's nothing technically preventing this. The email looks perfect because, from the perspective of the email system, it's indistinguishable from a real one.
+    </p>
+
+    <h3>Your Reputation Is at Stake</h3>
+
+    <p>
+        When a phishing email arrives from your domain, the damage lands on you — even though you didn't send it. Your domain gets flagged. Your deliverability drops. Your clients lose trust. And if a client suffers a financial loss because of a spoofed email from your domain, the professional liability conversation gets very uncomfortable very quickly.
+    </p>
+
+    <h3>It's a Compliance Issue</h3>
+
+    <p>
+        The Information Commissioner's Office expects organisations to implement "appropriate technical and organisational measures" to protect personal data. Email authentication is about as fundamental a technical measure as exists. If you're a law firm or medical practice handling sensitive data without DMARC, you're not meeting the baseline expectation of the regulator.
+    </p>
+
+    <h2>What a Spoofed Email Looks Like</h2>
+
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
+            <div class="t-label">Email Header Analysis</div>
+        </div>
+        <div class="terminal-body">
+            <span class="t-comment"># Email received by a client of a firm with no DMARC:</span><br><br>
+            <span class="t-dim">From:</span> <span class="t-danger">accounts@yourfirm.co.uk</span><br>
+            <span class="t-dim">To:</span> client@gmail.com<br>
+            <span class="t-dim">Subject:</span> Updated bank details for your matter<br><br>
+            <span class="t-comment"># SPF check:</span> <span class="t-warn">SOFTFAIL</span> <span class="t-dim">(server not authorised, but no policy to enforce)</span><br>
+            <span class="t-comment"># DKIM check:</span> <span class="t-warn">NONE</span> <span class="t-dim">(no signature to verify)</span><br>
+            <span class="t-comment"># DMARC check:</span> <span class="t-danger">NONE</span> <span class="t-dim">(no policy exists — deliver anyway)</span><br><br>
+            <span class="t-comment"># Result:</span> <span class="t-danger">Email delivered to inbox. Looks identical to genuine email.</span><br>
+            <span class="t-comment"># Client sees:</span> <span class="t-ok">accounts@yourfirm.co.uk</span> <span class="t-dim">— no warning, no flag.</span><br><br>
+            <span class="t-dim">────────────────────────────────────────</span><br><br>
+            <span class="t-comment"># Same email sent to a firm WITH DMARC (p=reject):</span><br><br>
+            <span class="t-comment"># SPF check:</span> <span class="t-danger">FAIL</span><br>
+            <span class="t-comment"># DKIM check:</span> <span class="t-danger">FAIL</span><br>
+            <span class="t-comment"># DMARC check:</span> <span class="t-ok">REJECT</span> <span class="t-dim">(policy says: reject unauthorised emails)</span><br><br>
+            <span class="t-comment"># Result:</span> <span class="t-ok">Email rejected. Never delivered. Client never sees it.</span><br>
+        </div>
+    </div>
+
+    <h2>The 15-Minute Fix</h2>
+
+    <p>
+        Adding DMARC protection to your domain is not a major IT project. It's three DNS records, and most businesses can implement them in under fifteen minutes. Here's what you need:
+    </p>
+
+    <h3>Step 1: Check What You Have</h3>
+
+    <p>
+        Visit <a href="https://ignixip.com">ignixip.com</a> and look up your own domain. The report will show you whether you have SPF, DKIM, and DMARC configured. If any are missing, you know where to start.
+    </p>
+
+    <h3>Step 2: Add SPF (If Missing)</h3>
+
+    <p>
+        Add a TXT record to your domain's DNS. If you use Google Workspace for email, it looks like this: <code style="background:var(--bg-card);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);">v=spf1 include:_spf.google.com ~all</code>. If you use Microsoft 365: <code style="background:var(--bg-card);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);">v=spf1 include:spf.protection.outlook.com ~all</code>. Your email provider's documentation will tell you exactly what to add.
+    </p>
+
+    <h3>Step 3: Add DKIM</h3>
+
+    <p>
+        Generate DKIM keys through your email provider's admin console (Google Admin, Microsoft 365 Admin, or your hosting control panel). They'll give you a DNS record to publish. It's usually a TXT record under a selector subdomain like <code style="background:var(--bg-card);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);">google._domainkey.yourdomain.co.uk</code>.
+    </p>
+
+    <h3>Step 4: Add DMARC</h3>
+
+    <p>
+        Start with a monitoring policy so you can see what's happening before you enforce. Add this TXT record at <code style="background:var(--bg-card);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);">_dmarc.yourdomain.co.uk</code>:
+    </p>
+
+    <div class="terminal">
+        <div class="terminal-bar">
+            <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
+            <div class="t-label">DMARC Record — Start Here</div>
+        </div>
+        <div class="terminal-body">
+            <span class="t-comment"># Phase 1: Monitor (see what's happening)</span><br>
+            <span class="t-ok">v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.co.uk</span><br><br>
+            <span class="t-comment"># Phase 2: Quarantine (suspicious emails go to spam)</span><br>
+            <span class="t-warn">v=DMARC1; p=quarantine; rua=mailto:dmarc@yourdomain.co.uk</span><br><br>
+            <span class="t-comment"># Phase 3: Reject (forged emails blocked completely)</span><br>
+            <span class="t-ok">v=DMARC1; p=reject; rua=mailto:dmarc@yourdomain.co.uk</span><br>
+        </div>
+    </div>
+
+    <p>
+        Start with <strong>p=none</strong> for a week to make sure your legitimate emails are passing. Then move to <strong>p=quarantine</strong> for another week. Then move to <strong>p=reject</strong>. The whole process takes about a fortnight, and the result is that no one can send emails pretending to be you, ever again.
+    </p>
+
+    <h2>What We See Every Day</h2>
+
+    <p>
+        We monitor network traffic for our clients around the clock. Every week, we see phishing attempts that use spoofed sender domains. The firms that have DMARC set to reject are protected — the spoofed emails never reach their clients. The firms without DMARC are rolling the dice every day.
+    </p>
+
+    <p>
+        The fix is free. The DNS records cost nothing. The only cost is the fifteen minutes it takes to add them. And the cost of not doing it — a single successful spoofing attack, a compromised client, a regulatory investigation — is orders of magnitude higher.
+    </p>
+
+    <p>
+        Check your domain. Fix what's missing. And if you want help, we're here.
+    </p>
+
+</article>
+
+<section class="cta-section">
+    <div class="cta-box">
+        <h2>Check your domain right now</h2>
+        <p>Look up your domain on ignixip.com — it'll tell you instantly whether your SPF, DKIM, and DMARC are configured. If anything's missing, we can help you fix it in fifteen minutes.</p>
+        <a href="https://ignixip.com" class="cta-email" style="margin-right:16px;">Check on ignixip.com</a>
+        <a href="mailto:hello@ignix.co.uk" class="cta-email" style="background:transparent;border:2px solid var(--accent);color:var(--accent);">hello@ignix.co.uk</a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-logo">
+        <div class="footer-mark">IX</div>
+        <div class="footer-text">© 2026 Ignix Ltd. · Network security monitoring for business.</div>
+    </div>
+    <div class="footer-links">
+        <a href="https://ignix.co.uk">ignix.co.uk</a>
+        <a href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
+        <a href="https://x.com/ignix_co_uk">𝕏 @ignix_co_uk</a>
+    </div>
+</footer>
+
+</body>
+</html>
