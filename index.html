@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ignix — Network Security Monitoring for Business</title>
-    <meta name="description" content="AI-powered network security monitoring. Your firewall generates data nobody reads — Ignix watches it 24/7 and tells you when something's wrong. From £150/month.">
+    <meta name="description" content="AI-powered network security monitoring. Your firewall generates data nobody reads — Ignix watches it 24/7 and tells you when something's wrong. From £249/month.">
     <link rel="canonical" href="https://ignix.co.uk">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script defer src="https://analytics.ignix.co.uk/script.js" data-website-id="b8885d96-72f6-496b-9b84-e8b7db98d1f5"></script>
@@ -126,15 +126,26 @@
         .pricing { padding: 60px 0; border-top: 1px solid var(--border); }
         .pricing h2 { font-size: clamp(24px, 3.5vw, 32px); font-weight: 700; letter-spacing: -0.5px; text-align: center; margin-bottom: 12px; }
         .pricing-sub { text-align: center; font-size: 16px; color: var(--text-secondary); margin-bottom: 36px; }
-        .pricing-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 36px; max-width: 520px; margin: 0 auto; text-align: center; }
-        .pricing-from { font-size: 13px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-        .pricing-amount { font-size: 48px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--text); margin-bottom: 4px; }
-        .pricing-amount span { font-size: 18px; color: var(--text-secondary); font-weight: 400; }
-        .pricing-detail { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
-        .pricing-includes { text-align: left; margin-bottom: 24px; font-size: 13px; color: var(--text-secondary); line-height: 2; }
-        .pricing-includes span { color: var(--green); margin-right: 6px; }
-        .pricing-cta { display: inline-block; padding: 14px 32px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-dim)); color: white; text-decoration: none; font-weight: 600; font-size: 15px; box-shadow: 0 4px 24px rgba(59,130,246,0.25); }
-        .pricing-note { font-size: 12px; color: var(--text-dim); margin-top: 14px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 980px; margin: 0 auto; }
+        @media (max-width: 900px) { .pricing-grid { grid-template-columns: 1fr; max-width: 420px; } }
+        .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; text-align: left; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; }
+        .pricing-card:hover { border-color: #2a3a5c; transform: translateY(-2px); }
+        .pricing-card.featured { border-color: rgba(59,130,246,0.45); box-shadow: 0 0 0 1px rgba(59,130,246,0.15), 0 12px 40px rgba(59,130,246,0.12); position: relative; }
+        .pricing-card.featured::before { content: 'Most popular'; position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--accent), var(--accent-dim)); color: white; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; }
+        .pricing-tier { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .pricing-amount { font-size: 40px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--text); margin-bottom: 6px; line-height: 1.1; }
+        .pricing-amount span { font-size: 15px; color: var(--text-secondary); font-weight: 400; }
+        .pricing-detail { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.45; min-height: 38px; }
+        .pricing-includes { list-style: none; margin-bottom: 24px; flex: 1; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+        .pricing-includes li { padding: 4px 0; display: flex; gap: 8px; align-items: flex-start; }
+        .pricing-includes li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+        .pricing-cta { display: block; text-align: center; padding: 12px 20px; border-radius: 10px; border: 1px solid var(--border); color: var(--text-secondary); text-decoration: none; font-weight: 600; font-size: 14px; transition: all 0.2s; }
+        .pricing-cta:hover { border-color: var(--accent); color: var(--accent-bright); }
+        .pricing-card.featured .pricing-cta { background: linear-gradient(135deg, var(--accent), var(--accent-dim)); color: white; border: none; box-shadow: 0 4px 24px rgba(59,130,246,0.25); }
+        .pricing-card.featured .pricing-cta:hover { color: white; filter: brightness(1.05); }
+        .pricing-note { font-size: 12px; color: var(--text-dim); margin-top: 24px; text-align: center; }
+        .pricing-note a { color: var(--accent-bright); text-decoration: none; }
+        .pricing-note a:hover { text-decoration: underline; }
 
         /* ── Free tools ───────────────────────────────────────────────── */
         .free-tools { padding: 40px 0 60px; }
@@ -340,21 +351,45 @@
         <div class="section-label">Pricing</div>
         <h2>Simple, transparent pricing</h2>
         <p class="pricing-sub">No per-seat licensing. No hidden fees. Priced by network size, not headcount.</p>
-        <div class="pricing-box">
-            <div class="pricing-from">Starting from</div>
-            <div class="pricing-amount">£150<span>/month</span></div>
-            <div class="pricing-detail">Per site, for networks up to 50 devices</div>
-            <div class="pricing-includes">
-                <span>✓</span> 24/7 AI traffic monitoring<br>
-                <span>✓</span> Real-time threat alerts<br>
-                <span>✓</span> Daily security reports<br>
-                <span>✓</span> Ask Ignix AI queries<br>
-                <span>✓</span> Client portal access<br>
-                <span>✓</span> Free IP intelligence tools
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-tier">Starter</div>
+                <div class="pricing-amount">£249<span>/month</span></div>
+                <div class="pricing-detail">Very small offices (&lt;20 devices)</div>
+                <ul class="pricing-includes">
+                    <li>Full AI monitoring</li>
+                    <li>Real-time alerts</li>
+                    <li>Basic reports</li>
+                    <li>Client portal access</li>
+                </ul>
+                <a href="mailto:hello@ignix.co.uk?subject=Ignix%20Starter" class="pricing-cta">hello@ignix.co.uk</a>
             </div>
-            <span class="pricing-cta" style="cursor:default;">hello@ignix.co.uk</span>
-            <p class="pricing-note">Larger networks quoted individually. No long-term contracts.</p>
+            <div class="pricing-card featured">
+                <div class="pricing-tier">Business</div>
+                <div class="pricing-amount">£499<span>/month</span></div>
+                <div class="pricing-detail">Typical SMB (20–100 devices)</div>
+                <ul class="pricing-includes">
+                    <li>Everything in Starter</li>
+                    <li>Priority support</li>
+                    <li>Daily reports</li>
+                    <li>Ask Ignix AI queries</li>
+                </ul>
+                <a href="mailto:hello@ignix.co.uk?subject=Ignix%20Business" class="pricing-cta">hello@ignix.co.uk</a>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-tier">Pro / Multi-site</div>
+                <div class="pricing-amount">£799+<span>/month</span></div>
+                <div class="pricing-detail">Larger or multi-location networks</div>
+                <ul class="pricing-includes">
+                    <li>Everything in Business</li>
+                    <li>Custom dashboards</li>
+                    <li>API access</li>
+                    <li>White-label option</li>
+                </ul>
+                <a href="mailto:hello@ignix.co.uk?subject=Ignix%20Pro%20/%20Multi-site" class="pricing-cta">hello@ignix.co.uk</a>
+            </div>
         </div>
+        <p class="pricing-note">MSP and reseller pricing available. No long-term contracts. <a href="mailto:hello@ignix.co.uk">Contact us</a> to discuss your network.</p>
     </div>
 </section>
 
