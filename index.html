@@ -200,7 +200,7 @@
             <div class="hero-copy">
                 <div class="hero-badge"><div class="hero-badge-dot"></div> AI-Powered Security Monitoring</div>
                 <h1>Your firewall sees everything.<br><em>Who's reading it?</em></h1>
-                <p class="hero-sub">Ignix monitors your network traffic 24/7, detects threats in real time, and answers your security questions in plain English. No hardware to install. No logs to read. No expertise required.</p>
+                <p class="hero-sub">Ignix monitors your network traffic 24/7, detects threats in real time, and answers your security questions in plain English. No agents on your devices. No SIEM project. No expertise required.</p>
                 <span class="hero-cta" style="cursor:default;">hello@ignix.co.uk</span>
                 <p class="hero-note">Free security assessment. No obligation.</p>
             </div>
@@ -255,7 +255,7 @@
     <div class="container">
         <div class="section-label">How It Works</div>
         <h2>Up and running in days, not months</h2>
-        <p class="how-sub">Nothing installed on your network. Nothing to maintain. A 30-minute firewall configuration and you're live.</p>
+        <p class="how-sub">No agents on endpoints. No SIEM to run. One small collector and an encrypted tunnel — then you're live.</p>
         <div class="how-steps">
             <div class="how-step">
                 <div class="how-step-num">1</div>
@@ -265,12 +265,12 @@
             <div class="how-step">
                 <div class="how-step-num">2</div>
                 <h3>We connect</h3>
-                <p>Your firewall sends traffic metadata to our infrastructure. One configuration change. No software, no agents, no hardware on your network.</p>
+                <p>We place a lightweight collector on site (Raspberry Pi or a small Ubuntu VM). Your firewall sends traffic metadata to it locally; the collector forwards that data to us over a WireGuard tunnel — never as a direct feed to the open internet.</p>
             </div>
             <div class="how-step">
                 <div class="how-step-num">3</div>
                 <h3>AI watches</h3>
-                <p>Our AI analyses your traffic continuously, learns your patterns, and alerts you to anything that doesn't fit. You get a daily report and real-time alerts.</p>
+                <p>Our AI analyses your traffic continuously on our EU infrastructure, learns your patterns, and alerts you to anything that doesn't fit. You get a daily report and real-time alerts.</p>
             </div>
         </div>
     </div>
@@ -310,35 +310,35 @@
 <!-- ── What's Different ────────────────────────────────────────────────── -->
 <section class="different">
     <div class="container">
-        <h2>Nothing on your network. Nothing to manage.</h2>
-        <p class="different-sub">Most security tools mean agents, appliances, and maintenance. Ignix works entirely outside your firewall — analysing a copy of your traffic metadata on our own secured infrastructure.</p>
+        <h2>No agents. No SIEM project. One small feed.</h2>
+        <p class="different-sub">Most security tools mean endpoint agents, rack appliances, and something for you to babysit. Ignix needs only a lightweight collector on site — metadata travels to us over WireGuard, and the AI analysis runs on our secured EU infrastructure.</p>
         <div class="different-points">
             <div class="diff-point">
                 <div class="diff-icon">⊘</div>
                 <div>
-                    <h4>Zero footprint</h4>
-                    <p>No software installed. No appliances in your rack. Nothing to update, patch, or maintain on your side.</p>
+                    <h4>No endpoint agents</h4>
+                    <p>Nothing installed on PCs or servers. Just a small collector (Pi or Ubuntu VM) that receives firewall metadata and tunnels it to us securely.</p>
                 </div>
             </div>
             <div class="diff-point">
                 <div class="diff-icon">↯</div>
                 <div>
-                    <h4>Can't break what it doesn't touch</h4>
-                    <p>Because we operate externally, there's zero risk to your network, your applications, or your users.</p>
+                    <h4>Encrypted path only</h4>
+                    <p>Every site connects over WireGuard. Traffic metadata never goes direct to our servers over the open internet — always through the tunnel.</p>
                 </div>
             </div>
             <div class="diff-point">
                 <div class="diff-icon">⟁</div>
                 <div>
                     <h4>Works with your existing firewall</h4>
-                    <p>MikroTik, SonicWall, Fortinet, Zyxel, and others. If it exports traffic metadata, we can use it.</p>
+                    <p>MikroTik, SonicWall, Fortinet, Zyxel, and others. If it exports traffic metadata to the collector, we can use it.</p>
                 </div>
             </div>
             <div class="diff-point">
                 <div class="diff-icon">◈</div>
                 <div>
                     <h4>Secured EU infrastructure</h4>
-                    <p>Your data is analysed on our own hardened servers in a secure EU data centre. Not shared cloud. Never on your machines.</p>
+                    <p>Analysis runs on our own hardened servers in a secure EU data centre. We provision and watch the tunnel — you don't run a security stack.</p>
                 </div>
             </div>
         </div>
