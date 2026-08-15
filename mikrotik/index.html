@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ignix + MikroTik — Oversight for RouterOS traffic-flow</title>
+    <meta name="description" content="Ignix reads RouterOS traffic-flow over WireGuard and turns it into daily human attention. No license on the router. Live on RB5009.">
+    <link rel="canonical" href="https://ignix.co.uk/mikrotik">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script defer src="https://analytics.ignix.co.uk/script.js" data-website-id="b8885d96-72f6-496b-9b84-e8b7db98d1f5"></script>
+    <style>
+        :root {
+            --bg: #050a12;
+            --surface: #0c1220;
+            --surface2: #131c2e;
+            --border: #1a2640;
+            --text: #e8ecf4;
+            --text-secondary: #8b9dc3;
+            --text-dim: #526280;
+            --accent: #3b82f6;
+            --accent-bright: #60a5fa;
+            --accent-dim: #1e40af;
+            --green: #34d399;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; z-index: 0; }
+        .container { max-width: 860px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+
+        nav { position: sticky; top: 0; z-index: 100; background: rgba(5,10,18,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+        .nav-inner { max-width: 860px; margin: 0 auto; padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-mark { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), var(--accent-dim)); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; font-family: 'JetBrains Mono', monospace; }
+        .nav-name { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+        .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-cta { padding: 8px 18px; border-radius: 8px; background: var(--accent); color: white !important; font-weight: 600; font-size: 13px; }
+        @media (max-width: 700px) { .nav-links a.hide-sm { display: none; } }
+
+        .hero { padding: 72px 0 48px; }
+        .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent-bright); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; }
+        .hero h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 700; line-height: 1.15; letter-spacing: -1px; margin-bottom: 18px; }
+        .hero h1 em { font-style: normal; color: var(--accent-bright); }
+        .hero-sub { font-size: 17px; color: var(--text-secondary); line-height: 1.7; max-width: 640px; margin-bottom: 28px; }
+        .hero-cta { display: inline-flex; padding: 14px 24px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-dim)); color: white; text-decoration: none; font-weight: 600; font-size: 15px; }
+
+        h2 { font-size: clamp(22px, 3.5vw, 28px); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 12px; }
+        .lead { font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 28px; }
+        section.block { padding: 28px 0 48px; }
+        p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px; }
+        strong { color: var(--text); font-weight: 600; }
+
+        .pipeline { display: flex; flex-direction: column; gap: 0; max-width: 520px; margin: 0 auto; }
+        .pipe-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; }
+        .pipe-box .k { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent-bright); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+        .pipe-box .t { font-size: 16px; font-weight: 600; color: var(--text); }
+        .pipe-box .d { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+        .pipe-box.core { border-color: rgba(59,130,246,0.45); background: linear-gradient(135deg, var(--surface), rgba(59,130,246,0.06)); }
+        .pipe-arrow { text-align: center; font-family: 'JetBrains Mono', monospace; color: var(--text-dim); font-size: 18px; padding: 6px 0; }
+
+        .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 700px) { .why-grid { grid-template-columns: 1fr; } }
+        .why-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+        .why-card h3 { font-size: 15px; margin-bottom: 8px; }
+        .why-card p { font-size: 13px; margin-bottom: 0; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px 0 20px; }
+        th { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); font-weight: 500; text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+        td { padding: 12px; color: var(--text-secondary); border-bottom: 1px solid var(--border); vertical-align: top; }
+        td:first-child { color: var(--text); font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+        tr:last-child td { border-bottom: none; }
+
+        .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 700px) { .two { grid-template-columns: 1fr; } }
+        .shape { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+        .shape h3 { font-size: 15px; margin-bottom: 6px; }
+        .shape .tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent-bright); margin-bottom: 10px; }
+        .shape p { font-size: 13px; margin-bottom: 0; }
+        .shape pre { margin-top: 14px; font-size: 11px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; line-height: 1.6; white-space: pre-wrap; }
+
+        .terminal { background: #060c12; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 8px 0 20px; }
+        .terminal-bar { padding: 10px 16px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; }
+        .terminal-body { padding: 18px 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.85; color: var(--text-secondary); overflow-x: auto; }
+        .c { color: var(--text-dim); }
+        .ok { color: var(--green); }
+
+        .gets { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 700px) { .gets { grid-template-columns: 1fr; } }
+        .gets ul { list-style: none; }
+        .gets li { font-size: 14px; color: var(--text-secondary); padding: 6px 0; padding-left: 18px; position: relative; }
+        .gets.yes li::before { content: '→'; position: absolute; left: 0; color: var(--green); }
+        .gets.no li::before { content: '×'; position: absolute; left: 0; color: var(--text-dim); }
+        .gets h3 { font-size: 14px; margin-bottom: 8px; }
+
+        .cta { padding: 48px 0 72px; text-align: center; }
+        .cta h2 { margin-bottom: 10px; }
+        .cta p { margin-bottom: 24px; }
+        .cta a { display: inline-flex; padding: 14px 28px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-dim)); color: white; text-decoration: none; font-weight: 600; }
+
+        footer { border-top: 1px solid var(--border); padding: 28px; text-align: center; font-size: 12px; color: var(--text-dim); }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--accent-bright); }
+        .note { font-size: 13px; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-inner">
+        <a href="/" class="nav-logo">
+            <div class="nav-mark">IX</div>
+            <span class="nav-name">ignix</span>
+        </a>
+        <ul class="nav-links">
+            <li><a class="hide-sm" href="/">Home</a></li>
+            <li><a class="hide-sm" href="/#pricing">Pricing</a></li>
+            <li><a href="/insights">Insights</a></li>
+            <li><a href="mailto:hello@ignix.co.uk" class="nav-cta">hello@ignix.co.uk</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <div class="eyebrow">Ignix + MikroTik</div>
+        <h1>RouterOS already sees the traffic.<br><em>Someone should be reading it.</em></h1>
+        <p class="hero-sub">Ignix is the oversight layer for RouterOS <strong>traffic-flow</strong>. The router stays the router — no subscription on the box, no replacement for WinBox, no agents on endpoints. We take the telemetry RouterOS already produces, bring it over WireGuard, and pay attention every day.</p>
+        <a class="hero-cta" href="mailto:hello@ignix.co.uk?subject=Ignix%20%2B%20MikroTik">hello@ignix.co.uk</a>
+    </div>
+</section>
+
+<section class="block">
+    <div class="container">
+        <h2>The path</h2>
+        <p class="lead">One feed. Encrypted. Metadata only. Nothing in the data path.</p>
+        <div class="pipeline">
+            <div class="pipe-box">
+                <div class="k">1</div>
+                <div class="t">RouterOS</div>
+                <div class="d">RB5009, CCR, hEX, CHR — the box you already chose</div>
+            </div>
+            <div class="pipe-arrow">↓</div>
+            <div class="pipe-box">
+                <div class="k">2</div>
+                <div class="t">IP traffic-flow</div>
+                <div class="d">NetFlow v9 / IPFIX — who talked to whom, ports, bytes, duration</div>
+            </div>
+            <div class="pipe-arrow">↓</div>
+            <div class="pipe-box">
+                <div class="k">3</div>
+                <div class="t">Ignix collector</div>
+                <div class="d">On the router itself, or a small Ubuntu VM / Pi on the LAN</div>
+            </div>
+            <div class="pipe-arrow">↓</div>
+            <div class="pipe-box">
+                <div class="k">4</div>
+                <div class="t">WireGuard</div>
+                <div class="d">Native in RouterOS 7. Telemetry never exported to the open internet</div>
+            </div>
+            <div class="pipe-arrow">↓</div>
+            <div class="pipe-box core">
+                <div class="k">5</div>
+                <div class="t">Ignix Security Cloud</div>
+                <div class="d">EU data plane — nfcapd per site, context, DHCP names</div>
+            </div>
+            <div class="pipe-arrow">↓</div>
+            <div class="pipe-box core">
+                <div class="k">6</div>
+                <div class="t">Daily attention</div>
+                <div class="d">AI-assisted analyst · morning report · evening update · portal</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="block">
+    <div class="container">
+        <h2>Why this pairing exists</h2>
+        <p class="lead">People pick MikroTik because the router does not come with an annual tax, and because the CLI is a real operating system. Then the customer asks who is watching the network — and too often the answer is “buy a UTM instead.”</p>
+        <div class="why-grid">
+            <div class="why-card">
+                <h3>No license on the router</h3>
+                <p>RouterOS does not charge you every year to keep routing. Ignix does not put a license on the box either. The service sits <em>on</em> traffic-flow. If you stop Ignix, the RB5009 is still the RB5009.</p>
+            </div>
+            <div class="why-card">
+                <h3>The CLI stays yours</h3>
+                <p>We enable traffic-flow and, optionally, DHCP syslog. We do not take WinBox away, wrap RouterOS in a proprietary overlay, or ask anyone to stop using the CLI they actually like.</p>
+            </div>
+            <div class="why-card">
+                <h3>The telemetry is already there</h3>
+                <p>IP traffic-flow is built in. WireGuard is built in on v7. DHCP syslog is built in. The missing piece is not another feature on the router — it is someone competent reading what it already emits.</p>
+            </div>
+            <div class="why-card">
+                <h3>Keeps RouterOS in the stack</h3>
+                <p>When an SME wants “visibility,” the default pitch is Forti / UniFi / a licensed UTM. Ignix is the overlay that lets the MikroTik stay the edge.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="block">
+    <div class="container">
+        <h2>What the customer actually gets</h2>
+        <p class="lead">Same service on every RouterBOARD that can export traffic-flow. The hardware only changes how we attach.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Device</th>
+                    <th>Typical site</th>
+                    <th>How Ignix attaches</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>hEX / RB4011</td>
+                    <td>Small office</td>
+                    <td>traffic-flow to a Pi or Ubuntu VM on the LAN. Router stays the router.</td>
+                </tr>
+                <tr>
+                    <td>RB5009</td>
+                    <td>Professional office, multi-VLAN retail</td>
+                    <td>Either the RB5009 is the WireGuard peer, or it exports to a local collector. Live in production.</td>
+                </tr>
+                <tr>
+                    <td>CCR2004 / CCR2116</td>
+                    <td>Busy edge, higher flow volume</td>
+                    <td>Same recipe; collector beside the CCR is the usual choice so the router is not also the tunnel endpoint for telemetry.</td>
+                </tr>
+                <tr>
+                    <td>CHR</td>
+                    <td>Lab / cloud</td>
+                    <td>Identical path. Useful for proving the feed before a hardware cutover.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="gets">
+            <div class="yes">
+                <h3>Included</h3>
+                <ul>
+                    <li>Morning report and evening update, in English</li>
+                    <li>Portal at portal.ignix.co.uk</li>
+                    <li>Ask Ignix — questions against live flow data</li>
+                    <li>Device names from MikroTik DHCP syslog, where enabled</li>
+                    <li>Alerts when something genuinely needs a look</li>
+                </ul>
+            </div>
+            <div class="no">
+                <h3>Not included — on purpose</h3>
+                <ul>
+                    <li>Replacing WinBox, The Dude, or your CLI</li>
+                    <li>Packet capture or sitting in the data path</li>
+                    <li>A SIEM project</li>
+                    <li>Endpoint agents</li>
+                    <li>Us managing RouterOS for you</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="block">
+    <div class="container">
+        <h2>Two shapes that already run</h2>
+        <p class="lead">We do not pretend every site looks the same. Both of these are live.</p>
+        <div class="two">
+            <div class="shape">
+                <div class="tag">Shape A — router as peer</div>
+                <h3>RB5009 owns the tunnel</h3>
+                <p>Multi-VLAN site. RouterOS already does DHCP, firewall, WireGuard and traffic-flow. The RB5009 is the Ignix mesh peer. Fits restaurants, retail, and any site where the MikroTik already is the network.</p>
+                <pre>RouterOS
+  traffic-flow + WireGuard
+        → Ignix EU</pre>
+            </div>
+            <div class="shape">
+                <div class="tag">Shape B — collector beside the router</div>
+                <h3>Router exports, VM tunnels</h3>
+                <p>Professional office. MikroTik stays LAN gateway, DHCP and firewall. NetFlow lands on a small Ubuntu VM; the VM holds WireGuard. Decouples telemetry from the router as a single point of failure.</p>
+                <pre>RouterOS  →  Ubuntu collector
+                  WireGuard
+                      → Ignix EU</pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="block">
+    <div class="container">
+        <h2>What we turn on</h2>
+        <p class="lead">This is the whole on-router change for Shape B. Target address is the collector on the LAN — never a public IP.</p>
+        <div class="terminal">
+            <div class="terminal-bar">RouterOS — IP traffic-flow</div>
+            <div class="terminal-body">
+                <span class="c"># export NetFlow v9 to the local collector</span><br>
+                /ip traffic-flow set enabled=yes interfaces=all<br>
+                /ip traffic-flow target add dst-address=192.168.0.20 port=2055 version=9
+            </div>
+        </div>
+        <div class="terminal">
+            <div class="terminal-bar">RouterOS — DHCP names (optional, worth it)</div>
+            <div class="terminal-body">
+                <span class="c"># lease events only — exclude packet debug or the receiver drowns</span><br>
+                /system logging action set [find name=remote] remote=10.100.0.1 remote-port=514<br>
+                /system logging add topics=dhcp,!debug,!packet action=remote
+            </div>
+        </div>
+        <p class="note">Shape A is the same traffic-flow, with the target on the WireGuard mesh instead of a LAN VM. We do not ask sites to export NetFlow to the open internet.</p>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="container">
+        <h2>Keep the MikroTik. Add attention.</h2>
+        <p>If you already run RouterOS — or you sell it — this is the page to send, not the generic homepage.</p>
+        <a href="mailto:hello@ignix.co.uk?subject=Ignix%20%2B%20MikroTik">hello@ignix.co.uk</a>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Ignix · <a href="/">Home</a> · <a href="/mikrotik">MikroTik</a> · <a href="mailto:hello@ignix.co.uk">Contact</a> · <a href="https://ignixip.com">ignixip.com</a></p>
+</footer>
+
+</body>
+</html>
