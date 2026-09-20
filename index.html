@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ignix — Network Security Monitoring for Business</title>
-    <meta name="description" content="AI-powered network security monitoring. Your firewall generates data nobody reads — Ignix watches it 24/7 and tells you when something's wrong. From £249/month.">
+    <title>Ignix — Network Oversight for Business</title>
+    <meta name="description" content="Someone competent reading what your firewall already sees. Daily notes in plain English. No agents, no SIEM, no dashboard for you to run. From £249/month.">
     <link rel="canonical" href="https://ignix.co.uk">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script defer src="https://analytics.ignix.co.uk/script.js" data-website-id="b8885d96-72f6-496b-9b84-e8b7db98d1f5"></script>
@@ -43,7 +43,7 @@
         .nav-links a:hover { color: var(--text); }
         .nav-cta { padding: 8px 18px; border-radius: 8px; background: var(--accent); color: white !important; font-weight: 600; font-size: 13px; }
         .nav-cta:hover { background: var(--accent-bright); }
-        @media (max-width: 700px) { .nav-links { gap: 16px; } .nav-links a { font-size: 12px; } }
+        @media (max-width: 700px) { .nav-links { gap: 12px; } .nav-links a { font-size: 12px; } .hide-sm { display: none; } }
 
         /* ── Hero ─────────────────────────────────────────────────────── */
         .hero { padding: 100px 0 80px; }
@@ -59,7 +59,7 @@
         .hero-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 32px rgba(59,130,246,0.35); }
         .hero-note { font-size: 13px; color: var(--text-dim); margin-top: 14px; }
 
-        /* ── Ask Ignix mockup (hero visual) ───────────────────────────── */
+        /* ── Morning note (hero visual) ───────────────────────────────── */
         .ask-mockup { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
         .ask-header { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
         .ask-header-spark { font-size: 14px; }
@@ -74,6 +74,8 @@
         .ask-input-mock { display: flex; gap: 8px; margin-top: 12px; }
         .ask-input-mock input { flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text-dim); font-size: 12px; font-family: 'DM Sans', sans-serif; }
         .ask-input-mock span { padding: 10px 16px; border-radius: 8px; background: var(--accent); color: white; font-size: 12px; font-weight: 600; }
+        .note-kicker { font-size: 11px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; letter-spacing: 0.3px; }
+        .note-sign { margin-top: 12px; font-size: 12px; color: var(--text-dim); }
 
         /* ── Problem ──────────────────────────────────────────────────── */
         .problem { padding: 60px 0; }
@@ -131,7 +133,7 @@
         .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; text-align: left; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; }
         .pricing-card:hover { border-color: #2a3a5c; transform: translateY(-2px); }
         .pricing-card.featured { border-color: rgba(59,130,246,0.45); box-shadow: 0 0 0 1px rgba(59,130,246,0.15), 0 12px 40px rgba(59,130,246,0.12); position: relative; }
-        .pricing-card.featured::before { content: 'Most popular'; position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--accent), var(--accent-dim)); color: white; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; }
+        .pricing-card.featured::before { content: 'Typical firm'; position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--accent), var(--accent-dim)); color: white; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; }
         .pricing-tier { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
         .pricing-amount { font-size: 40px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--text); margin-bottom: 6px; line-height: 1.1; }
         .pricing-amount span { font-size: 15px; color: var(--text-secondary); font-weight: 400; }
@@ -184,12 +186,12 @@
             <span class="nav-name">ignix</span>
         </a>
         <ul class="nav-links">
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How it works</a></li>
+            <li><a href="#features">What you get</a></li>
             <li><a href="#pricing">Pricing</a></li>
-            <li><a href="/mikrotik">MikroTik</a></li>
-            <li><a href="/insights">Insights</a></li>
-            <li><span class="nav-cta" style="cursor:default;">hello@ignix.co.uk</span></li>
+            <li><a href="/mikrotik" class="hide-sm">MikroTik</a></li>
+            <li><a href="/insights" class="hide-sm">Insights</a></li>
+            <li><a href="mailto:hello@ignix.co.uk" class="nav-cta">hello@ignix.co.uk</a></li>
         </ul>
     </div>
 </nav>
@@ -199,27 +201,24 @@
     <div class="container">
         <div class="hero-layout">
             <div class="hero-copy">
-                <div class="hero-badge"><div class="hero-badge-dot"></div> AI-Powered Security Monitoring</div>
+                <div class="hero-badge"><div class="hero-badge-dot"></div> Ongoing network oversight</div>
                 <h1>Your firewall sees everything.<br><em>Who's reading it?</em></h1>
-                <p class="hero-sub">Ignix monitors your network traffic 24/7, detects threats in real time, and answers your security questions in plain English. No agents on your devices. No SIEM project. No expertise required.</p>
-                <span class="hero-cta" style="cursor:default;">hello@ignix.co.uk</span>
-                <p class="hero-note">Free security assessment. No obligation.</p>
+                <p class="hero-sub">Ignix is someone competent paying attention to what your firewall already records. We learn what normal looks like on your network, and we tell you — in English — when something is actually different. No agents. No SIEM project. No dashboard for you to babysit.</p>
+                <a class="hero-cta" href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
+                <p class="hero-note">A conversation first. We take on a few firms at a time.</p>
             </div>
             <div class="hero-visual">
                 <div class="ask-mockup">
                     <div class="ask-header">
-                        <span class="ask-header-spark">⚡</span>
-                        <span class="ask-header-title">Ask Ignix</span>
-                        <span class="ask-header-badge">AI</span>
+                        <span class="ask-header-spark">✉</span>
+                        <span class="ask-header-title">This morning</span>
+                        <span class="ask-header-badge">Note</span>
                     </div>
-                    <div class="ask-msg ask-msg-user"><div class="ask-bubble ask-bubble-user">Should I be worried about that alert this morning?</div></div>
-                    <div class="ask-msg ask-msg-ai"><div class="ask-bubble ask-bubble-ai">The port scan came from a known Tor exit node in Frankfurt. It probed 34 ports but your firewall blocked every attempt. This is opportunistic — not targeted at you specifically. I'd recommend blocking that IP range as a precaution.</div></div>
-                    <div class="ask-msg ask-msg-user"><div class="ask-bubble ask-bubble-user">Which of our devices was it targeting?</div></div>
-                    <div class="ask-msg ask-msg-ai"><div class="ask-bubble ask-bubble-ai">It was directed at your external IP — hitting your edge router. No internal devices were exposed. Your firewall handled it correctly.</div></div>
-                    <div class="ask-input-mock">
-                        <input type="text" value="Ask anything about your network..." disabled>
-                        <span>Ask →</span>
+                    <p class="note-kicker">A typical morning</p>
+                    <div class="ask-msg ask-msg-ai">
+                        <div class="ask-bubble ask-bubble-ai">Quiet on the edge. One thing worth knowing: a guest phone pushed 380&nbsp;MB to Amazon overnight. That matches the backup you mentioned last month. No action needed.</div>
                     </div>
+                    <p class="note-sign">If that ever stops looking like backup, we will say so.</p>
                 </div>
             </div>
         </div>
@@ -229,23 +228,23 @@
 <!-- ── The Problem ─────────────────────────────────────────────────────── -->
 <section class="problem">
     <div class="container">
-        <h2>Firewalls protect you. But <em>who's watching</em> the data?</h2>
-        <p class="problem-sub">Your firewall generates thousands of events every day. Hidden in that data are the threats that matter — but nobody has time to look.</p>
+        <h2>The feed is already there. <em>Nobody is reading it.</em></h2>
+        <p class="problem-sub">Your firewall records who talked to whom, how much, and when. That is enough to know whether the office is behaving as it should. Most firms never look.</p>
         <div class="problem-grid">
             <div class="problem-card">
                 <div class="problem-card-icon">↑</div>
-                <h3>Data leaving quietly</h3>
-                <p>Malware doesn't steal gigabytes at once. It trickles data out over days, hiding in normal traffic patterns.</p>
+                <h3>Traffic nobody named</h3>
+                <p>A phone, a backup, a cloud drive — or something that only looks like one of those. The difference is knowing the house.</p>
             </div>
             <div class="problem-card">
                 <div class="problem-card-icon">↔</div>
-                <h3>Devices phoning home</h3>
-                <p>Compromised machines check in with attackers regularly. Small packets, easy to miss, impossible to spot manually.</p>
+                <h3>A device that changed its habits</h3>
+                <p>New destinations, odd hours, a quiet trickle that was never there before. Easy to miss if you only glance at the log when something is already on fire.</p>
             </div>
             <div class="problem-card">
                 <div class="problem-card-icon">↓</div>
-                <h3>Reconnaissance</h3>
-                <p>Attackers probe your network before striking. Port scanning, service discovery — the warning signs are there if you're watching.</p>
+                <h3>Noise on the edge</h3>
+                <p>The firewall already blocked most of it. Worth knowing if the pattern changed. Not worth a stack of alerts.</p>
             </div>
         </div>
     </div>
@@ -255,23 +254,23 @@
 <section class="how" id="how-it-works">
     <div class="container">
         <div class="section-label">How It Works</div>
-        <h2>Up and running in days, not months</h2>
-        <p class="how-sub">No agents on endpoints. No SIEM to run. One small collector and an encrypted tunnel — then you're live.</p>
+        <h2>Up and running without a project</h2>
+        <p class="how-sub">No agents on endpoints. Nothing for you to run. One small collector, an encrypted tunnel, then we start paying attention.</p>
         <div class="how-steps">
             <div class="how-step">
                 <div class="how-step-num">1</div>
-                <h3>We assess</h3>
-                <p>Free security assessment of your current setup. We'll show you what your firewall can already tell us — and what you might be missing.</p>
+                <h3>We talk</h3>
+                <p>How the office actually runs. What is normal, who to call, what not to panic about. The relationship starts here — not with a scan.</p>
             </div>
             <div class="how-step">
                 <div class="how-step-num">2</div>
                 <h3>We connect</h3>
-                <p>We place a lightweight collector on site (Raspberry Pi or a small Ubuntu VM). Your firewall sends traffic metadata to it locally; the collector forwards that data to us over a WireGuard tunnel — never as a direct feed to the open internet.</p>
+                <p>A lightweight collector on site (Raspberry Pi or a small Ubuntu VM). Your firewall sends traffic metadata to it locally; the collector forwards that to us over WireGuard. Never as a direct feed to the open internet.</p>
             </div>
             <div class="how-step">
                 <div class="how-step-num">3</div>
-                <h3>AI watches</h3>
-                <p>Our AI analyses your traffic continuously on our EU infrastructure, learns your patterns, and alerts you to anything that doesn't fit. You get a daily report and real-time alerts.</p>
+                <h3>We pay attention</h3>
+                <p>Most mornings: a short note. When something isn't ordinary: a human look, in context, before we bother you. The analysis stays on our side.</p>
             </div>
         </div>
     </div>
@@ -281,28 +280,27 @@
 <section class="features" id="features">
     <div class="container">
         <div class="section-label">What You Get</div>
-        <h2>Security that speaks plain English</h2>
+        <h2>Quiet, ongoing, in plain English</h2>
         <div class="features-grid">
             <div class="feature-card feature-card-highlight">
-                <div class="feature-card-icon">⚡</div>
-                <h3>Ask Ignix — AI Security Analyst</h3>
-                <p>Ask questions about your network in plain English. "Who's using the most bandwidth?" "Is there anything unusual today?" "What was that device doing at 3am?" Get clear, specific answers drawn from your live traffic data.</p>
-                <span class="feature-tag">AI-Powered</span>
+                <div class="feature-card-icon">✉</div>
+                <h3>Someone is watching</h3>
+                <p>Not a dashboard for you to check. A person who already knows your network reads the feed, and writes when there is something worth knowing — or when there isn't, which is most days.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-card-icon">🚨</div>
-                <h3>Real-Time Threat Alerts</h3>
-                <p>Port scans, data exfiltration, beaconing, unusual destinations — when something genuinely suspicious happens, you know within minutes. Not pages of logs. A plain English email telling you what happened and what to do.</p>
+                <div class="feature-card-icon">!</div>
+                <h3>A note when it matters</h3>
+                <p>Port scans, odd destinations, a device that changed its habits. You get a short explanation and what, if anything, to do. Not a pile of alerts.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-card-icon">📊</div>
-                <h3>Daily Security Reports</h3>
-                <p>Every morning, a clear summary of your network's activity. Most days it says "all clear." On the days it doesn't, it tells you exactly what to look at — which device, which IP, how much data, and why it matters.</p>
+                <div class="feature-card-icon">?</div>
+                <h3>You can ask</h3>
+                <p>Who used the bandwidth. What that device was doing at 3am. Ask in English; the answer comes from your live traffic, not a generic briefing.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-card-icon">🔒</div>
-                <h3>Client Portal</h3>
-                <p>Your own secure dashboard at portal.ignix.co.uk. Live monitoring status, suspect IP panel, one-click investigation, downloadable reports. Access from any device, anytime.</p>
+                <div class="feature-card-icon">◇</div>
+                <h3>A window if you want one</h3>
+                <p>portal.ignix.co.uk is there when you want to look. Status, the IPs we're watching, reports you can keep. It is a window into the relationship — not a SIEM for you to run.</p>
             </div>
         </div>
     </div>
@@ -312,7 +310,7 @@
 <section class="different">
     <div class="container">
         <h2>No agents. No SIEM project. One small feed.</h2>
-        <p class="different-sub">Most security tools mean endpoint agents, rack appliances, and something for you to babysit. Ignix needs only a lightweight collector on site — metadata travels to us over WireGuard, and the AI analysis runs on our secured EU infrastructure.</p>
+        <p class="different-sub">Most security tools mean endpoint agents, rack appliances, and something for you to babysit. Ignix needs only a lightweight collector on site. Metadata travels to us over WireGuard. We read it. You get the relationship, not a stack to run.</p>
         <div class="different-points">
             <div class="diff-point">
                 <div class="diff-icon">⊘</div>
@@ -338,8 +336,8 @@
             <div class="diff-point">
                 <div class="diff-icon">◈</div>
                 <div>
-                    <h4>Secured EU infrastructure</h4>
-                    <p>Analysis runs on our own hardened servers in a secure EU data centre. We provision and watch the tunnel — you don't run a security stack.</p>
+                    <h4>Read on our side, in the EU</h4>
+                    <p>The work happens on our own servers in a secure EU data centre. We provision and watch the tunnel. You don't run a security stack.</p>
                 </div>
             </div>
         </div>
@@ -350,47 +348,47 @@
 <section class="pricing" id="pricing">
     <div class="container">
         <div class="section-label">Pricing</div>
-        <h2>Simple, transparent pricing</h2>
-        <p class="pricing-sub">No per-seat licensing. No hidden fees. Priced by network size, not headcount.</p>
+        <h2>Priced for an ongoing relationship</h2>
+        <p class="pricing-sub">By the size of the network, not by seats or alerts. No long-term contract.</p>
         <div class="pricing-grid">
             <div class="pricing-card">
-                <div class="pricing-tier">Starter</div>
+                <div class="pricing-tier">Small office</div>
                 <div class="pricing-amount">£249<span>/month</span></div>
-                <div class="pricing-detail">Very small offices (&lt;20 devices)</div>
+                <div class="pricing-detail">A single quiet site. Under 20 devices.</div>
                 <ul class="pricing-includes">
-                    <li>Full AI monitoring</li>
-                    <li>Real-time alerts</li>
-                    <li>Basic reports</li>
-                    <li>Client portal access</li>
+                    <li>Daily look at the feed</li>
+                    <li>A morning note</li>
+                    <li>A human look when something isn't ordinary</li>
+                    <li>Portal if you want to see what we see</li>
                 </ul>
-                <a href="mailto:hello@ignix.co.uk?subject=Ignix%20Starter" class="pricing-cta">hello@ignix.co.uk</a>
+                <a href="mailto:hello@ignix.co.uk?subject=Ignix%20%E2%80%94%20small%20office" class="pricing-cta">hello@ignix.co.uk</a>
             </div>
             <div class="pricing-card featured">
-                <div class="pricing-tier">Business</div>
+                <div class="pricing-tier">Typical firm</div>
                 <div class="pricing-amount">£499<span>/month</span></div>
-                <div class="pricing-detail">Typical SMB (20–100 devices)</div>
+                <div class="pricing-detail">A professional office. Roughly 20–100 devices.</div>
                 <ul class="pricing-includes">
-                    <li>Everything in Starter</li>
-                    <li>Priority support</li>
-                    <li>Daily reports</li>
-                    <li>Ask Ignix AI queries</li>
+                    <li>Everything in Small office</li>
+                    <li>We already know the house</li>
+                    <li>Ask a question in English</li>
+                    <li>Priority when you write</li>
                 </ul>
-                <a href="mailto:hello@ignix.co.uk?subject=Ignix%20Business" class="pricing-cta">hello@ignix.co.uk</a>
+                <a href="mailto:hello@ignix.co.uk?subject=Ignix%20%E2%80%94%20typical%20firm" class="pricing-cta">hello@ignix.co.uk</a>
             </div>
             <div class="pricing-card">
-                <div class="pricing-tier">Pro / Multi-site</div>
+                <div class="pricing-tier">Several sites</div>
                 <div class="pricing-amount">£799+<span>/month</span></div>
-                <div class="pricing-detail">Larger or multi-location networks</div>
+                <div class="pricing-detail">More than one location, one relationship.</div>
                 <ul class="pricing-includes">
-                    <li>Everything in Business</li>
-                    <li>Custom dashboards</li>
-                    <li>API access</li>
-                    <li>White-label option</li>
+                    <li>The same attention, per site</li>
+                    <li>One place to ask</li>
+                    <li>Named contacts</li>
+                    <li>We keep the picture joined up</li>
                 </ul>
-                <a href="mailto:hello@ignix.co.uk?subject=Ignix%20Pro%20/%20Multi-site" class="pricing-cta">hello@ignix.co.uk</a>
+                <a href="mailto:hello@ignix.co.uk?subject=Ignix%20%E2%80%94%20several%20sites" class="pricing-cta">hello@ignix.co.uk</a>
             </div>
         </div>
-        <p class="pricing-note">MSP and reseller pricing available. No long-term contracts. <a href="mailto:hello@ignix.co.uk">Contact us</a> to discuss your network.</p>
+        <p class="pricing-note">If you already look after the IT, we can sit alongside that. <a href="mailto:hello@ignix.co.uk">Write to us</a> about the network, not a quote request.</p>
     </div>
 </section>
 
@@ -399,8 +397,8 @@
     <div class="container">
         <div class="free-tools-box">
             <div class="free-tools-text">
-                <h3>Free IP Intelligence Tools</h3>
-                <p>We built ignixip.com for the security community — look up any IP address for risk scoring, blacklist checking, email header analysis, and network diagnostics. Free, no signup needed. Start with <a href="https://ignixip.com/my-ip.html">what is my IP</a>.</p>
+                <h3>Free IP tools</h3>
+                <p>ignixip.com is a separate, public toolkit — look up an IP, check a blacklist, read a mail header. Useful on its own. It is not the service. Start with <a href="https://ignixip.com/my-ip.html">what is my IP</a>.</p>
             </div>
             <div class="free-tools-cta" style="display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
                 <a href="https://ignixip.com/my-ip.html" target="_blank">What is my IP?</a>
@@ -414,13 +412,13 @@
 <section class="final-cta">
     <div class="container">
         <h2>Your firewall is already watching.<br>Let us read what it sees.</h2>
-        <p>Start with a free security assessment — we'll show you what your network traffic reveals.</p>
-        <span style="display:inline-block;padding:16px 36px;border-radius:10px;background:linear-gradient(135deg,#3b82f6,#1e40af);color:white;font-weight:600;font-size:16px;">hello@ignix.co.uk</span>
+        <p>Write when you want a conversation. We will tell you if we are a fit.</p>
+        <a href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
     </div>
 </section>
 
 <footer>
-    <p>© 2026 Ignix. Network security monitoring for business. &nbsp;·&nbsp; <a href="/mikrotik">MikroTik</a> &nbsp;·&nbsp; <a href="mailto:hello@ignix.co.uk">Contact</a> &nbsp;·&nbsp; <a href="https://ignixip.com">ignixip.com</a> &nbsp;·&nbsp; <a href="https://x.com/ignix_co_uk" target="_blank">𝕏</a> &nbsp;·&nbsp; <a href="#">Privacy</a></p>
+    <p>© 2026 Ignix. Someone reading the feed. &nbsp;·&nbsp; <a href="/mikrotik">MikroTik</a> &nbsp;·&nbsp; <a href="mailto:hello@ignix.co.uk">Contact</a> &nbsp;·&nbsp; <a href="https://ignixip.com">ignixip.com</a> &nbsp;·&nbsp; <a href="https://x.com/ignix_co_uk" target="_blank">𝕏</a> &nbsp;·&nbsp; <a href="#">Privacy</a></p>
 </footer>
 
 <script>
