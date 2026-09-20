@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ignix — Network Oversight for Business</title>
-    <meta name="description" content="Someone competent reading what your firewall already sees. Daily notes in plain English. No agents, no SIEM, no dashboard for you to run. From £249/month.">
+    <title>Ignix — Someone reading the evidence</title>
+    <meta name="description" content="Your infrastructure already produces the evidence. Ignix pays attention to it. Morning report and evening update, in English. No agents, no SIEM, no dashboard for you to run. From £249/month.">
     <link rel="canonical" href="https://ignix.co.uk">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script defer src="https://analytics.ignix.co.uk/script.js" data-website-id="b8885d96-72f6-496b-9b84-e8b7db98d1f5"></script>
@@ -46,18 +46,20 @@
         @media (max-width: 700px) { .nav-links { gap: 12px; } .nav-links a { font-size: 12px; } .hide-sm { display: none; } }
 
         /* ── Hero ─────────────────────────────────────────────────────── */
-        .hero { padding: 100px 0 80px; }
-        .hero-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-        @media (max-width: 800px) { .hero-layout { grid-template-columns: 1fr; } .hero-visual { order: -1; } }
-        .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); font-size: 12px; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; margin-bottom: 20px; }
-        .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-        .hero h1 { font-size: clamp(32px, 5vw, 48px); font-weight: 700; line-height: 1.15; letter-spacing: -1px; margin-bottom: 20px; }
+        .hero { padding: 92px 0 72px; }
+        .hero-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 56px; align-items: start; }
+        @media (max-width: 800px) { .hero-layout { grid-template-columns: 1fr; gap: 36px; } }
+        .hero h1 { font-size: clamp(30px, 4.6vw, 46px); font-weight: 700; line-height: 1.12; letter-spacing: -1px; margin-bottom: 24px; }
         .hero h1 em { font-style: normal; color: var(--accent-bright); }
-        .hero-sub { font-size: 17px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 28px; }
+        .hero-sub { font-size: 17px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+        .hero-sub.tight { margin-bottom: 28px; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
         .hero-cta { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-dim)); color: white; text-decoration: none; font-weight: 600; font-size: 15px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 24px rgba(59,130,246,0.25); }
         .hero-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 32px rgba(59,130,246,0.35); }
-        .hero-note { font-size: 13px; color: var(--text-dim); margin-top: 14px; }
+        .hero-cta-secondary { display: inline-flex; align-items: center; padding: 14px 22px; border-radius: 10px; border: 1px solid var(--border); color: var(--text-secondary); text-decoration: none; font-weight: 600; font-size: 15px; transition: border-color 0.2s, color 0.2s; }
+        .hero-cta-secondary:hover { border-color: var(--accent); color: var(--accent-bright); }
+        .hero-classic { font-size: 15px; color: var(--text-dim); line-height: 1.5; margin-top: 4px; }
+        .hero-classic em { font-style: normal; color: var(--text-secondary); }
 
         /* ── Morning note (hero visual) ───────────────────────────────── */
         .ask-mockup { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
@@ -201,11 +203,15 @@
     <div class="container">
         <div class="hero-layout">
             <div class="hero-copy">
-                <div class="hero-badge"><div class="hero-badge-dot"></div> Ongoing network oversight</div>
-                <h1>Your firewall sees everything.<br><em>Who's reading it?</em></h1>
-                <p class="hero-sub">Ignix is someone competent paying attention to what your firewall already records. We learn what normal looks like on your network, and we tell you — in English — when something is actually different. No agents. No SIEM project. No dashboard for you to babysit.</p>
-                <a class="hero-cta" href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
-                <p class="hero-note">A conversation first. We take on a few firms at a time.</p>
+                <h1>Your infrastructure already produces the evidence.<br><em>Ignix pays attention to it.</em></h1>
+                <p class="hero-sub">Your firewalls, routers and network services are constantly recording what is happening across your organisation.</p>
+                <p class="hero-sub">Ignix collects that evidence, learns what is normal for your environment, and brings the things that deserve attention to someone competent.</p>
+                <p class="hero-sub tight">No flood of alerts. No new security stack to manage. Just a clear, evidence-based picture of what is happening — and calm explanation when something matters.</p>
+                <div class="hero-actions">
+                    <a class="hero-cta" href="/insights/field-notes/153-attackers-hiding-in-plain-sight.html">See what Ignix finds</a>
+                    <a class="hero-cta-secondary" href="#how-it-works">How Ignix works</a>
+                </div>
+                <p class="hero-classic">Your firewall sees everything. <em>Who's reading it?</em></p>
             </div>
             <div class="hero-visual">
                 <div class="ask-mockup">
@@ -255,7 +261,7 @@
     <div class="container">
         <div class="section-label">How It Works</div>
         <h2>Up and running without a project</h2>
-        <p class="how-sub">No agents on endpoints. Nothing for you to run. One small collector, an encrypted tunnel, then we start paying attention.</p>
+        <p class="how-sub">The firewall stays the firewall. No agents on endpoints. Nothing for you to run. One small collector, an encrypted tunnel, then we start paying attention.</p>
         <div class="how-steps">
             <div class="how-step">
                 <div class="how-step-num">1</div>
@@ -270,7 +276,7 @@
             <div class="how-step">
                 <div class="how-step-num">3</div>
                 <h3>We pay attention</h3>
-                <p>Most mornings: a short note. When something isn't ordinary: a human look, in context, before we bother you. The analysis stays on our side.</p>
+                <p>Collection is continuous. Interpretation is deliberate. Morning report and evening update, in English. When syslog shows something that cannot wait, we look then. The analysis stays on our side.</p>
             </div>
         </div>
     </div>
@@ -285,7 +291,7 @@
             <div class="feature-card feature-card-highlight">
                 <div class="feature-card-icon">✉</div>
                 <h3>Someone is watching</h3>
-                <p>Not a dashboard for you to check. A person who already knows your network reads the feed, and writes when there is something worth knowing — or when there isn't, which is most days.</p>
+                <p>Not a dashboard for you to check. A person who already knows your network reads the evidence, and writes at 07:00 and 17:00 — or when there isn't anything to say, which is most days.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-icon">!</div>
@@ -356,8 +362,8 @@
                 <div class="pricing-amount">£249<span>/month</span></div>
                 <div class="pricing-detail">A single quiet site. Under 20 devices.</div>
                 <ul class="pricing-includes">
-                    <li>Daily look at the feed</li>
-                    <li>A morning note</li>
+                    <li>Evidence collected continuously</li>
+                    <li>Morning report and evening update</li>
                     <li>A human look when something isn't ordinary</li>
                     <li>Portal if you want to see what we see</li>
                 </ul>
@@ -371,7 +377,7 @@
                     <li>Everything in Small office</li>
                     <li>We already know the house</li>
                     <li>Ask a question in English</li>
-                    <li>Priority when you write</li>
+                    <li>Someone competent, twice a day</li>
                 </ul>
                 <a href="mailto:hello@ignix.co.uk?subject=Ignix%20%E2%80%94%20typical%20firm" class="pricing-cta">hello@ignix.co.uk</a>
             </div>
