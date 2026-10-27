@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The VPN we would actually use — Ignix Insights</title>
+    <meta name="description" content="Mullvad costs €5 a month, does not ask for an email, and keeps no connection logs. An unpaid recommendation from Ignix, including what it will not do.">
+    <link rel="canonical" href="https://ignix.co.uk/insights/field-notes/why-mullvad.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0f14; --bg-card: #111920;
+            --accent: #00d4aa; --accent-dim: #00a88a;
+            --text-primary: #f0f4f8; --text-secondary: #8899a8; --text-dim: #4a5c6d;
+            --border: #1e2a36;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Outfit',sans-serif; background:var(--bg-dark); color:var(--text-primary); line-height:1.7; font-size:17px; }
+        nav { position:sticky; top:0; z-index:100; background:rgba(10,15,20,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:64px; }
+        .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+        .nav-logo-mark { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-dim)); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:11px; color:var(--bg-dark); }
+        .nav-logo-text { font-size:18px; font-weight:600; color:var(--text-primary); }
+        .nav-logo-text span { color:var(--accent); }
+        .nav-links { display:flex; align-items:center; gap:32px; }
+        .nav-links a { color:var(--text-secondary); text-decoration:none; font-size:14px; }
+        .nav-links a:hover { color:var(--text-primary); }
+        .paper-header { position:relative; z-index:1; padding:80px 40px 60px; max-width:860px; margin:0 auto; border-bottom:1px solid var(--border); }
+        .paper-label { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent); text-transform:uppercase; letter-spacing:3px; margin-bottom:20px; }
+        .paper-title { font-size:clamp(32px,5vw,52px); font-weight:700; line-height:1.1; letter-spacing:-1.5px; margin-bottom:24px; }
+        .paper-title .accent { color:var(--accent); }
+        .paper-meta { display:flex; align-items:center; gap:16px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); }
+        .paper-meta-dot { width:4px; height:4px; border-radius:50%; background:var(--text-dim); }
+        .paper-content { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:60px 40px; }
+        h2 { font-size:28px; font-weight:700; letter-spacing:-0.5px; margin:56px 0 20px; padding-top:56px; border-top:1px solid var(--border); }
+        h2:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+        p { color:var(--text-secondary); margin-bottom:20px; }
+        strong { color:var(--text-primary); font-weight:600; }
+        a { color:var(--accent); text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        .lead { font-size:20px; color:var(--text-primary); line-height:1.65; margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--border); }
+        .callout { background:var(--bg-card); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:0 10px 10px 0; padding:20px 24px; margin:28px 0; }
+        .callout p { margin:0; }
+        .cta-section { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:0 40px 80px; }
+        .cta-box { background:var(--bg-card); border:1px solid rgba(0,212,170,0.25); border-radius:16px; padding:48px; text-align:center; }
+        .cta-box h2 { font-size:32px; font-weight:700; margin:0 0 16px; padding:0; border:none; }
+        .cta-box p { font-size:16px; max-width:520px; margin:0 auto 28px; }
+        .cta-email { display:inline-flex; align-items:center; font-family:'JetBrains Mono',monospace; font-size:16px; color:var(--bg-dark); background:var(--accent); padding:14px 28px; border-radius:10px; text-decoration:none; font-weight:700; }
+        .cta-email:hover { background:var(--accent-dim); text-decoration:none; }
+        .cta-note { margin-top:16px; font-size:13px; color:var(--text-dim); }
+        footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:28px 40px; display:flex; align-items:center; justify-content:space-between; }
+        .footer-text { font-size:13px; color:var(--text-dim); }
+        .footer-links { display:flex; gap:24px; }
+        .footer-links a { font-size:13px; color:var(--text-dim); text-decoration:none; }
+        @media(max-width:680px){nav{padding:0 20px;}.nav-links{display:none;}.paper-header,.paper-content,.cta-section{padding-left:20px;padding-right:20px;}.paper-title{font-size:28px;}footer{flex-direction:column;gap:16px;text-align:center;}}
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="https://ignix.co.uk" class="nav-logo">
+        <div class="nav-logo-mark">IX</div>
+        <div class="nav-logo-text">ignix<span>.</span></div>
+    </a>
+    <div class="nav-links">
+        <a href="https://ignix.co.uk/insights">Insights</a>
+        <a href="https://ignixip.com">ignixip</a>
+        <a href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
+    </div>
+</nav>
+
+<header class="paper-header">
+    <div class="paper-label">Ignix Insights · Field Notes</div>
+    <h1 class="paper-title">The VPN we would <span class="accent">actually use.</span></h1>
+    <div class="paper-meta">
+        <span>October 2026</span>
+        <span class="paper-meta-dot"></span>
+        <span>4 min read</span>
+        <span class="paper-meta-dot"></span>
+        <span>Unpaid recommendation</span>
+    </div>
+</header>
+
+<article class="paper-content">
+
+    <p class="lead">
+        Mullvad is a Swedish VPN. It costs €5 a month, including VAT, and it has cost that since 2009. There is no cheaper rate for paying a year ahead, and it does not renew itself. When the time runs out, it stops. We are not paid by Mullvad, and this page is not an affiliate link.
+    </p>
+
+    <h2>It does not know your name</h2>
+
+    <p>
+        An account is a number. Mullvad does not ask for an email address or a password. You can pay by card, or by sending cash. That is the whole point of the product: the company that carries your traffic has as little as possible to attach it to.
+    </p>
+
+    <p>
+        The same restraint shows up in what they keep. Mullvad says it does not log traffic, DNS requests, connection times, IP addresses, or bandwidth. In 2023 the Swedish police went to the Gothenburg office with an order for information on a customer. There were no connection logs to hand over. The account number and the time left on it are what the service stores. The path a customer took is not.
+    </p>
+
+    <div class="callout">
+        <p>A no-logs claim is only as good as the last time someone with a warrant tested it. That visit is the test that matters.</p>
+    </div>
+
+    <h2>The apps are public, and other people have read them</h2>
+
+    <p>
+        The client software is open source. Mullvad commissions outside audits of the apps and the infrastructure, and it publishes them. The VPN servers run from memory. A machine that is seized has no disk full of yesterday's sessions to read.
+    </p>
+
+    <p>
+        None of that makes a VPN magic. It means the design keeps choosing the boring option: less data, a published client, a price that does not depend on locking you in.
+    </p>
+
+    <h2>What it will not do</h2>
+
+    <p>
+        Mullvad is a poor choice if the job is unlocking a streaming catalogue. Other VPNs sell that, and they are better at it. The server list is also smaller than the giant networks, on the order of seven hundred machines in about fifty countries, mostly in Europe and North America. Port forwarding, which some people used to reach a service at home, is no longer offered.
+    </p>
+
+    <p>
+        If the job is ordinary privacy on a laptop or a phone, those limits are the right trade. You are paying for a company that does not want a file on you, at a price that stays €5 whether you buy a month or a year.
+    </p>
+
+</article>
+
+<div class="cta-section">
+    <div class="cta-box">
+        <h2>Mullvad</h2>
+        <p>€5 a month. No email. No affiliate code on this link.</p>
+        <a class="cta-email" href="https://mullvad.net/en">mullvad.net</a>
+        <div class="cta-note">Ignix is not paid for this recommendation.</div>
+    </div>
+</div>
+
+<footer>
+    <span class="footer-text">© 2026 Ignix. Someone reading the feed.</span>
+    <div class="footer-links">
+        <a href="https://ignix.co.uk/insights">Insights</a>
+        <a href="https://ignixip.com">ignixip.com</a>
+        <a href="mailto:hello@ignix.co.uk">hello@ignix.co.uk</a>
+    </div>
+</footer>
+
+</body>
+</html>
