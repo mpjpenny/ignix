@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ignix — Someone reading the evidence</title>
-    <meta name="description" content="Your infrastructure already produces the evidence. Ignix pays attention to it. Morning report and evening update, in English. No agents, no SIEM, no dashboard for you to run. From £249/month.">
+    <title>Ignix — We read your firewall traffic, twice a day</title>
+    <meta name="description" content="A morning report and evening update in plain English, from someone who knows your office network. From £249 a month. You hear straight away when key services fail.">
+    <meta property="og:title" content="Ignix — We read your firewall traffic, twice a day">
+    <meta property="og:description" content="A morning report and evening update in plain English, from someone who knows your office network. From £249 a month for a small office.">
+    <meta property="og:url" content="https://ignix.co.uk/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Ignix — We read your firewall traffic, twice a day">
+    <meta name="twitter:description" content="A morning report and evening update in plain English. From £249 a month. You hear straight away when key services fail.">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="canonical" href="https://ignix.co.uk">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script defer src="https://analytics.ignix.co.uk/script.js" data-website-id="b8885d96-72f6-496b-9b84-e8b7db98d1f5"></script>
@@ -203,7 +211,7 @@
             <li><a href="#pricing">Pricing</a></li>
             <li><a href="/mikrotik" class="hide-sm">MikroTik</a></li>
             <li><a href="/insights" class="hide-sm">Insights</a></li>
-            <li><a href="mailto:hello@ignix.co.uk" class="nav-cta">hello@ignix.co.uk</a></li>
+            <li><a href="mailto:hello@ignix.co.uk" class="nav-cta">Email us</a></li>
         </ul>
     </div>
 </nav>
@@ -213,15 +221,15 @@
     <div class="container">
         <div class="hero-layout">
             <div class="hero-copy">
-                <h1>Your infrastructure already produces the evidence.<br><em>Ignix pays attention to it.</em></h1>
-                <p class="hero-sub">Your firewalls, routers and network services are constantly recording what is happening across your organisation.</p>
-                <p class="hero-sub">Ignix collects that evidence, learns what is normal for your environment, and brings the things that deserve attention to someone competent.</p>
-                <p class="hero-sub tight">No flood of alerts. No new security stack to manage. Just a clear, evidence-based picture of what is happening — and calm explanation when something matters.</p>
+                <h1>Your firewall already records the traffic.<br><em>We read it for you, twice a day.</em></h1>
+                <p class="hero-sub">A morning report and evening update in plain English, from someone who knows your office network. No software to install on your PCs, and no dashboard for you to run.</p>
+                <p class="hero-sub">A small device on site sends data over an encrypted link, and your existing firewall stays in place.</p>
+                <p class="hero-sub">You hear straight away when key services fail, the feed goes quiet, or a device starts behaving oddly.</p>
+                <p class="hero-sub tight">From £249 a month for a small office, with no long-term contract.</p>
                 <div class="hero-actions">
-                    <a class="hero-cta" href="/insights/field-notes/153-attackers-hiding-in-plain-sight.html">See what Ignix finds</a>
-                    <a class="hero-cta-secondary" href="#how-it-works">How Ignix works</a>
+                    <a class="hero-cta" href="mailto:hello@ignix.co.uk">Email hello@ignix.co.uk</a>
+                    <a class="hero-cta-secondary" href="/insights/field-notes/153-attackers-hiding-in-plain-sight.html">See what Ignix finds</a>
                 </div>
-                <p class="hero-classic">Your firewall sees everything. <em>Who's reading it?</em></p>
             </div>
             <div class="hero-visual">
                 <div class="ask-mockup">
@@ -236,31 +244,6 @@
                     </div>
                     <p class="note-sign">If that ever stops looking like backup, we will say so.</p>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── The Problem ─────────────────────────────────────────────────────── -->
-<section class="problem">
-    <div class="container">
-        <h2>The feed is already there. <em>Nobody is reading it.</em></h2>
-        <p class="problem-sub">Your firewall records who talked to whom, how much, and when. That is enough to know whether the office is behaving as it should. Most firms never look.</p>
-        <div class="problem-grid">
-            <div class="problem-card">
-                <div class="problem-card-icon">↑</div>
-                <h3>Traffic nobody named</h3>
-                <p>A phone, a backup, a cloud drive — or something that only looks like one of those. The difference is knowing the house.</p>
-            </div>
-            <div class="problem-card">
-                <div class="problem-card-icon">↔</div>
-                <h3>A device that changed its habits</h3>
-                <p>New destinations, odd hours, a quiet trickle that was never there before. Easy to miss if you only glance at the log when something is already on fire.</p>
-            </div>
-            <div class="problem-card">
-                <div class="problem-card-icon">↓</div>
-                <h3>Noise on the edge</h3>
-                <p>The firewall already blocked most of it. Worth knowing if the pattern changed. Not worth a stack of alerts.</p>
             </div>
         </div>
     </div>
@@ -354,44 +337,6 @@
     </div>
 </section>
 
-<!-- ── What's Different ────────────────────────────────────────────────── -->
-<section class="different">
-    <div class="container">
-        <h2>No agents. No SIEM project. One small feed.</h2>
-        <p class="different-sub">Most security tools mean endpoint agents, rack appliances, and something for you to babysit. Ignix needs only a lightweight collector on site. Metadata travels to us over WireGuard. We read it. You get the relationship, not a stack to run.</p>
-        <div class="different-points">
-            <div class="diff-point">
-                <div class="diff-icon">⊘</div>
-                <div>
-                    <h4>No endpoint agents</h4>
-                    <p>Nothing installed on PCs or servers. Just a small collector (Pi or Ubuntu VM) that receives firewall metadata and tunnels it to us securely.</p>
-                </div>
-            </div>
-            <div class="diff-point">
-                <div class="diff-icon">↯</div>
-                <div>
-                    <h4>Encrypted path only</h4>
-                    <p>Every site connects over WireGuard. Traffic metadata never goes direct to our servers over the open internet — always through the tunnel.</p>
-                </div>
-            </div>
-            <div class="diff-point">
-                <div class="diff-icon">⟁</div>
-                <div>
-                    <h4>Works with your existing firewall</h4>
-                    <p>MikroTik, SonicWall, Fortinet, Zyxel, and others. If it exports traffic metadata to the collector, we can use it. <a href="/mikrotik" style="color:var(--accent-bright);text-decoration:none;">Ignix + MikroTik →</a></p>
-                </div>
-            </div>
-            <div class="diff-point">
-                <div class="diff-icon">◈</div>
-                <div>
-                    <h4>Read on our side, in the EU</h4>
-                    <p>The work happens on our own servers in a secure EU data centre. We provision and watch the tunnel. You don't run a security stack.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- ── Pricing ─────────────────────────────────────────────────────────── -->
 <section class="pricing" id="pricing">
     <div class="container">
@@ -467,7 +412,7 @@
 </section>
 
 <footer>
-    <p>© 2026 Ignix. Someone reading the feed. &nbsp;·&nbsp; <a href="/mikrotik">MikroTik</a> &nbsp;·&nbsp; <a href="mailto:hello@ignix.co.uk">Contact</a> &nbsp;·&nbsp; <a href="https://ignixip.com">ignixip.com</a> &nbsp;·&nbsp; <a href="https://x.com/ignix_co_uk" target="_blank">𝕏</a> &nbsp;·&nbsp; <a href="#">Privacy</a></p>
+    <p>© 2026 Ignix. Someone reading the feed. &nbsp;·&nbsp; <a href="/mikrotik">MikroTik</a> &nbsp;·&nbsp; <a href="mailto:hello@ignix.co.uk">Contact</a> &nbsp;·&nbsp; <a href="https://ignixip.com">ignixip.com</a> &nbsp;·&nbsp; <a href="https://x.com/ignix_co_uk" target="_blank">𝕏</a> &nbsp;·&nbsp; <a href="/privacy">Privacy</a></p>
 </footer>
 
 <script>

@@ -300,20 +300,20 @@
 
     <p>Real-time alerts fire within minutes of a suspicious pattern being detected — not the next morning. The alert includes a plain-English description of what was seen, why it's unusual, what it might indicate, and what to do about it. You don't need to log into a dashboard or interpret raw data. The AI has already done that work.</p>
 
-    <h2>Deployment Notes: Almost Always Zero Extra Hardware</h2>
+    <h2>Deployment Notes: A small collector, your firewall stays</h2>
 
     <div class="hardware-note">
         <h3>Works with what you have</h3>
-        <p>In the vast majority of cases, Ignix requires no new hardware at all. You simply configure your existing firewall to export its NetFlow data to the Ignix collection platform. That's a settings change — not a purchase, not an installation, not a site visit.</p>
-        <p>We support all major business firewall platforms: Fortinet FortiGate, SonicWall, Palo Alto Networks, WatchGuard, MikroTik, Cisco, and others. If your firewall supports NetFlow, IPFIX, or sFlow export — which the vast majority of business-grade firewalls do — you're ready to go.</p>
-        <p>However, a small number of very old or entry-level firewalls don't support NetFlow export at all. If that's the case, we'll tell you straight away during the free assessment. <strong>We won't leave you hanging</strong> — we'll advise on the most cost-effective path forward. A popular option we often recommend is the <strong>MikroTik RB5009</strong>, which is a capable, reliable business router at a few hundred pounds and supports IPFIX natively. In most cases a firewall upgrade makes sense for reasons beyond Ignix anyway, but we'll only recommend it if it's genuinely necessary.</p>
+        <p>A small device on site, a Raspberry Pi or a small Ubuntu VM, receives traffic metadata from your existing firewall and sends it to us over an encrypted link. Nothing is installed on your PCs. The firewall stays the firewall.</p>
+        <p>We support the business firewalls that can export NetFlow, IPFIX, or sFlow: Fortinet FortiGate, SonicWall, Palo Alto Networks, WatchGuard, MikroTik, Cisco, and others.</p>
+        <p>A few very old firewalls cannot export that metadata. We'll say so when you write. A MikroTik RB5009 is often the practical fix: a capable router at a few hundred pounds, with IPFIX built in. We'll only suggest a firewall change when the one you have cannot send the feed.</p>
     </div>
 
     <h2>The Bottom Line</h2>
 
     <p>Across the five papers in this series, we've covered a lot of ground. The problem: most businesses are running blind, with tools that only catch known threats and no visibility into what's actually happening on their network. The solution: AI-powered NetFlow analysis that watches continuously, explains clearly, and alerts immediately when something warrants attention.</p>
 
-    <p>What we haven't talked about is risk. Because Ignix is designed so that there isn't any — at least not in trying it. Every new customer starts with a completely free 14-day assessment. We connect to your existing firewall (or advise on a simple upgrade if needed), run the exact same analysis described across this series, and deliver your first personalised reports within 48 hours. No commitment. No disruption. No cost.</p>
+    <p>You start by writing to us. A morning report and an evening update, in plain English, from someone who knows the office. From £249 a month for a small office, with no long-term contract. You also hear straight away when a key service fails, the feed goes quiet, or a device starts behaving oddly.</p>
 
     <p>You'll see exactly what your network is really doing — and whether any of the patterns we've described across these papers are present in your business. Most of the time the answer is "broadly fine, with a few things worth knowing about." Sometimes it's more significant. Either way, you'll know.</p>
 
@@ -333,7 +333,7 @@
 <div class="cta-section">
     <div class="cta-box">
         <h2>Find out what's already happening on your network</h2>
-        <p>Start with a completely free 14-day assessment. We connect to your existing firewall, deliver your first reports within 48 hours, and show you exactly what your network is doing. No commitment. No disruption. No cost.</p>
+        <p>Email hello@ignix.co.uk. A morning report and an evening update, from someone who knows the office. From £249 a month for a small office, with no long-term contract.</p>
         <a href="mailto:hello@ignix.co.uk" class="cta-email">hello@ignix.co.uk</a>
     </div>
 </div>
@@ -341,7 +341,7 @@
 <footer>
     <div class="footer-logo">
         <div class="footer-mark">IX</div>
-        <span class="footer-text">© 2026 Ignix Ltd. · Network security monitoring for business.</span>
+        <span class="footer-text">© 2026 Ignix · Network security monitoring for business.</span>
     </div>
     <div class="footer-links">
         <a href="https://ignix.co.uk">ignix.co.uk</a>
