@@ -120,13 +120,9 @@
         .noticed h2 { font-size: clamp(24px, 3.5vw, 32px); font-weight: 700; letter-spacing: -0.5px; text-align: center; margin-bottom: 12px; }
         .noticed-sub { text-align: center; font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 640px; margin: 0 auto 36px; }
         .noticed-list { display: flex; flex-direction: column; gap: 12px; }
-        .noticed-item { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; align-items: start; }
-        @media (max-width: 700px) { .noticed-item { grid-template-columns: 1fr; gap: 14px; } }
-        .noticed-item h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-        .noticed-item p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
-        .noticed-told { border-left: 2px solid rgba(59,130,246,0.55); padding-left: 16px; }
-        .noticed-told span { display: block; font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent-bright); font-family: 'JetBrains Mono', monospace; font-weight: 600; margin-bottom: 6px; }
-        .noticed-told p { color: var(--text); font-size: 14px; line-height: 1.55; }
+        .noticed-item { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid rgba(59,130,246,0.7); border-radius: 12px; padding: 20px 24px; }
+        .noticed-item h3 { font-size: 18px; font-weight: 600; line-height: 1.4; margin-bottom: 6px; }
+        .noticed-item p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
         .noticed-note { margin-top: 18px; font-size: 12px; color: var(--text-dim); line-height: 1.6; text-align: center; }
 
         /* ── Different ────────────────────────────────────────────────── */
@@ -330,58 +326,28 @@
 <section class="noticed" id="noticed">
     <div class="container">
         <div class="section-label">When it cannot wait</div>
-        <h2>Told while the office is affected</h2>
-        <p class="noticed-sub">A reporting tool can show you yesterday's log. These are sent when they happen: one message when it starts, one when it recovers. No repeats in between.</p>
+        <h2>A report tells you tomorrow. These are told then.</h2>
+        <p class="noticed-sub">One message when it starts. One when it recovers. Nothing in between.</p>
         <div class="noticed-list">
             <div class="noticed-item">
-                <div>
-                    <h3>Addresses stop being handed out</h3>
-                    <p>Your network stops handing out addresses. New devices can't get online, usually the first sign that a server has failed.</p>
-                </div>
-                <div class="noticed-told">
-                    <span>You're told</span>
-                    <p>Devices at your office have stopped being issued addresses. The DHCP server looks to be down.</p>
-                </div>
+                <h3>Devices at your office have stopped being issued addresses. The DHCP server looks to be down.</h3>
+                <p>New devices can't get online. Usually the first sign that a server has failed.</p>
             </div>
             <div class="noticed-item">
-                <div>
-                    <h3>Names stop resolving</h3>
-                    <p>An internal DNS server stops answering. People can still be connected, and still be unable to open mail, files or the web. You hear which server, and you hear again when it answers.</p>
-                </div>
-                <div class="noticed-told">
-                    <span>You're told</span>
-                    <p>A name server at your office has stopped answering.</p>
-                </div>
+                <h3>A name server at your office has stopped answering.</h3>
+                <p>People can still be connected, and still be unable to open mail, files or the web. You hear which server, and again when it answers.</p>
             </div>
             <div class="noticed-item">
-                <div>
-                    <h3>The site goes quiet</h3>
-                    <p>The firewall stops reporting, which means a power cut, a dead line or a failed device.</p>
-                </div>
-                <div class="noticed-told">
-                    <span>You're told</span>
-                    <p>Once when it stops, and once when it is back, with no repeats in between.</p>
-                </div>
+                <h3>The firewall has stopped reporting.</h3>
+                <p>A power cut, a dead line, or a failed device. Once when it stops, and once when it is back.</p>
             </div>
             <div class="noticed-item">
-                <div>
-                    <h3>The firewall switches to its standby</h3>
-                    <p>Everything keeps working, so nobody notices that one of the pair has failed. The standby is now doing the job alone.</p>
-                </div>
-                <div class="noticed-told">
-                    <span>You're told</span>
-                    <p>Your firewall failed over to its standby at 03:10. The primary needs looking at.</p>
-                </div>
+                <h3>Your firewall failed over to its standby at 03:10. The primary needs looking at.</h3>
+                <p>Everything keeps working, so nobody notices that one of the pair has failed.</p>
             </div>
             <div class="noticed-item">
-                <div>
-                    <h3>The firewall sees something hostile</h3>
-                    <p>A failed admin login, malware, an intrusion attempt, a spoofed address, or a device talking to a known botnet.</p>
-                </div>
-                <div class="noticed-told">
-                    <span>You're told</span>
-                    <p>What it was, which device, and whether it was stopped.</p>
-                </div>
+                <h3>The firewall saw something hostile.</h3>
+                <p>You hear what it was, which device, and whether it was stopped. A failed admin login, malware, an intrusion attempt, a spoofed address, or a device talking to a known botnet.</p>
             </div>
         </div>
         <p class="noticed-note">Address servers, name servers and a firewall pair are watched where the office has them. Hostile events are the ones the firewall itself reports. Every site is told when its feed goes quiet.</p>
